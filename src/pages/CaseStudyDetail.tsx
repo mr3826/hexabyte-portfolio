@@ -1282,19 +1282,19 @@ export default function CaseStudyDetail() {
           <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
             Want Similar <span className="text-primary">Results?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
             Let's discuss how we can transform your business
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={openModal}
-              className="px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 inline-flex items-center justify-center"
+              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 inline-flex items-center justify-center"
             >
-              Book Free Consultation <ArrowRight className="w-5 h-5 ml-2" />
+              Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
             </button>
             <Link
               to="/case-studies"
-              className="px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
             >
               View More Projects
             </Link>

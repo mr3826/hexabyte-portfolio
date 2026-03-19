@@ -47,10 +47,16 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-card border border-primary/20 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
+        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-card border border-primary/20 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Close project inquiry modal"
           className="absolute top-6 right-6 p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary z-10"
         >
           <X className="w-5 h-5" />
@@ -99,7 +105,10 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           <form onSubmit={handleSubmit} className="px-8 pb-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2">
+              <h2
+                id="project-modal-title"
+                className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2"
+              >
                 Start Your <span className="text-primary">Project</span>
               </h2>
               <p className="text-muted-foreground">

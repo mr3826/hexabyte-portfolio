@@ -100,6 +100,8 @@ export default function CaseStudiesPage() {
               <button
                 key={category}
                 onClick={() => setFilter(category)}
+                aria-pressed={filter === category}
+                aria-label={`Filter case studies by ${category}`}
                 className={`min-h-[44px] px-6 py-2 rounded-lg transition-all ${
                   filter === category
                     ? 'bg-primary text-background'
@@ -121,6 +123,7 @@ export default function CaseStudiesPage() {
               <Link
                 key={study.id}
                 to={`/case-studies/${study.id}`}
+                aria-label={`Open case study: ${study.title}`}
                 className="group bg-card border border-primary/20 rounded-xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/20"
               >
                 {/* Visual Indicator */}
@@ -143,6 +146,11 @@ export default function CaseStudiesPage() {
                   <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs rounded-full mb-3">
                     {study.category}
                   </div>
+                  {study.id === 'shopify-automation' && (
+                    <div className="inline-block ml-2 px-3 py-1 bg-accent/15 text-accent text-xs rounded-full mb-3">
+                      Featured
+                    </div>
+                  )}
 
                   <h3 className="text-xl font-semibold mb-2 font-['Space_Grotesk'] group-hover:text-primary transition-colors">
                     {study.title}

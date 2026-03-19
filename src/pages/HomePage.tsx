@@ -486,6 +486,102 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Process Section */}
+      <section className="py-20 bg-secondary/30 border-y border-primary/20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-4">
+              How We <span className="text-primary">Deliver</span>
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              A founder-led process designed for speed, clarity, and measurable
+              operational outcomes.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                title: 'Discovery',
+                text: 'Map business goals, constraints, and success criteria in one focused session.',
+              },
+              {
+                title: 'Architecture',
+                text: 'Design practical automation and product scope with mobile-first delivery assumptions.',
+              },
+              {
+                title: 'Build',
+                text: 'Ship in milestones with direct founder communication and weekly progress updates.',
+              },
+              {
+                title: 'Scale',
+                text: 'Instrument workflows, stabilize operations, and iterate based on evidence.',
+              },
+            ].map((step, idx) => (
+              <div
+                key={step.title}
+                className="bg-card border border-primary/20 rounded-xl p-6"
+              >
+                <div className="w-8 h-8 rounded-full bg-primary/15 text-primary font-semibold flex items-center justify-center mb-4">
+                  {idx + 1}
+                </div>
+                <h3 className="text-xl font-semibold font-['Space_Grotesk'] mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {step.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-4">
+              Founder <span className="text-primary">FAQ</span>
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Straight answers to common questions before you commit.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: 'Will I work with you directly or with a delivery team?',
+                a: 'You work directly with the founder throughout strategy, implementation, and iteration. Specialists are added only when needed.',
+              },
+              {
+                q: 'Can you handle mobile-first requirements from day one?',
+                a: 'Yes. Every scope includes mobile behavior planning across 360px, 390px, tablet, and desktop breakpoints.',
+              },
+              {
+                q: 'How do you report project results?',
+                a: 'We share metrics only when verifiable. Where measurements are pending, we clearly mark outcomes as qualitative.',
+              },
+              {
+                q: 'What happens after the discovery inquiry?',
+                a: 'You receive a focused implementation path: scope, priorities, technical approach, and suggested milestone plan.',
+              },
+            ].map((item) => (
+              <div
+                key={item.q}
+                className="bg-card border border-primary/20 rounded-xl p-6"
+              >
+                <h3 className="text-lg font-semibold mb-2">{item.q}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {item.a}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Contact CTA */}
       <section
         id="contact"
