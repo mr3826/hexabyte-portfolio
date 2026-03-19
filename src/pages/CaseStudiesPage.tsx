@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, TrendingUp, Zap, ShieldCheck, Smartphone } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
+import shopifyCaseVisual from '@/assets/case-shopify-automation.svg';
+import easyModeratorCaseVisual from '@/assets/case-easy-moderator.svg';
+import tradeflowCaseVisual from '@/assets/case-tradeflow.svg';
+import reelStudioCaseVisual from '@/assets/case-reel-studio.svg';
 
 const caseStudies = [
   {
@@ -14,7 +18,9 @@ const caseStudies = [
     timeline: '12 weeks',
     impact: 'Production-ready orchestration stack',
     tags: ['AWS Lambda', 'PostgreSQL', 'Make.com'],
-    image: 'automation',
+    image: shopifyCaseVisual,
+    imageAlt:
+      'Shopify automation architecture visual showing event routing and fulfillment synchronization',
     confidence: 'Medium (documentation verified)',
   },
   {
@@ -27,7 +33,9 @@ const caseStudies = [
     timeline: '10 weeks',
     impact: 'Automated testing pipeline across frontend/backend/E2E',
     tags: ['React 18', 'Express', 'Redis'],
-    image: 'ai',
+    image: easyModeratorCaseVisual,
+    imageAlt:
+      'Easy Moderator dashboard visual with moderation queue and review lanes',
     confidence: 'High (test evidence verified)',
   },
   {
@@ -40,7 +48,9 @@ const caseStudies = [
     timeline: '8 weeks',
     impact: '30-second quick update workflows',
     tags: ['Next.js 14', 'TypeScript', 'Audit Logs'],
-    image: 'web',
+    image: tradeflowCaseVisual,
+    imageAlt:
+      'TradeFlow mobile-first operations visual with risk dashboard and quick updates',
     confidence: 'Medium (product docs verified)',
   },
   {
@@ -53,7 +63,9 @@ const caseStudies = [
     timeline: '9 weeks',
     impact: 'Pipeline ETA and staged processing observability',
     tags: ['FastAPI', 'GCP Storage', 'PyTorch'],
-    image: 'mobile',
+    image: reelStudioCaseVisual,
+    imageAlt:
+      'Reel Studio AI pipeline visual with staged rendering progress and checkpoint recovery',
     confidence: 'Medium (implementation verified)',
   },
 ];
@@ -126,20 +138,14 @@ export default function CaseStudiesPage() {
                 aria-label={`Open case study: ${study.title}`}
                 className="group bg-card border border-primary/20 rounded-xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/20"
               >
-                {/* Visual Indicator */}
-                <div className="h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                  {study.image === 'automation' && (
-                    <Zap className="w-16 h-16 text-primary/50" />
-                  )}
-                  {study.image === 'ai' && (
-                    <ShieldCheck className="w-16 h-16 text-primary/50" />
-                  )}
-                  {study.image === 'web' && (
-                    <TrendingUp className="w-16 h-16 text-primary/50" />
-                  )}
-                  {study.image === 'mobile' && (
-                    <Smartphone className="w-16 h-16 text-primary/50" />
-                  )}
+                {/* Visual Preview */}
+                <div className="h-48 bg-gradient-to-br from-primary/20 to-accent/20 overflow-hidden">
+                  <img
+                    src={study.image}
+                    alt={study.imageAlt}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
                 </div>
 
                 <div className="p-6">

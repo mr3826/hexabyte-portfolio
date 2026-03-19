@@ -1,0 +1,35 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Easy Moderator Case Study</title>
+  <desc id="desc">Dashboard-style moderation workflow visual with queue and approval lanes.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b1328"/>
+      <stop offset="100%" stop-color="#0f1c3b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg2)"/>
+  <rect x="60" y="60" width="1080" height="580" rx="28" fill="#111826" stroke="#364f7a"/>
+
+  <text x="95" y="110" fill="#d8e4ff" font-family="Arial, sans-serif" font-size="30" font-weight="700">Easy Moderator</text>
+  <text x="95" y="140" fill="#90a5d5" font-family="Arial, sans-serif" font-size="20">Multi-tenant content operations</text>
+
+  <rect x="95" y="185" width="300" height="390" rx="16" fill="#18243a" stroke="#3d5f8b"/>
+  <rect x="450" y="185" width="300" height="390" rx="16" fill="#18243a" stroke="#3d5f8b"/>
+  <rect x="805" y="185" width="300" height="390" rx="16" fill="#18243a" stroke="#3d5f8b"/>
+
+  <text x="120" y="225" fill="#c9ddff" font-family="Arial, sans-serif" font-size="24" font-weight="700">Intake Queue</text>
+  <text x="475" y="225" fill="#c9ddff" font-family="Arial, sans-serif" font-size="24" font-weight="700">Review Lane</text>
+  <text x="830" y="225" fill="#c9ddff" font-family="Arial, sans-serif" font-size="24" font-weight="700">Resolved</text>
+
+  <rect x="120" y="260" width="250" height="24" rx="8" fill="#4d79ff"/>
+  <rect x="120" y="300" width="220" height="24" rx="8" fill="#4d79ff" opacity="0.8"/>
+  <rect x="120" y="340" width="180" height="24" rx="8" fill="#4d79ff" opacity="0.65"/>
+
+  <rect x="475" y="260" width="250" height="24" rx="8" fill="#00d9ff"/>
+  <rect x="475" y="300" width="230" height="24" rx="8" fill="#00d9ff" opacity="0.85"/>
+  <rect x="475" y="340" width="210" height="24" rx="8" fill="#00d9ff" opacity="0.7"/>
+
+  <rect x="830" y="260" width="250" height="24" rx="8" fill="#1de9b6"/>
+  <rect x="830" y="300" width="210" height="24" rx="8" fill="#1de9b6" opacity="0.8"/>
+  <rect x="830" y="340" width="185" height="24" rx="8" fill="#1de9b6" opacity="0.65"/>
+</svg>

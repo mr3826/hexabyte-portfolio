@@ -8,6 +8,10 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
+import shopifyCaseVisual from '@/assets/case-shopify-automation.svg';
+import easyModeratorCaseVisual from '@/assets/case-easy-moderator.svg';
+import tradeflowCaseVisual from '@/assets/case-tradeflow.svg';
+import reelStudioCaseVisual from '@/assets/case-reel-studio.svg';
 
 const caseStudyData: Record<string, any> = {
   'shopify-automation': {
@@ -942,10 +946,30 @@ const caseStudyData: Record<string, any> = {
   },
 };
 
+const caseStudyVisuals: Record<string, { src: string; alt: string }> = {
+  'shopify-automation': {
+    src: shopifyCaseVisual,
+    alt: 'Shopify automation architecture visual showing event routing and fulfillment synchronization',
+  },
+  'easy-moderator': {
+    src: easyModeratorCaseVisual,
+    alt: 'Easy Moderator dashboard visual with moderation queue and review lanes',
+  },
+  tradeflow: {
+    src: tradeflowCaseVisual,
+    alt: 'TradeFlow mobile-first operations visual with risk dashboard and quick updates',
+  },
+  'reel-studio': {
+    src: reelStudioCaseVisual,
+    alt: 'Reel Studio AI pipeline visual with staged rendering progress and checkpoint recovery',
+  },
+};
+
 export default function CaseStudyDetail() {
   const { openModal } = useModal();
   const { id } = useParams();
   const study = id ? caseStudyData[id] : null;
+  const studyVisual = id ? caseStudyVisuals[id] : null;
 
   if (!study) {
     return (
@@ -1012,6 +1036,21 @@ export default function CaseStudyDetail() {
           )}
         </div>
       </section>
+
+      {studyVisual && (
+        <section className="py-8">
+          <div className="max-w-4xl mx-auto px-6 lg:px-8">
+            <div className="overflow-hidden rounded-2xl border border-primary/20 bg-card">
+              <img
+                src={studyVisual.src}
+                alt={studyVisual.alt}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Content */}
       <section className="py-12">

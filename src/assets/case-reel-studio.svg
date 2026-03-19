@@ -1,0 +1,41 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Reel Studio Case Study</title>
+  <desc id="desc">AI media pipeline visual showing queued jobs and staged rendering progress.</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0d1d"/>
+      <stop offset="100%" stop-color="#1a1031"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg4)"/>
+
+  <text x="80" y="95" fill="#f1e8ff" font-family="Arial, sans-serif" font-size="34" font-weight="700">Reel Studio</text>
+  <text x="80" y="130" fill="#c9b3ef" font-family="Arial, sans-serif" font-size="20">AI video pipeline orchestration</text>
+
+  <rect x="80" y="165" width="1040" height="470" rx="24" fill="#12142a" stroke="#5a4f91"/>
+
+  <rect x="120" y="210" width="180" height="80" rx="12" fill="#2c2750" stroke="#7d69d4"/>
+  <rect x="360" y="210" width="180" height="80" rx="12" fill="#2c2750" stroke="#7d69d4"/>
+  <rect x="600" y="210" width="180" height="80" rx="12" fill="#2c2750" stroke="#7d69d4"/>
+  <rect x="840" y="210" width="180" height="80" rx="12" fill="#2c2750" stroke="#7d69d4"/>
+
+  <text x="145" y="258" fill="#f2ecff" font-family="Arial, sans-serif" font-size="20">Queued</text>
+  <text x="380" y="258" fill="#f2ecff" font-family="Arial, sans-serif" font-size="20">Scripted</text>
+  <text x="620" y="258" fill="#f2ecff" font-family="Arial, sans-serif" font-size="20">Rendered</text>
+  <text x="865" y="258" fill="#f2ecff" font-family="Arial, sans-serif" font-size="20">Published</text>
+
+  <line x1="300" y1="250" x2="360" y2="250" stroke="#9f8df3" stroke-width="4"/>
+  <line x1="540" y1="250" x2="600" y2="250" stroke="#9f8df3" stroke-width="4"/>
+  <line x1="780" y1="250" x2="840" y2="250" stroke="#9f8df3" stroke-width="4"/>
+
+  <rect x="120" y="340" width="900" height="36" rx="12" fill="#241f44"/>
+  <rect x="120" y="340" width="690" height="36" rx="12" fill="#9f8df3"/>
+  <text x="130" y="366" fill="#f2ecff" font-family="Arial, sans-serif" font-size="18">Pipeline Progress</text>
+
+  <rect x="120" y="410" width="460" height="180" rx="16" fill="#181a33" stroke="#463f70"/>
+  <rect x="620" y="410" width="400" height="180" rx="16" fill="#181a33" stroke="#463f70"/>
+  <text x="145" y="450" fill="#dcd0ff" font-family="Arial, sans-serif" font-size="22" font-weight="700">Checkpoint Recovery</text>
+  <text x="145" y="485" fill="#b9a9e8" font-family="Arial, sans-serif" font-size="18">Stage-safe resume on failures</text>
+  <text x="645" y="450" fill="#dcd0ff" font-family="Arial, sans-serif" font-size="22" font-weight="700">Status API</text>
+  <text x="645" y="485" fill="#b9a9e8" font-family="Arial, sans-serif" font-size="18">Real-time processing visibility</text>
+</svg>
