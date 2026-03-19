@@ -1,0 +1,30 @@
+{
+    "domainAssociation": {
+        "domainAssociationArn": "arn:aws:amplify:ap-south-1:441250065813:apps/d1vy9a96t3mri3/domains/hexabyte.tech",
+        "domainName": "hexabyte.tech",
+        "enableAutoSubDomain": false,
+        "domainStatus": "PENDING_VERIFICATION",
+        "certificateVerificationDNSRecord": "_1d7c0f53f221ee029ec109f1fdf459ba.hexabyte.tech. CNAME _b38953c15ac19734c267cdbeedffbda3.jkddzztszm.acm-validations.aws.",
+        "subDomains": [
+            {
+                "subDomainSetting": {
+                    "branchName": "main"
+                },
+                "verified": false,
+                "dnsRecord": " CNAME d2krgkdo1vtic6.cloudfront.net"
+            },
+            {
+                "subDomainSetting": {
+                    "prefix": "www",
+                    "branchName": "main"
+                },
+                "verified": false,
+                "dnsRecord": "www CNAME d2krgkdo1vtic6.cloudfront.net"
+            }
+        ],
+        "certificate": {
+            "type": "AMPLIFY_MANAGED",
+            "certificateVerificationDNSRecord": "_1d7c0f53f221ee029ec109f1fdf459ba.hexabyte.tech. CNAME _b38953c15ac19734c267cdbeedffbda3.jkddzztszm.acm-validations.aws."
+        }
+    }
+}
