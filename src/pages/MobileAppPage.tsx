@@ -26,20 +26,20 @@ export default function MobileAppPage() {
               </span>
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
               <span className="text-primary">Cross-Platform</span> Mobile Apps
               That Scale
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8">
               Flutter-based iOS and Android apps with AI-powered features,
               published on App Store and Play Store. One codebase, two
-              platforms.
+              platforms, mobile-first from day one.
             </p>
             <button
               onClick={openModal}
-              className="inline-flex items-center px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Launch Your App <ArrowRight className="w-5 h-5 ml-2" />
+              Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
             </button>
           </div>
         </div>
@@ -194,21 +194,21 @@ export default function MobileAppPage() {
             Ready to Build{' '}
             <span className="text-primary">Your Mobile App?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
             Reach millions of users on iOS and Android with a single codebase
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={openModal}
-              className="px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Start Your App
+              Book Discovery Inquiry
             </button>
             <Link
-              to="/case-studies"
-              className="px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              to="/case-studies/reel-studio"
+              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
             >
-              View Our Apps
+              View Reel Studio Case
             </Link>
           </div>
         </div>

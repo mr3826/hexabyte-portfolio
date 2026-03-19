@@ -10,6 +10,388 @@ import {
 import { useModal } from '@/context/ModalContext';
 
 const caseStudyData: Record<string, any> = {
+  'shopify-automation': {
+    title: 'Shopify Automation for Multi-Channel Operations',
+    client: 'Growth E-commerce Operator',
+    industry: 'E-commerce',
+    timeline: '12 weeks',
+    category: 'Automation Platform',
+    evidenceConfidence: 'Medium (documentation verified)',
+    overview:
+      'An event-driven automation platform was built to synchronize inventory and order workflows across Shopify, Amazon, and eBay while connecting fulfillment and AI-assisted support operations.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Inventory updates were inconsistent across channels',
+        'Order operations were fragmented across multiple tools',
+        'Manual support handling increased with order volume',
+        'Fulfillment orchestration lacked reliable automation',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We implemented a serverless, event-driven automation system with webhook ingestion, orchestration workflows, and integration layers for order operations, inventory sync, and support handling.',
+      approach: [
+        'Built webhook ingestion and routing for commerce events',
+        'Implemented Lambda-based handlers for inventory and order updates',
+        'Connected ShipStation fulfillment workflows',
+        'Added AI support routing and response automation',
+        'Published operational visibility via dashboard and logs',
+      ],
+    },
+    techStack: [
+      'AWS Lambda',
+      'PostgreSQL / Supabase',
+      'Make.com orchestration',
+      'Shopify APIs + Webhooks',
+      'ShipStation integration',
+      'React dashboard + Express API',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Architecture Readiness',
+          value: 'Production',
+          description: 'Event-driven deployment and live environment setup',
+        },
+        {
+          label: 'Channel Scope',
+          value: '3 Channels',
+          description: 'Shopify, Amazon, eBay synchronized workflows',
+        },
+        {
+          label: 'Ops Coverage',
+          value: 'End-to-End',
+          description: 'Inventory, order, support, and fulfillment orchestration',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'Doc-Verified',
+          description: 'Metrics pending for audited production snapshots',
+        },
+      ],
+      outcomes: [
+        'Unified cross-channel operation flow reduced coordination overhead',
+        'Automation-first architecture improved operational consistency',
+        'Support and fulfillment workflows integrated into the same system',
+        'Foundation established for future KPI instrumentation and scaling',
+      ],
+    },
+    workflow: {
+      title: 'System Workflow',
+      steps: [
+        {
+          phase: 'Event Capture',
+          description: 'Webhooks ingest real-time events from channel sources',
+        },
+        {
+          phase: 'Orchestration',
+          description: 'Workflow engine dispatches operations to Lambda handlers',
+        },
+        {
+          phase: 'Synchronization',
+          description: 'Inventory and order states update across systems',
+        },
+        {
+          phase: 'Fulfillment + Support',
+          description: 'ShipStation and support automations run with routing rules',
+        },
+        {
+          phase: 'Monitoring',
+          description: 'Dashboard and logs provide operational traceability',
+        },
+      ],
+    },
+    nextSteps:
+      'Next phase focuses on audited KPI snapshots (latency, sync success, support deflection) and expanded reliability instrumentation.',
+  },
+  'easy-moderator': {
+    title: 'Easy Moderator Multi-Tenant Moderation System',
+    client: 'Commerce Operations Team',
+    industry: 'Content and Commerce Operations',
+    timeline: '10 weeks',
+    category: 'Content Ops Platform',
+    evidenceConfidence: 'High (test evidence verified)',
+    overview:
+      'A full-stack moderation platform was delivered with role-aware workflows, social platform integration hooks, and automated test pipelines across backend, frontend, and E2E layers.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Moderation workflows were fragmented and hard to audit',
+        'Channel operations needed unified controls and role boundaries',
+        'Quality and release confidence required stronger test automation',
+        'Scaling moderation operations required multi-tenant architecture',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We implemented a React + Node moderation platform with modular services, authentication controls, and automated testing workflows for release confidence.',
+      approach: [
+        'Designed multi-tenant data and permission boundaries',
+        'Built moderation and operations modules in Express + Sequelize',
+        'Integrated Redis/Bull for queue-driven workflows',
+        'Implemented JWT/CSRF security patterns',
+        'Automated backend, frontend, and Playwright test execution',
+      ],
+    },
+    techStack: [
+      'React 18',
+      'Node.js + Express',
+      'Sequelize + PostgreSQL',
+      'Redis + Bull',
+      'JWT authentication',
+      'Playwright E2E automation',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Validation',
+          value: 'Pass',
+          description: 'Backend, frontend, and E2E test automation successful',
+        },
+        {
+          label: 'Security Model',
+          value: 'JWT + CSRF',
+          description: 'Role-aware authentication and request protection',
+        },
+        {
+          label: 'Architecture',
+          value: 'Multi-Tenant',
+          description: 'Platform model designed for scale and isolation',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'High',
+          description: 'Test automation outputs documented',
+        },
+      ],
+      outcomes: [
+        'Improved delivery confidence with automated regression coverage',
+        'Unified moderation operations in a single system',
+        'Role-aware controls improved operational governance',
+        'Platform prepared for growth with multi-tenant foundations',
+      ],
+    },
+    workflow: {
+      title: 'Delivery Workflow',
+      steps: [
+        {
+          phase: 'Scope',
+          description: 'Mapped moderation lifecycle and role responsibilities',
+        },
+        {
+          phase: 'Build',
+          description: 'Implemented backend modules and frontend workflows',
+        },
+        {
+          phase: 'Secure',
+          description: 'Applied auth and request protection controls',
+        },
+        {
+          phase: 'Validate',
+          description: 'Ran unit + integration + E2E automation suites',
+        },
+        {
+          phase: 'Prepare',
+          description: 'Documented deployment and testing operations',
+        },
+      ],
+    },
+    nextSteps:
+      'Next milestone is production KPI instrumentation for throughput, moderation latency, and SLA adherence by tenant.',
+  },
+  tradeflow: {
+    title: 'TradeFlow for Bangladesh Buying Houses',
+    client: 'Garments Buying House Operations',
+    industry: 'Garments Supply Chain',
+    timeline: '8 weeks',
+    category: 'Vertical SaaS',
+    evidenceConfidence: 'Medium (product docs verified)',
+    overview:
+      'TradeFlow was designed as a mobile-first SaaS to help buying-house teams run order updates, risk visibility, and communication loops in a local-market workflow context.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Order updates were slow and fragmented across channels',
+        'Teams needed faster communication in local workflows',
+        'Operational risk needed clearer visibility for managers',
+        'Auditability requirements were missing in daily operations',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We delivered a Next.js 14 mobile-first operations platform with quick updates, risk scoring orientation, and audit-log-friendly architecture for buying-house teams.',
+      approach: [
+        'Built mobile-first UI with operational speed as the primary goal',
+        'Designed quick-update patterns for time-sensitive workflows',
+        'Introduced risk-oriented dashboard and status cues',
+        'Applied multi-tenant and audit-oriented architecture decisions',
+        'Documented test/performance targets for rollout readiness',
+      ],
+    },
+    techStack: [
+      'Next.js 14',
+      'TypeScript',
+      'React Query + Zustand',
+      'Prisma + Supabase',
+      'tRPC + NextAuth',
+      'Tailwind + mobile-first patterns',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Quick Updates',
+          value: '30 sec target',
+          description: 'Workflow designed around rapid status updates',
+        },
+        {
+          label: 'UX Direction',
+          value: 'Mobile-First',
+          description: 'Primary usage context optimized for field teams',
+        },
+        {
+          label: 'Governance',
+          value: 'Audit-Ready',
+          description: 'Operational changes designed for traceability',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'Medium',
+          description: 'Measured production KPIs are the next step',
+        },
+      ],
+      outcomes: [
+        'Operational updates became easier to execute in constrained environments',
+        'Risk visibility and communication loops improved in one interface',
+        'Platform foundation supports tenant growth and deeper automation',
+      ],
+    },
+    workflow: {
+      title: 'Product Workflow',
+      steps: [
+        {
+          phase: 'Capture',
+          description: 'Teams log fast updates from mobile-first interfaces',
+        },
+        {
+          phase: 'Score',
+          description: 'System surfaces risk-oriented operational signals',
+        },
+        {
+          phase: 'Share',
+          description: 'Stakeholders receive concise progress visibility',
+        },
+        {
+          phase: 'Trace',
+          description: 'Audit logging supports accountability and review',
+        },
+      ],
+    },
+    nextSteps:
+      'Next phase adds measured KPI reporting (update latency, adoption, incident reduction) to strengthen quantitative proof.',
+  },
+  'reel-studio': {
+    title: 'Reel Studio AI Content Automation Pipeline',
+    client: 'Content Automation Team',
+    industry: 'Media Automation',
+    timeline: '9 weeks',
+    category: 'AI Media Automation',
+    evidenceConfidence: 'Medium (implementation verified)',
+    overview:
+      'Reel Studio is an AI-powered pipeline for scripted short-form video generation, combining queue-based processing, staged checkpoints, and cloud storage for reliable automated production.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Video production workflows were manual and time-intensive',
+        'Teams needed predictable processing and status visibility',
+        'Failures in long AI pipelines required safe resumption mechanisms',
+        'Asset storage and retrieval required scalable cloud handling',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We implemented a FastAPI-backed queue and processing pipeline with stage checkpoints, ETA signaling, and GCS-backed file workflows for reliable content generation operations.',
+      approach: [
+        'Designed job queue and staged pipeline progression',
+        'Implemented checkpoint/resume reliability mechanisms',
+        'Added API-level status and health endpoints',
+        'Connected cloud object storage for generated assets',
+        'Built operator-facing workflow controls in the UI',
+      ],
+    },
+    techStack: [
+      'Python + FastAPI',
+      'PyTorch + Diffusers',
+      'FFmpeg workflow tooling',
+      'Google Cloud Storage',
+      'Queue-driven processing model',
+      'Web UI for operator controls',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Pipeline Visibility',
+          value: 'Real-time',
+          description: 'Stage-level progress and operational status exposed',
+        },
+        {
+          label: 'Reliability',
+          value: 'Checkpointed',
+          description: 'Long-running jobs support failure recovery',
+        },
+        {
+          label: 'Processing ETA',
+          value: '~8 min estimate',
+          description: 'Initial documented estimate per reel workflow',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'Medium',
+          description: 'Production benchmark snapshots to be added',
+        },
+      ],
+      outcomes: [
+        'Pipeline moved from ad-hoc processing to orchestrated stages',
+        'Operational reliability improved with restart-safe checkpoints',
+        'Cloud-based storage made output handling and retrieval cleaner',
+      ],
+    },
+    workflow: {
+      title: 'Pipeline Workflow',
+      steps: [
+        {
+          phase: 'Queue',
+          description: 'Incoming job is validated and added to processing queue',
+        },
+        {
+          phase: 'Generate',
+          description: 'Model pipeline runs staged generation tasks',
+        },
+        {
+          phase: 'Checkpoint',
+          description: 'State saved at each stage for restart resilience',
+        },
+        {
+          phase: 'Store',
+          description: 'Artifacts persisted to cloud storage',
+        },
+        {
+          phase: 'Report',
+          description: 'Status and completion signals returned to UI/API',
+        },
+      ],
+    },
+    nextSteps:
+      'Next phase includes benchmark dashboards for cost, quality, and completion-time distributions under production load.',
+  },
   'lead-enrichment-automation': {
     title: 'Lead Enrichment Automation for B2B SaaS',
     client: 'B2B SaaS Company',
@@ -622,6 +1004,12 @@ export default function CaseStudyDetail() {
               </div>
             </div>
           </div>
+
+          {study.evidenceConfidence && (
+            <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-sm text-primary">
+              Evidence confidence: {study.evidenceConfidence}
+            </div>
+          )}
         </div>
       </section>
 

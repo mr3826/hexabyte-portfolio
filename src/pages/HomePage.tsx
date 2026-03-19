@@ -29,67 +29,65 @@ export default function HomePage() {
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
                 <Zap className="w-4 h-4 text-primary" />
                 <span className="text-sm text-primary">
-                  Production-Ready AI Solutions
+                  Founder-Led Delivery for SMB Founders
                 </span>
               </div>
 
-              <h1 className="text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
-                We Build AI Automation & Scalable{' '}
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+                Build Faster with a Founder-Led{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                  Web + Mobile Apps
+                  AI, Web, and Mobile Partner
                 </span>{' '}
-                That Work in Production
+                Who Ships in Production
               </h1>
 
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                AI agents, automation systems, SaaS platforms, and
-                cross-platform mobile apps that deliver measurable business
-                outcomes.
+              <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
+                We help SMB founders replace manual operations, launch digital
+                products faster, and scale with confidence using practical AI
+                automation and production-grade application engineering.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <button
                   onClick={openModal}
-                  className="px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 flex items-center justify-center gap-2"
+                  className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 flex items-center justify-center gap-2"
                 >
-                  Book a Free Automation Audit
+                  Book Discovery Inquiry
                   <ArrowRight className="w-5 h-5" />
                 </button>
                 <Link
                   to="/case-studies"
-                  className="px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all flex items-center justify-center gap-2"
+                  className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all flex items-center justify-center gap-2"
                 >
-                  View Case Studies
+                  View Proof & Case Studies
                 </Link>
               </div>
 
               {/* Trust Indicators */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-primary/20">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-primary/20">
                 <div>
-                  <div className="text-3xl font-bold text-primary mb-1">
-                    50+
-                  </div>
+                  <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">Featured</div>
                   <div className="text-sm text-muted-foreground">
-                    Live Web Apps
+                    Shopify Automation Case
                   </div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-primary mb-1">
-                    25+
-                  </div>
+                  <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">Mobile-First</div>
                   <div className="text-sm text-muted-foreground">
-                    App Store Apps
+                    Planning Across Every Delivery Scope
                   </div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-primary mb-1">
-                    100K+
-                  </div>
+                  <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">Evidence-Backed</div>
                   <div className="text-sm text-muted-foreground">
-                    Hours Saved
+                    Metrics Shared Only When Verifiable
                   </div>
                 </div>
               </div>
+              <p className="text-xs text-muted-foreground mt-4">
+                We only publish hard metrics with verifiable artifacts. Where
+                data is pending, we mark outcomes as qualitative.
+              </p>
             </div>
 
             {/* Hero Visual */}
@@ -133,6 +131,59 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Featured Case Study */}
+      <section className="py-12 border-y border-primary/20 bg-card/40">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 items-center bg-card border border-primary/20 rounded-2xl p-6 lg:p-8">
+            <div>
+              <p className="text-xs uppercase tracking-[0.16em] text-primary mb-3">
+                Featured Case Study
+              </p>
+              <h2 className="text-2xl lg:text-3xl font-bold font-['Space_Grotesk'] mb-3">
+                Shopify Automation: Event-Driven Operations at Scale
+              </h2>
+              <p className="text-muted-foreground mb-4">
+                Serverless workflows for real-time inventory sync, automated
+                order handling, and AI support orchestration across Shopify,
+                Amazon, and eBay.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  to="/case-studies/shopify-automation"
+                  className="min-h-[44px] px-5 py-3 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all inline-flex items-center justify-center"
+                >
+                  View Featured Case
+                </Link>
+                <button
+                  onClick={openModal}
+                  className="min-h-[44px] px-5 py-3 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+                >
+                  Discuss Similar Build
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="bg-background/60 border border-primary/10 rounded-xl p-4">
+                <div className="text-muted-foreground mb-1">Architecture</div>
+                <div className="font-semibold">Event-Driven Serverless</div>
+              </div>
+              <div className="bg-background/60 border border-primary/10 rounded-xl p-4">
+                <div className="text-muted-foreground mb-1">Focus</div>
+                <div className="font-semibold">Inventory + Fulfillment</div>
+              </div>
+              <div className="bg-background/60 border border-primary/10 rounded-xl p-4">
+                <div className="text-muted-foreground mb-1">Channels</div>
+                <div className="font-semibold">Shopify, Amazon, eBay</div>
+              </div>
+              <div className="bg-background/60 border border-primary/10 rounded-xl p-4">
+                <div className="text-muted-foreground mb-1">Confidence</div>
+                <div className="font-semibold">Medium (doc-verified)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section className="py-20 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -140,9 +191,9 @@ export default function HomePage() {
             <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-4">
               Our <span className="text-primary">Services</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              End-to-end solutions that transform business operations and
-              deliver measurable results
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Outcome-focused delivery for founders who need execution speed,
+              clean architecture, and direct accountability.
             </p>
           </div>
 
@@ -172,7 +223,7 @@ export default function HomePage() {
                   Business Outcome:
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  70-90% reduction in processing time
+                  Process-heavy teams reclaim operator time and reduce mistakes
                 </div>
               </div>
               <Link
@@ -208,7 +259,7 @@ export default function HomePage() {
                   Business Outcome:
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  24/7 support with 95% accuracy
+                  First-line responses run continuously with human escalation
                 </div>
               </div>
               <Link
@@ -244,7 +295,7 @@ export default function HomePage() {
                   Business Outcome:
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  3x faster lead qualification
+                  Sales teams get cleaner, decision-ready pipeline data faster
                 </div>
               </div>
               <Link
@@ -280,7 +331,7 @@ export default function HomePage() {
                   Business Outcome:
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Scalable, maintainable applications
+                  Founders launch faster with scalable architecture from day one
                 </div>
               </div>
               <Link
@@ -316,7 +367,7 @@ export default function HomePage() {
                   Business Outcome:
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Reach millions on iOS & Android
+                  One codebase, two platforms, faster release cycles
                 </div>
               </div>
               <Link
@@ -352,7 +403,7 @@ export default function HomePage() {
                   Business Outcome:
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Unified data across all platforms
+                  Teams operate from one source of truth across connected tools
                 </div>
               </div>
               <Link
@@ -373,7 +424,7 @@ export default function HomePage() {
             <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-4">
               Our <span className="text-primary">Tech Stack</span>
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg sm:text-xl text-muted-foreground">
               Best-in-class tools and technologies
             </p>
           </div>
@@ -442,24 +493,24 @@ export default function HomePage() {
       >
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
-            Start Your <span className="text-primary">Automation Journey</span>
+            Ready to Build with a <span className="text-primary">Founder-Led Team?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Book a free consultation to discuss how we can transform your
-            business with AI and automation
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
+            Book a discovery inquiry to map your priorities, constraints, and
+            delivery roadmap.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={openModal}
-              className="px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Book Free Automation Audit
+              Book Discovery Inquiry
             </button>
             <Link
               to="/case-studies"
-              className="px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
             >
-              View Our Work
+              Review Case Studies
             </Link>
           </div>
         </div>

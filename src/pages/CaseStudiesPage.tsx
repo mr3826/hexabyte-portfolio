@@ -1,65 +1,60 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, TrendingUp, Zap } from 'lucide-react';
+import { ArrowRight, Clock, TrendingUp, Zap, ShieldCheck, Smartphone } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
 
 const caseStudies = [
   {
-    id: 'lead-enrichment-automation',
-    category: 'AI Automation',
-    title: 'Lead Enrichment Automation for B2B SaaS',
-    excerpt: 'Automated lead qualification process saving 20+ hours per week',
-    industry: 'B2B SaaS',
-    timeline: '4 weeks',
-    impact: '90% time reduction',
-    tags: ['Make.com', 'OpenAI', 'HubSpot'],
-    image: 'automation',
-  },
-  {
-    id: 'ai-chatbot-rag',
-    category: 'AI Agents',
-    title: 'RAG-Based Customer Support Chatbot',
-    excerpt: 'AI chatbot trained on 10K+ support docs with 95% accuracy',
+    id: 'shopify-automation',
+    category: 'Automation Platform',
+    title: 'Shopify Automation for Multi-Channel Operations',
+    excerpt:
+      'Event-driven automation architecture connecting Shopify, Amazon, eBay, ShipStation, and AI support workflows.',
     industry: 'E-commerce',
-    timeline: '6 weeks',
-    impact: '70% support cost reduction',
-    tags: ['Claude API', 'RAG', 'Vector DB'],
-    image: 'ai',
-  },
-  {
-    id: 'multi-tenant-commerce-ai',
-    category: 'Web App',
-    title: 'Multi-Tenant Commerce AI Platform',
-    excerpt:
-      'Production SaaS platform with AI-powered conversations and multi-channel messaging',
-    industry: 'E-Commerce',
     timeline: '12 weeks',
-    impact: '80% workload reduction',
-    tags: ['React', 'RAG', 'Multi-Tenant'],
-    image: 'web',
-  },
-  {
-    id: 'payrun-hrm-mobile',
-    category: 'Mobile App',
-    title: 'PAYRUN Mobile HR Management App',
-    excerpt:
-      'Scalable HRM mobile app with offline support and real-time workforce management',
-    industry: 'Human Resources',
-    timeline: '16 weeks',
-    impact: 'Enterprise-ready HRM',
-    tags: ['Flutter', 'BLoC', 'Hive DB'],
-    image: 'mobile',
-  },
-  {
-    id: 'crm-automation',
-    category: 'Automation',
-    title: 'End-to-End CRM Workflow Automation',
-    excerpt: 'Automated sales pipeline from lead capture to close',
-    industry: 'Real Estate',
-    timeline: '8 weeks',
-    impact: '80% faster processing',
-    tags: ['Zapier', 'Salesforce', 'Webhooks'],
+    impact: 'Production-ready orchestration stack',
+    tags: ['AWS Lambda', 'PostgreSQL', 'Make.com'],
     image: 'automation',
+    confidence: 'Medium (documentation verified)',
+  },
+  {
+    id: 'easy-moderator',
+    category: 'Content Ops Platform',
+    title: 'Easy Moderator Multi-Tenant Moderation System',
+    excerpt:
+      'React + Node platform for social moderation, role-based workflows, and integration-heavy operations.',
+    industry: 'Commerce Operations',
+    timeline: '10 weeks',
+    impact: 'Automated testing pipeline across frontend/backend/E2E',
+    tags: ['React 18', 'Express', 'Redis'],
+    image: 'ai',
+    confidence: 'High (test evidence verified)',
+  },
+  {
+    id: 'tradeflow',
+    category: 'Vertical SaaS',
+    title: 'TradeFlow for Bangladesh Buying Houses',
+    excerpt:
+      'Mobile-first operational SaaS with WhatsApp-native updates, risk scoring, and auditable order management.',
+    industry: 'Garments Supply Chain',
+    timeline: '8 weeks',
+    impact: '30-second quick update workflows',
+    tags: ['Next.js 14', 'TypeScript', 'Audit Logs'],
+    image: 'web',
+    confidence: 'Medium (product docs verified)',
+  },
+  {
+    id: 'reel-studio',
+    category: 'AI Media Automation',
+    title: 'Reel Studio AI Content Automation Pipeline',
+    excerpt:
+      'FastAPI-based video generation workflow with queue orchestration, checkpoint recovery, and cloud storage integration.',
+    industry: 'Media Automation',
+    timeline: '9 weeks',
+    impact: 'Pipeline ETA and staged processing observability',
+    tags: ['FastAPI', 'GCP Storage', 'PyTorch'],
+    image: 'mobile',
+    confidence: 'Medium (implementation verified)',
   },
 ];
 
@@ -68,11 +63,10 @@ export default function CaseStudiesPage() {
   const [filter, setFilter] = useState('All');
   const categories = [
     'All',
-    'AI Automation',
-    'AI Agents',
-    'Web App',
-    'Mobile App',
-    'Automation',
+    'Automation Platform',
+    'Content Ops Platform',
+    'Vertical SaaS',
+    'AI Media Automation',
   ];
 
   const filteredStudies =
@@ -87,12 +81,13 @@ export default function CaseStudiesPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,217,255,0.1),transparent_50%)]"></div>
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h1 className="text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
-            Our <span className="text-primary">Work</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            Founder-Led <span className="text-primary">Execution Proof</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Real projects, real results. Explore how we've helped businesses
-            transform operations with AI automation and custom applications.
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+            Four implementation-led projects with clear architecture, delivery
+            scope, and evidence confidence. Shopify Automation is featured as
+            the primary reference build.
           </p>
         </div>
       </section>
@@ -105,7 +100,7 @@ export default function CaseStudiesPage() {
               <button
                 key={category}
                 onClick={() => setFilter(category)}
-                className={`px-6 py-2 rounded-lg transition-all ${
+                className={`min-h-[44px] px-6 py-2 rounded-lg transition-all ${
                   filter === category
                     ? 'bg-primary text-background'
                     : 'bg-card border border-primary/20 text-foreground hover:border-primary/50'
@@ -128,19 +123,19 @@ export default function CaseStudiesPage() {
                 to={`/case-studies/${study.id}`}
                 className="group bg-card border border-primary/20 rounded-xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/20"
               >
-                {/* Image Placeholder */}
+                {/* Visual Indicator */}
                 <div className="h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
                   {study.image === 'automation' && (
                     <Zap className="w-16 h-16 text-primary/50" />
                   )}
                   {study.image === 'ai' && (
-                    <TrendingUp className="w-16 h-16 text-primary/50" />
+                    <ShieldCheck className="w-16 h-16 text-primary/50" />
                   )}
                   {study.image === 'web' && (
-                    <div className="text-6xl text-primary/50">🌐</div>
+                    <TrendingUp className="w-16 h-16 text-primary/50" />
                   )}
                   {study.image === 'mobile' && (
-                    <div className="text-6xl text-primary/50">📱</div>
+                    <Smartphone className="w-16 h-16 text-primary/50" />
                   )}
                 </div>
 
@@ -184,6 +179,10 @@ export default function CaseStudiesPage() {
                     <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
                   </div>
 
+                  <div className="mt-3 text-xs text-muted-foreground">
+                    Evidence confidence: {study.confidence}
+                  </div>
+
                   <div className="flex flex-wrap gap-2 mt-4">
                     {study.tags.slice(0, 3).map((tag, idx) => (
                       <span
@@ -205,16 +204,17 @@ export default function CaseStudiesPage() {
       <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
-            Start Your <span className="text-primary">Success Story</span>
+            Start Your <span className="text-primary">Next Case Study</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Let's build something amazing together
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
+            If you are scaling operations or launching a digital product, let us map
+            the fastest production path together.
           </p>
           <button
             onClick={openModal}
-            className="inline-flex items-center px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+            className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
           >
-            Book Free Consultation <ArrowRight className="w-5 h-5 ml-2" />
+            Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
           </button>
         </div>
       </section>

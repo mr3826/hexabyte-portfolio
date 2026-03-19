@@ -18,31 +18,31 @@ export default function AboutPage() {
               </span>
             </div>
 
-            <h1 className="text-5xl lg:text-6xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
               Founder-Led{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
                 Automation Agency
               </span>
             </h1>
 
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Every project is personally designed, implemented, and delivered
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
+              Every project is personally scoped, designed, implemented, and delivered
               by the founder — <br className="hidden md:block" />
               <span className="text-foreground font-medium">
-                no handoffs, no juniors.
+                no hidden handoffs, no diluted ownership.
               </span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={openModal}
-                className="px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium"
+                className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium"
               >
-                Start Your Project
+                Book Discovery Inquiry
               </button>
               <a
                 href="#how-it-works"
-                className="px-8 py-4 border border-primary/30 text-foreground rounded-lg hover:border-primary hover:bg-primary/5 transition-all font-medium"
+                className="min-h-[44px] px-8 py-4 border border-primary/30 text-foreground rounded-lg hover:border-primary hover:bg-primary/5 transition-all font-medium"
               >
                 Learn How We Work
               </a>
@@ -87,6 +87,14 @@ export default function AboutPage() {
                 directly with the person who built the agency's reputation.
               </p>
 
+              <div className="mb-6 rounded-lg border border-primary/20 bg-primary/5 p-4">
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <span className="font-semibold text-foreground">Founder promise:</span>{' '}
+                  clear scope, weekly progress visibility, and decision-level
+                  communication throughout delivery.
+                </p>
+              </div>
+
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
@@ -113,6 +121,63 @@ export default function AboutPage() {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Fit Criteria */}
+      <section className="py-20 border-t border-primary/20 bg-secondary/30">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-4">
+              Who We Are a <span className="text-primary">Strong Fit</span> For
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Best results come from founder teams that value execution speed,
+              practical architecture, and direct collaboration.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-card border border-primary/20 rounded-xl p-6">
+              <h3 className="text-xl font-semibold font-['Space_Grotesk'] mb-4 text-primary">
+                Great Fit
+              </h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-primary mt-0.5" />
+                  SMB founders replacing manual workflows with automation
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-primary mt-0.5" />
+                  Teams launching SaaS or internal ops platforms quickly
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-primary mt-0.5" />
+                  Businesses needing mobile-first delivery from day one
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-card border border-primary/20 rounded-xl p-6">
+              <h3 className="text-xl font-semibold font-['Space_Grotesk'] mb-4 text-primary">
+                Not the Best Fit
+              </h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <X className="w-4 h-4 text-destructive mt-0.5" />
+                  Teams seeking lowest-cost, outsourced bulk execution
+                </li>
+                <li className="flex items-start gap-2">
+                  <X className="w-4 h-4 text-destructive mt-0.5" />
+                  Projects needing large onsite teams and agency layers
+                </li>
+                <li className="flex items-start gap-2">
+                  <X className="w-4 h-4 text-destructive mt-0.5" />
+                  Engagements without stakeholder access for rapid decisions
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -399,9 +464,9 @@ export default function AboutPage() {
           </p>
           <button
             onClick={openModal}
-            className="px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium text-lg"
+            className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium text-lg"
           >
-            Start Your Project
+            Book Discovery Inquiry
           </button>
         </div>
       </section>

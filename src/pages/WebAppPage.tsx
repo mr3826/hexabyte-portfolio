@@ -20,19 +20,20 @@ export default function WebAppPage() {
               </span>
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
               Custom <span className="text-primary">Web Applications</span>{' '}
               Built for Scale
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8">
               SaaS platforms, admin dashboards, and AI-powered web apps built
-              with React and Next.js that are production-ready from day one.
+              with React and Next.js for SMB founders who need speed without
+              compromising architecture quality.
             </p>
             <button
               onClick={openModal}
-              className="inline-flex items-center px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Start Your Project <ArrowRight className="w-5 h-5 ml-2" />
+              Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
             </button>
           </div>
         </div>
@@ -183,22 +184,22 @@ export default function WebAppPage() {
           <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
             Ready to Build <span className="text-primary">Your Web App?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
             Let's discuss your project requirements and create something amazing
             together
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={openModal}
-              className="px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Get Started
+              Book Discovery Inquiry
             </button>
             <Link
-              to="/case-studies"
-              className="px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              to="/case-studies/tradeflow"
+              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
             >
-              View Portfolio
+              View TradeFlow Case
             </Link>
           </div>
         </div>
