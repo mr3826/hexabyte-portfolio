@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "project_id": "YOUR_PROJECT_ID",
+  "db": {
+    "major_version": 15
+  }
+}
