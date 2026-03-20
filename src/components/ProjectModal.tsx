@@ -1,6 +1,11 @@
-import { X, Check } from 'lucide-react';
+import { X, Check, Loader } from 'lucide-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { getAttributionFromUrl, trackEvent } from '@/utils/analytics';
+import {
+  submitInquiryForm,
+  InquiryFormData,
+  validateInquiryForm,
+} from '@/services/formSubmission';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -12,6 +17,8 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
   const [step, setStep] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     // User Information
     name: '',
@@ -37,6 +44,8 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
 
   const handleClose = () => {
     setStep(1);
+    setSubmissionError(null);
+    setSubmitting(false);
     onClose();
   };
 
@@ -90,19 +99,70 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const attribution = getAttributionFromUrl();
-    trackEvent('inquiry_submitted', {
-      role: formData.role,
-      project_type_count: formData.projectType.length,
-      challenges_count: formData.challenges.length,
-      has_company: Boolean(formData.company),
+
+    // Validate form before submission
+    const validation = validateInquiryForm({
+      ...formData,
       ...attribution,
-    });
-    // In production, send formData to your backend/CRM
-    // Move to calendar step
-    setStep(2);
+    } as InquiryFormData);
+
+    if (!validation.isValid) {
+      setSubmissionError('Please fill in all required fields.');
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmissionError(null);
+
+    try {
+      // Track inquiry submission attempt
+      trackEvent('inquiry_submitted', {
+        role: formData.role,
+        project_type_count: formData.projectType.length,
+        challenges_count: formData.challenges.length,
+        has_company: Boolean(formData.company),
+        ...attribution,
+      });
+
+      // Submit form data to backend
+      const submissionData: InquiryFormData = {
+        ...formData,
+        ...attribution,
+        cta_source: 'project_modal_submit',
+        inquiry_started_at: new Date().toISOString(),
+      };
+
+      const result = await submitInquiryForm(submissionData);
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      // Track successful submission
+      trackEvent('inquiry_confirmation_shown', {
+        inquiry_id: result.inquiryId,
+        ...attribution,
+      });
+
+      // Move to calendar step on success
+      setStep(2);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to submit inquiry.';
+      setSubmissionError(errorMessage);
+      console.error('[ProjectModal] Submission error:', error);
+
+      // Track submission failure
+      trackEvent('inquiry_submission_failed', {
+        error_message: errorMessage,
+        ...attribution,
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const toggleArrayItem = (array: string[], item: string) => {
@@ -458,9 +518,16 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
 
             {/* Submit Button */}
             <div className="mt-8 space-y-3">
+              {submissionError && (
+                <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-lg text-sm text-destructive">
+                  <p className="font-medium">Error submitting inquiry:</p>
+                  <p className="mt-1">{submissionError}</p>
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={
+                  submitting ||
                   !formData.name ||
                   !formData.email ||
                   !formData.role ||
@@ -468,9 +535,16 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                   formData.challenges.length === 0 ||
                   !formData.goals
                 }
-                className="w-full min-h-[44px] px-6 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full min-h-[44px] px-6 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Continue to Book a Call
+                {submitting ? (
+                  <>
+                    <Loader className="w-4 h-4 animate-spin" />
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  'Continue to Book a Call'
+                )}
               </button>
               <p className="text-center text-xs text-muted-foreground">
                 Free 20-30 min strategy call. No obligation.
