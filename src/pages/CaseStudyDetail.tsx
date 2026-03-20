@@ -8,8 +8,394 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
+import shopifyCaseVisual from '@/assets/case-shopify-automation.svg';
+import easyModeratorCaseVisual from '@/assets/case-easy-moderator.svg';
+import tradeflowCaseVisual from '@/assets/case-tradeflow.svg';
+import reelStudioCaseVisual from '@/assets/case-reel-studio.svg';
 
 const caseStudyData: Record<string, any> = {
+  'shopify-automation': {
+    title: 'Shopify Automation for Multi-Channel Operations',
+    client: 'Growth E-commerce Operator',
+    industry: 'E-commerce',
+    timeline: '12 weeks',
+    category: 'Automation Platform',
+    evidenceConfidence: 'Medium (documentation verified)',
+    overview:
+      'An event-driven automation platform was built to synchronize inventory and order workflows across Shopify, Amazon, and eBay while connecting fulfillment and AI-assisted support operations.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Inventory updates were inconsistent across channels',
+        'Order operations were fragmented across multiple tools',
+        'Manual support handling increased with order volume',
+        'Fulfillment orchestration lacked reliable automation',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We implemented a serverless, event-driven automation system with webhook ingestion, orchestration workflows, and integration layers for order operations, inventory sync, and support handling.',
+      approach: [
+        'Built webhook ingestion and routing for commerce events',
+        'Implemented Lambda-based handlers for inventory and order updates',
+        'Connected ShipStation fulfillment workflows',
+        'Added AI support routing and response automation',
+        'Published operational visibility via dashboard and logs',
+      ],
+    },
+    techStack: [
+      'AWS Lambda',
+      'PostgreSQL / Supabase',
+      'Make.com orchestration',
+      'Shopify APIs + Webhooks',
+      'ShipStation integration',
+      'React dashboard + Express API',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Architecture Readiness',
+          value: 'Production',
+          description: 'Event-driven deployment and live environment setup',
+        },
+        {
+          label: 'Channel Scope',
+          value: '3 Channels',
+          description: 'Shopify, Amazon, eBay synchronized workflows',
+        },
+        {
+          label: 'Ops Coverage',
+          value: 'End-to-End',
+          description: 'Inventory, order, support, and fulfillment orchestration',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'Doc-Verified',
+          description: 'Metrics pending for audited production snapshots',
+        },
+      ],
+      outcomes: [
+        'Unified cross-channel operation flow reduced coordination overhead',
+        'Automation-first architecture improved operational consistency',
+        'Support and fulfillment workflows integrated into the same system',
+        'Foundation established for future KPI instrumentation and scaling',
+      ],
+    },
+    workflow: {
+      title: 'System Workflow',
+      steps: [
+        {
+          phase: 'Event Capture',
+          description: 'Webhooks ingest real-time events from channel sources',
+        },
+        {
+          phase: 'Orchestration',
+          description: 'Workflow engine dispatches operations to Lambda handlers',
+        },
+        {
+          phase: 'Synchronization',
+          description: 'Inventory and order states update across systems',
+        },
+        {
+          phase: 'Fulfillment + Support',
+          description: 'ShipStation and support automations run with routing rules',
+        },
+        {
+          phase: 'Monitoring',
+          description: 'Dashboard and logs provide operational traceability',
+        },
+      ],
+    },
+    nextSteps:
+      'Next phase focuses on audited KPI snapshots (latency, sync success, support deflection) and expanded reliability instrumentation.',
+  },
+  'easy-moderator': {
+    title: 'Easy Moderator Multi-Tenant Moderation System',
+    client: 'Commerce Operations Team',
+    industry: 'Content and Commerce Operations',
+    timeline: '10 weeks',
+    category: 'Content Ops Platform',
+    evidenceConfidence: 'High (test evidence verified)',
+    overview:
+      'A full-stack moderation platform was delivered with role-aware workflows, social platform integration hooks, and automated test pipelines across backend, frontend, and E2E layers.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Moderation workflows were fragmented and hard to audit',
+        'Channel operations needed unified controls and role boundaries',
+        'Quality and release confidence required stronger test automation',
+        'Scaling moderation operations required multi-tenant architecture',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We implemented a React + Node moderation platform with modular services, authentication controls, and automated testing workflows for release confidence.',
+      approach: [
+        'Designed multi-tenant data and permission boundaries',
+        'Built moderation and operations modules in Express + Sequelize',
+        'Integrated Redis/Bull for queue-driven workflows',
+        'Implemented JWT/CSRF security patterns',
+        'Automated backend, frontend, and Playwright test execution',
+      ],
+    },
+    techStack: [
+      'React 18',
+      'Node.js + Express',
+      'Sequelize + PostgreSQL',
+      'Redis + Bull',
+      'JWT authentication',
+      'Playwright E2E automation',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Validation',
+          value: 'Pass',
+          description: 'Backend, frontend, and E2E test automation successful',
+        },
+        {
+          label: 'Security Model',
+          value: 'JWT + CSRF',
+          description: 'Role-aware authentication and request protection',
+        },
+        {
+          label: 'Architecture',
+          value: 'Multi-Tenant',
+          description: 'Platform model designed for scale and isolation',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'High',
+          description: 'Test automation outputs documented',
+        },
+      ],
+      outcomes: [
+        'Improved delivery confidence with automated regression coverage',
+        'Unified moderation operations in a single system',
+        'Role-aware controls improved operational governance',
+        'Platform prepared for growth with multi-tenant foundations',
+      ],
+    },
+    workflow: {
+      title: 'Delivery Workflow',
+      steps: [
+        {
+          phase: 'Scope',
+          description: 'Mapped moderation lifecycle and role responsibilities',
+        },
+        {
+          phase: 'Build',
+          description: 'Implemented backend modules and frontend workflows',
+        },
+        {
+          phase: 'Secure',
+          description: 'Applied auth and request protection controls',
+        },
+        {
+          phase: 'Validate',
+          description: 'Ran unit + integration + E2E automation suites',
+        },
+        {
+          phase: 'Prepare',
+          description: 'Documented deployment and testing operations',
+        },
+      ],
+    },
+    nextSteps:
+      'Next milestone is production KPI instrumentation for throughput, moderation latency, and SLA adherence by tenant.',
+  },
+  tradeflow: {
+    title: 'TradeFlow for Bangladesh Buying Houses',
+    client: 'Garments Buying House Operations',
+    industry: 'Garments Supply Chain',
+    timeline: '8 weeks',
+    category: 'Vertical SaaS',
+    evidenceConfidence: 'Medium (product docs verified)',
+    overview:
+      'TradeFlow was designed as a mobile-first SaaS to help buying-house teams run order updates, risk visibility, and communication loops in a local-market workflow context.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Order updates were slow and fragmented across channels',
+        'Teams needed faster communication in local workflows',
+        'Operational risk needed clearer visibility for managers',
+        'Auditability requirements were missing in daily operations',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We delivered a Next.js 14 mobile-first operations platform with quick updates, risk scoring orientation, and audit-log-friendly architecture for buying-house teams.',
+      approach: [
+        'Built mobile-first UI with operational speed as the primary goal',
+        'Designed quick-update patterns for time-sensitive workflows',
+        'Introduced risk-oriented dashboard and status cues',
+        'Applied multi-tenant and audit-oriented architecture decisions',
+        'Documented test/performance targets for rollout readiness',
+      ],
+    },
+    techStack: [
+      'Next.js 14',
+      'TypeScript',
+      'React Query + Zustand',
+      'Prisma + Supabase',
+      'tRPC + NextAuth',
+      'Tailwind + mobile-first patterns',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Quick Updates',
+          value: '30 sec target',
+          description: 'Workflow designed around rapid status updates',
+        },
+        {
+          label: 'UX Direction',
+          value: 'Mobile-First',
+          description: 'Primary usage context optimized for field teams',
+        },
+        {
+          label: 'Governance',
+          value: 'Audit-Ready',
+          description: 'Operational changes designed for traceability',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'Medium',
+          description: 'Measured production KPIs are the next step',
+        },
+      ],
+      outcomes: [
+        'Operational updates became easier to execute in constrained environments',
+        'Risk visibility and communication loops improved in one interface',
+        'Platform foundation supports tenant growth and deeper automation',
+      ],
+    },
+    workflow: {
+      title: 'Product Workflow',
+      steps: [
+        {
+          phase: 'Capture',
+          description: 'Teams log fast updates from mobile-first interfaces',
+        },
+        {
+          phase: 'Score',
+          description: 'System surfaces risk-oriented operational signals',
+        },
+        {
+          phase: 'Share',
+          description: 'Stakeholders receive concise progress visibility',
+        },
+        {
+          phase: 'Trace',
+          description: 'Audit logging supports accountability and review',
+        },
+      ],
+    },
+    nextSteps:
+      'Next phase adds measured KPI reporting (update latency, adoption, incident reduction) to strengthen quantitative proof.',
+  },
+  'reel-studio': {
+    title: 'Reel Studio AI Content Automation Pipeline',
+    client: 'Content Automation Team',
+    industry: 'Media Automation',
+    timeline: '9 weeks',
+    category: 'AI Media Automation',
+    evidenceConfidence: 'Medium (implementation verified)',
+    overview:
+      'Reel Studio is an AI-powered pipeline for scripted short-form video generation, combining queue-based processing, staged checkpoints, and cloud storage for reliable automated production.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'Video production workflows were manual and time-intensive',
+        'Teams needed predictable processing and status visibility',
+        'Failures in long AI pipelines required safe resumption mechanisms',
+        'Asset storage and retrieval required scalable cloud handling',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We implemented a FastAPI-backed queue and processing pipeline with stage checkpoints, ETA signaling, and GCS-backed file workflows for reliable content generation operations.',
+      approach: [
+        'Designed job queue and staged pipeline progression',
+        'Implemented checkpoint/resume reliability mechanisms',
+        'Added API-level status and health endpoints',
+        'Connected cloud object storage for generated assets',
+        'Built operator-facing workflow controls in the UI',
+      ],
+    },
+    techStack: [
+      'Python + FastAPI',
+      'PyTorch + Diffusers',
+      'FFmpeg workflow tooling',
+      'Google Cloud Storage',
+      'Queue-driven processing model',
+      'Web UI for operator controls',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Pipeline Visibility',
+          value: 'Real-time',
+          description: 'Stage-level progress and operational status exposed',
+        },
+        {
+          label: 'Reliability',
+          value: 'Checkpointed',
+          description: 'Long-running jobs support failure recovery',
+        },
+        {
+          label: 'Processing ETA',
+          value: '~8 min estimate',
+          description: 'Initial documented estimate per reel workflow',
+        },
+        {
+          label: 'Evidence Status',
+          value: 'Medium',
+          description: 'Production benchmark snapshots to be added',
+        },
+      ],
+      outcomes: [
+        'Pipeline moved from ad-hoc processing to orchestrated stages',
+        'Operational reliability improved with restart-safe checkpoints',
+        'Cloud-based storage made output handling and retrieval cleaner',
+      ],
+    },
+    workflow: {
+      title: 'Pipeline Workflow',
+      steps: [
+        {
+          phase: 'Queue',
+          description: 'Incoming job is validated and added to processing queue',
+        },
+        {
+          phase: 'Generate',
+          description: 'Model pipeline runs staged generation tasks',
+        },
+        {
+          phase: 'Checkpoint',
+          description: 'State saved at each stage for restart resilience',
+        },
+        {
+          phase: 'Store',
+          description: 'Artifacts persisted to cloud storage',
+        },
+        {
+          phase: 'Report',
+          description: 'Status and completion signals returned to UI/API',
+        },
+      ],
+    },
+    nextSteps:
+      'Next phase includes benchmark dashboards for cost, quality, and completion-time distributions under production load.',
+  },
   'lead-enrichment-automation': {
     title: 'Lead Enrichment Automation for B2B SaaS',
     client: 'B2B SaaS Company',
@@ -560,10 +946,30 @@ const caseStudyData: Record<string, any> = {
   },
 };
 
+const caseStudyVisuals: Record<string, { src: string; alt: string }> = {
+  'shopify-automation': {
+    src: shopifyCaseVisual,
+    alt: 'Shopify automation architecture visual showing event routing and fulfillment synchronization',
+  },
+  'easy-moderator': {
+    src: easyModeratorCaseVisual,
+    alt: 'Easy Moderator dashboard visual with moderation queue and review lanes',
+  },
+  tradeflow: {
+    src: tradeflowCaseVisual,
+    alt: 'TradeFlow mobile-first operations visual with risk dashboard and quick updates',
+  },
+  'reel-studio': {
+    src: reelStudioCaseVisual,
+    alt: 'Reel Studio AI pipeline visual with staged rendering progress and checkpoint recovery',
+  },
+};
+
 export default function CaseStudyDetail() {
   const { openModal } = useModal();
   const { id } = useParams();
   const study = id ? caseStudyData[id] : null;
+  const studyVisual = id ? caseStudyVisuals[id] : null;
 
   if (!study) {
     return (
@@ -583,16 +989,18 @@ export default function CaseStudyDetail() {
       {/* Header */}
       <section className="bg-gradient-to-b from-secondary/50 to-background py-12">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <Link
-            to="/case-studies"
-            className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Case Studies
-          </Link>
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <Link
+              to="/case-studies"
+              className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Case Studies
+            </Link>
 
-          <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-4">
-            {study.category}
+            <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+              {study.category}
+            </div>
           </div>
 
           <h1 className="text-4xl lg:text-6xl font-bold font-['Space_Grotesk'] mb-6">
@@ -622,8 +1030,29 @@ export default function CaseStudyDetail() {
               </div>
             </div>
           </div>
+
+          {study.evidenceConfidence && (
+            <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-sm text-primary">
+              Evidence confidence: {study.evidenceConfidence}
+            </div>
+          )}
         </div>
       </section>
+
+      {studyVisual && (
+        <section className="py-8">
+          <div className="max-w-4xl mx-auto px-6 lg:px-8">
+            <div className="overflow-hidden rounded-2xl border border-primary/20 bg-card">
+              <img
+                src={studyVisual.src}
+                alt={studyVisual.alt}
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Content */}
       <section className="py-12">
@@ -894,19 +1323,19 @@ export default function CaseStudyDetail() {
           <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
             Want Similar <span className="text-primary">Results?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
             Let's discuss how we can transform your business
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={openModal}
-              className="px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 inline-flex items-center justify-center"
+              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 inline-flex items-center justify-center"
             >
-              Book Free Consultation <ArrowRight className="w-5 h-5 ml-2" />
+              Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
             </button>
             <Link
               to="/case-studies"
-              className="px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
             >
               View More Projects
             </Link>

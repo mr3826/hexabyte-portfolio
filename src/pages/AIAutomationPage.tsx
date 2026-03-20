@@ -19,20 +19,19 @@ export default function AIAutomationPage() {
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-4xl">
-            <h1 className="text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
               AI Automation <span className="text-primary">Solutions</span> That
               Work in Production
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Build intelligent workflows that eliminate manual tasks, enrich
-              data automatically, and orchestrate complex business processes
-              with AI.
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8">
+              Founder-led automation delivery for SMB teams who need fewer
+              manual handoffs, better system reliability, and faster operations.
             </p>
             <button
               onClick={openModal}
-              className="inline-flex items-center px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Start Automating
+              Book Discovery Inquiry
               <ArrowRight className="w-5 h-5 ml-2" />
             </button>
           </div>
@@ -179,25 +178,25 @@ export default function AIAutomationPage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
             Ready to <span className="text-primary">Automate?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Let's discuss how AI automation can transform your business
-            operations
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
+            We will map your current process, identify highest-leverage
+            automations, and define an implementation plan you can ship.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={openModal}
-              className="px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Book Free Consultation
+              Book Discovery Inquiry
             </button>
             <Link
-              to="/case-studies"
-              className="px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              to="/case-studies/shopify-automation"
+              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
             >
-              View Case Studies
+              View Shopify Automation Case
             </Link>
           </div>
         </div>

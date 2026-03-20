@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Mail, Linkedin, Twitter } from 'lucide-react';
-import hexabyteLogo from '@/assets/logo.svg';
+import { Mail, Linkedin, Github } from 'lucide-react';
+import hexabyteLogo from '@/assets/hexabyte-logo.png';
 import { useModal } from '@/context/ModalContext';
 
 export default function Footer() {
@@ -19,7 +19,8 @@ export default function Footer() {
               />
             </div>
             <p className="text-sm text-muted-foreground">
-              AI Automation & Web + Mobile App Development Agency
+              Founder-led AI automation and web/mobile product engineering for
+              SMB operators.
             </p>
           </div>
 
@@ -86,20 +87,22 @@ export default function Footer() {
               </a>
               <div className="flex gap-4 mt-4">
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/mr3826"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Founder LinkedIn profile"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://github.com/mr3826"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Founder GitHub profile"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <Github className="w-5 h-5" />
                 </a>
               </div>
             </div>

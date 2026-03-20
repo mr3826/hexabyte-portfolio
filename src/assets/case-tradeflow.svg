@@ -1,0 +1,31 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">TradeFlow Case Study</title>
+  <desc id="desc">Mobile-first dashboard visual representing garment order status and risk scoring.</desc>
+  <rect width="1200" height="700" fill="#091a14"/>
+  <rect x="0" y="0" width="1200" height="700" fill="url(#grid)" opacity="0.25"/>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#1f6a4c" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <text x="80" y="92" fill="#cbf7e4" font-family="Arial, sans-serif" font-size="32" font-weight="700">TradeFlow</text>
+  <text x="80" y="124" fill="#8bd7b1" font-family="Arial, sans-serif" font-size="20">Mobile-first garments operations</text>
+
+  <rect x="90" y="150" width="360" height="480" rx="34" fill="#10261f" stroke="#2f8b66"/>
+  <rect x="115" y="185" width="310" height="52" rx="12" fill="#1f4e3a"/>
+  <rect x="115" y="255" width="310" height="78" rx="12" fill="#1c3d31"/>
+  <rect x="115" y="348" width="310" height="78" rx="12" fill="#1c3d31"/>
+  <rect x="115" y="441" width="310" height="78" rx="12" fill="#1c3d31"/>
+
+  <text x="130" y="218" fill="#e9fff5" font-family="Arial, sans-serif" font-size="20" font-weight="700">30s Quick Updates</text>
+  <text x="130" y="292" fill="#d8f9e8" font-family="Arial, sans-serif" font-size="18">Order #4721  - Medium Risk</text>
+  <text x="130" y="386" fill="#d8f9e8" font-family="Arial, sans-serif" font-size="18">Order #4722  - Low Risk</text>
+  <text x="130" y="478" fill="#d8f9e8" font-family="Arial, sans-serif" font-size="18">Order #4723  - High Risk</text>
+
+  <rect x="520" y="170" width="590" height="210" rx="20" fill="#10261f" stroke="#2f8b66"/>
+  <rect x="520" y="410" width="590" height="220" rx="20" fill="#10261f" stroke="#2f8b66"/>
+  <polyline points="560,570 640,520 720,545 800,500 880,540 960,470 1040,510" fill="none" stroke="#1de9b6" stroke-width="6"/>
+  <text x="550" y="220" fill="#d8f9e8" font-family="Arial, sans-serif" font-size="24" font-weight="700">Risk Dashboard</text>
+  <text x="550" y="455" fill="#d8f9e8" font-family="Arial, sans-serif" font-size="24" font-weight="700">Ops Trendline</text>
+</svg>

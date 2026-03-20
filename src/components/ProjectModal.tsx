@@ -28,7 +28,6 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In production, send formData to your backend/CRM
-    // In production, send formData to your backend/CRM
     // Move to calendar step
     setStep(2);
   };
@@ -48,10 +47,16 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-card border border-primary/20 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
+        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-card border border-primary/20 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Close project inquiry modal"
           className="absolute top-6 right-6 p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary z-10"
         >
           <X className="w-5 h-5" />
@@ -100,7 +105,10 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           <form onSubmit={handleSubmit} className="px-8 pb-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-2">
+              <h2
+                id="project-modal-title"
+                className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2"
+              >
                 Start Your <span className="text-primary">Project</span>
               </h2>
               <p className="text-muted-foreground">
@@ -214,7 +222,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                   What type of project?{' '}
                   <span className="text-destructive">*</span>
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     'AI Automation',
                     'Web Application',
@@ -263,7 +271,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                 <label className="block text-sm font-semibold mb-3">
                   Current tools or systems?
                 </label>
-                <div className="grid grid-cols-2 gap-2 mb-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
                   {[
                     'Google Sheets',
                     'Airtable',
@@ -310,7 +318,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                   Main challenges or pain points?{' '}
                   <span className="text-destructive">*</span>
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[
                     'Too much manual work',
                     'Disconnected tools',
@@ -374,7 +382,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                   formData.challenges.length === 0 ||
                   !formData.goals
                 }
-                className="w-full px-6 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full min-h-[44px] px-6 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Continue to Book a Call
               </button>
@@ -387,13 +395,14 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           <div className="px-8 pb-8">
             {/* Calendar Step */}
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2">
                 Book Your Free{' '}
                 <span className="text-primary">Strategy Call</span>
               </h2>
               <p className="text-muted-foreground">
-                Thanks, {formData.name.split(' ')[0]}! We'll review your project
-                details and walk you through the best next steps.
+                Thanks, {formData.name.split(' ')[0]}! We have captured your
+                project details and will use them to make your discovery call
+                focused and actionable.
               </p>
             </div>
 
@@ -415,10 +424,11 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold">Calendar Integration</h3>
+                <h3 className="text-xl font-semibold">Scheduling Step</h3>
                 <p className="text-sm text-muted-foreground">
-                  In production, this would show your Calendly, Cal.com, or
-                  other scheduling tool.
+                  Your scheduling embed will appear here (Calendly / Cal.com).
+                  Until integration is connected, we follow up manually within
+                  one business day.
                 </p>
                 <div className="pt-4">
                   <p className="text-xs text-muted-foreground mb-3">
@@ -438,7 +448,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                 </div>
                 <button
                   onClick={onClose}
-                  className="mt-6 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all"
+                  className="mt-6 min-h-[44px] px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all"
                 >
                   Close
                 </button>
