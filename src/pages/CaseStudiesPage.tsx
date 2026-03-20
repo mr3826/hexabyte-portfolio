@@ -225,7 +225,7 @@ export default function CaseStudiesPage() {
             the fastest production path together.
           </p>
           <button
-            onClick={openModal}
+            onClick={() => openModal('case_studies_final_cta')}
             className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
           >
             Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />

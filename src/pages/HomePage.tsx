@@ -49,7 +49,7 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <button
-                  onClick={openModal}
+                  onClick={() => openModal('home_hero_primary')}
                   className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 flex items-center justify-center gap-2"
                 >
                   Book Discovery Inquiry
@@ -155,7 +155,7 @@ export default function HomePage() {
                   View Featured Case
                 </Link>
                 <button
-                  onClick={openModal}
+                  onClick={() => openModal('home_featured_case_secondary')}
                   className="min-h-[44px] px-5 py-3 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
                 >
                   Discuss Similar Build
@@ -597,7 +597,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={openModal}
+              onClick={() => openModal('home_final_cta')}
               className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
               Book Discovery Inquiry

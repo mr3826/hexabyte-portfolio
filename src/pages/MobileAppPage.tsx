@@ -36,7 +36,7 @@ export default function MobileAppPage() {
               platforms, mobile-first from day one.
             </p>
             <button
-              onClick={openModal}
+              onClick={() => openModal('mobile_app_hero_primary')}
               className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
               Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
@@ -199,7 +199,7 @@ export default function MobileAppPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={openModal}
+              onClick={() => openModal('mobile_app_final_cta')}
               className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
               Book Discovery Inquiry

@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import ProjectModal from '@/components/ProjectModal';
+import { getAttributionFromUrl, trackEvent } from '@/utils/analytics';
 
 interface ModalContextType {
-  openModal: () => void;
+  openModal: (source?: string) => void;
   closeModal: () => void;
 }
 
@@ -11,7 +12,22 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 export function ModalProvider({ children }: { children: ReactNode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = (source = 'unknown') => {
+    const attribution = getAttributionFromUrl();
+
+    trackEvent('cta_clicked', {
+      cta_source: source,
+      cta_target: 'project_modal',
+      ...attribution,
+    });
+
+    trackEvent('inquiry_started', {
+      source,
+      ...attribution,
+    });
+
+    setIsModalOpen(true);
+  };
   const closeModal = () => setIsModalOpen(false);
 
   return (

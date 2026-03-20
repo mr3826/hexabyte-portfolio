@@ -1328,7 +1328,7 @@ export default function CaseStudyDetail() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={openModal}
+              onClick={() => openModal('case_study_detail_final_cta')}
               className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 inline-flex items-center justify-center"
             >
               Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />

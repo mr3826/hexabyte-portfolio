@@ -66,7 +66,7 @@ export default function Footer() {
                 Case Studies
               </Link>
               <button
-                onClick={openModal}
+                onClick={() => openModal('footer_primary_cta')}
                 className="block text-left text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Contact
