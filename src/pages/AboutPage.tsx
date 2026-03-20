@@ -1,6 +1,6 @@
 import { Zap, Target, Users, MessageSquare, Check, X } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
-import founderImage from '@/assets/founder.jpg';
+import founderImage from '@/assets/founder.png';
 
 export default function AboutPage() {
   const { openModal } = useModal();

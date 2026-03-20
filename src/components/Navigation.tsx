@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import hexabyteLogo from '@/assets/logo.svg';
+import hexabyteLogo from '@/assets/hexabyte-logo.png';
 import { useModal } from '@/context/ModalContext';
 
 export default function Navigation() {

@@ -989,16 +989,18 @@ export default function CaseStudyDetail() {
       {/* Header */}
       <section className="bg-gradient-to-b from-secondary/50 to-background py-12">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <Link
-            to="/case-studies"
-            className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Case Studies
-          </Link>
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <Link
+              to="/case-studies"
+              className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Case Studies
+            </Link>
 
-          <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full mb-4">
-            {study.category}
+            <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+              {study.category}
+            </div>
           </div>
 
           <h1 className="text-4xl lg:text-6xl font-bold font-['Space_Grotesk'] mb-6">
