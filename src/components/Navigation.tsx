@@ -67,17 +67,20 @@ export default function Navigation() {
               Case Studies
             </Link>
             <button
-              onClick={openModal}
-              className="px-6 py-2.5 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              onClick={() => openModal('navigation_desktop')}
+              className="min-h-[44px] px-6 py-2.5 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
-              Start Your Project
+              Book Discovery Inquiry
             </button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-foreground"
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
+            className="md:hidden min-h-[44px] min-w-[44px] p-2 text-foreground"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -85,38 +88,41 @@ export default function Navigation() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-4 border-t border-primary/20">
+          <div
+            id="mobile-navigation"
+            className="md:hidden py-4 space-y-4 border-t border-primary/20"
+          >
             <Link
               to="/ai-automation"
-              className="block py-2 text-muted-foreground hover:text-primary transition-colors"
+              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               AI Automation
             </Link>
             <Link
               to="/web-development"
-              className="block py-2 text-muted-foreground hover:text-primary transition-colors"
+              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Web Development
             </Link>
             <Link
               to="/mobile-development"
-              className="block py-2 text-muted-foreground hover:text-primary transition-colors"
+              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Mobile Development
             </Link>
             <Link
               to="/about"
-              className="block py-2 text-muted-foreground hover:text-primary transition-colors"
+              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link
               to="/case-studies"
-              className="block py-2 text-muted-foreground hover:text-primary transition-colors"
+              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Case Studies
@@ -124,11 +130,11 @@ export default function Navigation() {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                openModal();
+                openModal('navigation_mobile');
               }}
-              className="block w-full px-6 py-2.5 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all"
+              className="block w-full min-h-[44px] px-6 py-2.5 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all"
             >
-              Start Your Project
+              Book Discovery Inquiry
             </button>
           </div>
         )}

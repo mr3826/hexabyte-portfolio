@@ -35,7 +35,7 @@ export default function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={openModal}
+                onClick={() => openModal('about_hero_primary')}
                 className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium"
               >
                 Book Discovery Inquiry
@@ -463,7 +463,7 @@ export default function AboutPage() {
             conversation, clear roadmap, quality execution.
           </p>
           <button
-            onClick={openModal}
+            onClick={() => openModal('about_final_cta')}
             className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium text-lg"
           >
             Book Discovery Inquiry

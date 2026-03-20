@@ -28,7 +28,7 @@ export default function AIAutomationPage() {
               manual handoffs, better system reliability, and faster operations.
             </p>
             <button
-              onClick={openModal}
+              onClick={() => openModal('ai_automation_hero_primary')}
               className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
               Book Discovery Inquiry
@@ -187,7 +187,7 @@ export default function AIAutomationPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={openModal}
+              onClick={() => openModal('ai_automation_final_cta')}
               className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
             >
               Book Discovery Inquiry
