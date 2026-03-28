@@ -19,32 +19,25 @@ export default function Footer() {
               />
             </div>
             <p className="text-sm text-muted-foreground">
-              Founder-led AI automation and web/mobile product engineering for
-              SMB operators.
+              Founder-led. Relationship-first. Two live products and selective client work.
             </p>
           </div>
 
-          {/* Services */}
+          {/* Products */}
           <div>
-            <h3 className="font-semibold mb-4">Services</h3>
+            <h3 className="font-semibold mb-4">Products</h3>
             <div className="space-y-2">
               <Link
-                to="/ai-automation"
+                to="/products#easy-moderator"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                AI Automation
+                Easy Moderator
               </Link>
               <Link
-                to="/web-development"
+                to="/products#tradeflow"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                Web Development
-              </Link>
-              <Link
-                to="/mobile-development"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Mobile Development
+                TradeFlow
               </Link>
             </div>
           </div>
@@ -63,9 +56,22 @@ export default function Footer() {
                 to="/case-studies"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                Case Studies
+                Work
+              </Link>
+              <Link
+                to="/pricing"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Pricing
+              </Link>
+              <Link
+                to="/resources"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Resources
               </Link>
               <button
+                type="button"
                 onClick={() => openModal('footer_primary_cta')}
                 className="block text-left text-sm text-muted-foreground hover:text-primary transition-colors"
               >
@@ -79,11 +85,11 @@ export default function Footer() {
             <h3 className="font-semibold mb-4">Get in Touch</h3>
             <div className="space-y-3">
               <a
-                href="mailto:contact@hexabyte.io"
+                href="mailto:contact@hexabyte.tech"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                contact@hexabyte.io
+                contact@hexabyte.tech
               </a>
               <div className="flex gap-4 mt-4">
                 <a
@@ -111,7 +117,7 @@ export default function Footer() {
 
         <div className="border-t border-primary/20 pt-8 text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} Hexabyte. All rights reserved.
+            &copy; {new Date().getFullYear()} Hexabyte Technologies. All rights reserved.
           </p>
         </div>
       </div>

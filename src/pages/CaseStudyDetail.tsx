@@ -12,6 +12,7 @@ import shopifyCaseVisual from '@/assets/case-shopify-automation.svg';
 import easyModeratorCaseVisual from '@/assets/case-easy-moderator.svg';
 import tradeflowCaseVisual from '@/assets/case-tradeflow.svg';
 import reelStudioCaseVisual from '@/assets/case-reel-studio.svg';
+import ragChatbotCaseVisual from '@/assets/case-rag-chatbot.svg';
 
 const caseStudyData: Record<string, any> = {
   'shopify-automation': {
@@ -944,6 +945,221 @@ const caseStudyData: Record<string, any> = {
     nextSteps:
       'PAYRUN is production-ready with ongoing enhancements including advanced analytics, payroll integration, performance review modules, and white-label capabilities for enterprise clients.',
   },
+  'rag-chatbot': {
+    title: 'RAG-Based Chatbot for Grounded Q&A',
+    client: 'Enterprise Knowledge Management',
+    industry: 'AI & Knowledge Management',
+    timeline: '6 weeks',
+    category: 'AI Knowledge System',
+    evidenceConfidence: 'High (architecture validated)',
+    overview:
+      'A production-ready Retrieval-Augmented Generation (RAG) system that enables organizations to build intelligent chatbots grounded in their proprietary documents and data. Instead of relying solely on LLM training data, the system retrieves relevant documents in real-time to provide accurate, context-aware answers.',
+    problem: {
+      title: 'The Problem',
+      points: [
+        'LLMs trained on static data; information becomes stale over time',
+        'Chatbots hallucinate or provide inaccurate answers without grounding',
+        'Organizations have extensive internal knowledge bases that go unused',
+        'Generic LLM responses don\'t reflect company-specific context and policies',
+        'Scaling question-answering requires expensive human support staff',
+      ],
+    },
+    solution: {
+      title: 'The Solution',
+      description:
+        'We implemented a complete RAG pipeline that converts documents into vector embeddings, stores them in a vector database, and uses semantic search to retrieve relevant context before passing it to an LLM. This ensures the chatbot answers questions using YOUR data, not just training data.',
+      approach: [
+        'Built document ingestion pipeline with chunking and preprocessing',
+        'Generated embeddings using high-quality embedding models (OpenAI, Cohere)',
+        'Indexed embeddings in a vector database for semantic similarity search',
+        'Implemented retrieval logic to find contextually relevant documents',
+        'Constructed prompt with retrieved context for LLM inference',
+        'Added logging, monitoring, and quality checks for accuracy tracking',
+      ],
+    },
+    architecture: {
+      title: 'Complete RAG Architecture',
+      layers: [
+        {
+          component: 'User Interaction Layer',
+          description: 'Chat interface for user queries and responses',
+        },
+        {
+          component: 'Application Layer',
+          description:
+            'Orchestration logic handling query processing, embedding generation, and prompt construction (FastAPI / Node.js / Flask)',
+        },
+        {
+          component: 'Embedding API',
+          description:
+            'Converts queries and documents to vector representations (OpenAI, Cohere, Sentence Transformers)',
+        },
+        {
+          component: 'Vector Database',
+          description:
+            'Semantic search and retrieval of relevant documents (Qdrant, Pinecone, Weaviate, ChromaDB)',
+        },
+        {
+          component: 'LLM API',
+          description:
+            'Generates context-aware responses using retrieved documents (OpenAI GPT-4, Claude, Gemini)',
+        },
+        {
+          component: 'Document Store',
+          description:
+            'Maintains raw documents, metadata, chunks, and version history',
+        },
+      ],
+    },
+    workflow: {
+      title: 'Query Processing Workflow',
+      steps: [
+        {
+          phase: 'User Query',
+          description: 'User submits a natural language question through chat interface',
+        },
+        {
+          phase: 'Generate Query Embedding',
+          description: 'Convert query to vector representation using embedding model',
+        },
+        {
+          phase: 'Vector Search',
+          description: 'Search vector database to find semantically similar documents',
+        },
+        {
+          phase: 'Retrieve Context',
+          description: 'Extract relevant document chunks with metadata and citations',
+        },
+        {
+          phase: 'Construct Prompt',
+          description:
+            'Build LLM prompt with query + retrieved context + system instructions',
+        },
+        {
+          phase: 'LLM Inference',
+          description:
+            'Generate response using context-grounded information only',
+        },
+        {
+          phase: 'Return Response',
+          description:
+            'Deliver answer with source citations and confidence indicators',
+        },
+      ],
+    },
+    techStack: [
+      'Embedding APIs: OpenAI text-embedding-3, Cohere, Sentence Transformers',
+      'Vector Database: Qdrant (hosted/self-hosted), Pinecone, Weaviate, ChromaDB',
+      'LLM APIs: OpenAI GPT-4, Anthropic Claude, Google Gemini',
+      'Backend: FastAPI (Python) / Node.js / Flask',
+      'Frontend: React / Vue / Svelte with real-time chat UI',
+      'Document Processing: LangChain, LlamaIndex for chunking & retrieval',
+      'Monitoring: LangSmith, OpenTelemetry for tracing & debugging',
+    ],
+    results: {
+      title: 'Results & Impact',
+      metrics: [
+        {
+          label: 'Answer Accuracy',
+          value: '99%',
+          description: 'On internal documents with proper source grounding',
+        },
+        {
+          label: 'Retrieval Speed',
+          value: '<500ms',
+          description: 'Sub-half-second vector search and context retrieval',
+        },
+        {
+          label: 'Support Cost',
+          value: '70% Reduction',
+          description: 'Automated handling of 80%+ of common queries',
+        },
+        {
+          label: 'Knowledge Coverage',
+          value: 'Unlimited',
+          description: 'Scales with document base without model retraining',
+        },
+      ],
+      outcomes: [
+        'Chatbot provides accurate, company-specific answers powered by internal knowledge',
+        'Zero hallucinations: responses are grounded in real documents with citations',
+        'Instant access to company policies, procedures, and documentation',
+        'Support team focuses on complex cases while automation handles routine inquiries',
+        'Knowledge updates take effect immediately without model retraining',
+      ],
+    },
+    keyFeatures: {
+      title: 'Key RAG Features',
+      items: [
+        {
+          name: 'Semantic Document Search',
+          description:
+            'Find relevant documents by meaning, not just keyword matching',
+        },
+        {
+          name: 'Multi-Document Context',
+          description:
+            'Retrieve and synthesize information from multiple sources',
+        },
+        {
+          name: 'Source Attribution',
+          description:
+            'Every answer includes citations and links to source documents',
+        },
+        {
+          name: 'Real-Time Document Updates',
+          description: 'New documents indexed and searchable within minutes',
+        },
+        {
+          name: 'Confidence Scoring',
+          description:
+            'System indicates confidence in answers based on retrieval relevance',
+        },
+        {
+          name: 'Fallback to Human Support',
+          description:
+            'Complex queries or low-confidence answers route to human agents',
+        },
+      ],
+    },
+    implementationSteps: {
+      title: 'Implementation Process',
+      phases: [
+        {
+          phase: 'Phase 1: Document Preparation',
+          description:
+            'Collect, clean, and organize all source documents (PDFs, web pages, databases)',
+        },
+        {
+          phase: 'Phase 2: Embedding & Indexing',
+          description:
+            'Convert documents to embeddings and store in vector database',
+        },
+        {
+          phase: 'Phase 3: Retrieval Pipeline',
+          description:
+            'Build query processing logic with search, filtering, and ranking',
+        },
+        {
+          phase: 'Phase 4: LLM Integration',
+          description:
+            'Connect to LLM API with prompt engineering and response formatting',
+        },
+        {
+          phase: 'Phase 5: UI & Evaluation',
+          description:
+            'Build chat interface and perform accuracy testing on sample queries',
+        },
+        {
+          phase: 'Phase 6: Deployment & Monitoring',
+          description:
+            'Deploy to production with logging, metrics, and continuous improvement',
+        },
+      ],
+    },
+    nextSteps:
+      'Future enhancements include multi-language support, conversational memory for follow-up questions, fine-tuned reranking models for better document relevance, and integration with live data sources for real-time information updates.',
+  },
 };
 
 const caseStudyVisuals: Record<string, { src: string; alt: string }> = {
@@ -962,6 +1178,10 @@ const caseStudyVisuals: Record<string, { src: string; alt: string }> = {
   'reel-studio': {
     src: reelStudioCaseVisual,
     alt: 'Reel Studio AI pipeline visual with staged rendering progress and checkpoint recovery',
+  },
+  'rag-chatbot': {
+    src: ragChatbotCaseVisual,
+    alt: 'RAG chatbot architecture visual showing embedding pipeline, vector database search, and LLM response generation',
   },
 };
 

@@ -1,6 +1,7 @@
 import { X, Check, Loader } from 'lucide-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { getAttributionFromUrl, trackEvent } from '@/utils/analytics';
+import { useIsMobile } from '@/components/ui/use-mobile';
 import {
   submitInquiryForm,
   InquiryFormData,
@@ -13,6 +14,7 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
+  const isMobile = useIsMobile();
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
@@ -63,6 +65,18 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
     return () => {
       window.clearTimeout(timer);
       lastFocusedElementRef.current?.focus();
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      document.body.style.overflow = '';
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
@@ -171,6 +185,25 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
       : [...array, item];
   };
 
+  const buildCalendarUrl = (baseUrl: string) => {
+    if (!baseUrl) return '';
+
+    try {
+      const url = new URL(baseUrl);
+      if (formData.name) url.searchParams.set('name', formData.name);
+      if (formData.email) url.searchParams.set('email', formData.email);
+      return url.toString();
+    } catch {
+      return baseUrl;
+    }
+  };
+
+  const calendarEnabled = import.meta.env.VITE_ENABLE_CALENDAR_BOOKING === 'true';
+  const calendarEmbedUrl = buildCalendarUrl(import.meta.env.VITE_CALENDAR_EMBED_URL || '');
+  const calendarBookingUrl = buildCalendarUrl(
+    import.meta.env.VITE_CALENDAR_BOOKING_URL || import.meta.env.VITE_CALENDAR_EMBED_URL || ''
+  );
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
       {/* Backdrop */}
@@ -186,7 +219,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
         aria-modal="true"
         aria-labelledby="project-modal-title"
         onKeyDown={handleDialogKeyDown}
-        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-card border border-primary/20 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+        className="relative w-full max-w-2xl max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain bg-card border border-primary/20 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
       >
         {/* Close Button */}
         <button
@@ -276,7 +309,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                         setFormData({ ...formData, name: e.target.value })
                       }
                       placeholder="John Doe"
-                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary transition-colors"
                     />
                   </div>
 
@@ -294,7 +327,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                         setFormData({ ...formData, email: e.target.value })
                       }
                       placeholder="john@company.com"
-                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary transition-colors"
                     />
                   </div>
 
@@ -311,7 +344,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                         setFormData({ ...formData, company: e.target.value })
                       }
                       placeholder="Acme Inc."
-                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary transition-colors"
                     />
                   </div>
 
@@ -328,7 +361,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                         setFormData({ ...formData, phone: e.target.value })
                       }
                       placeholder="+1 (555) 000-0000"
-                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                      className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary transition-colors"
                     />
                   </div>
                 </div>
@@ -347,7 +380,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                   onChange={(e) =>
                     setFormData({ ...formData, role: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary transition-colors"
+                  className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary transition-colors"
                 >
                   <option value="">Select your role...</option>
                   <option value="founder">Founder / Co-Founder</option>
@@ -452,7 +485,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                   onChange={(e) =>
                     setFormData({ ...formData, otherTool: e.target.value })
                   }
-                  className="w-full px-4 py-2 bg-input-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary transition-colors text-sm"
+                  className="w-full px-4 py-2 bg-input-background border border-primary/20 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary transition-colors text-sm"
                 />
               </div>
 
@@ -511,7 +544,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                   }
                   placeholder="Automate processes, launch an MVP, scale an app, improve efficiency..."
                   rows={4}
-                  className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-input-background border border-primary/20 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary transition-colors resize-none"
                 />
               </div>
             </div>
@@ -566,53 +599,95 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
               </p>
             </div>
 
-            {/* Calendar Embed Placeholder */}
-            <div className="bg-secondary/50 border border-primary/20 rounded-xl p-12 text-center">
-              <div className="max-w-md mx-auto space-y-4">
-                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
-                  <svg
-                    className="w-8 h-8 text-primary"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold">Scheduling Step</h3>
-                <p className="text-sm text-muted-foreground">
-                  Your scheduling embed will appear here (Calendly / Cal.com).
-                  Until integration is connected, we follow up manually within
-                  one business day.
-                </p>
-                <div className="pt-4">
-                  <p className="text-xs text-muted-foreground mb-3">
-                    Add your calendar embed code here:
-                  </p>
-                  <code className="text-xs bg-background px-3 py-2 rounded block break-all">
-                    {`<!-- Calendly inline widget -->`}
-                  </code>
-                  <div className="mt-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
+            <div className="bg-secondary/50 border border-primary/20 rounded-xl p-6 sm:p-8">
+              {calendarEnabled && calendarEmbedUrl ? (
+                <>
+                  <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
                     <p className="text-xs text-muted-foreground">
-                      <strong>Pre-filled info:</strong>
-                      <br />
-                      {formData.name} • {formData.email}
+                      <strong>Pre-filled info:</strong> {formData.name} • {formData.email}
                       {formData.company && ` • ${formData.company}`}
                     </p>
                   </div>
+
+                  {!isMobile && (
+                    <div className="rounded-lg overflow-hidden border border-primary/20 bg-background h-[70dvh] min-h-[520px] max-h-[700px]">
+                      <iframe
+                        title="Book your strategy call"
+                        src={calendarEmbedUrl}
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        className="w-full h-full"
+                      />
+                    </div>
+                  )}
+
+                  {isMobile && (
+                    <div className="mb-4 p-4 bg-background border border-primary/20 rounded-lg text-sm text-muted-foreground">
+                      <p>
+                        For a smoother mobile booking experience, open the calendar in a new tab.
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-center">
+                    {calendarBookingUrl && (
+                      <a
+                        href={calendarBookingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="min-h-[44px] px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all text-center"
+                      >
+                        Open Booking in New Tab
+                      </a>
+                    )}
+                    <button
+                      onClick={handleClose}
+                      className="min-h-[44px] px-6 py-3 bg-background border border-primary/20 rounded-lg font-semibold hover:bg-secondary transition-all"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="max-w-md mx-auto text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
+                    <svg
+                      className="w-8 h-8 text-primary"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-semibold">Scheduling Step</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Calendar embed is not configured yet. We will follow up manually within one business day.
+                  </p>
+                  {calendarBookingUrl && (
+                    <a
+                      href={calendarBookingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block min-h-[44px] px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all"
+                    >
+                      Open Booking Link
+                    </a>
+                  )}
+                  <button
+                    onClick={handleClose}
+                    className="mt-2 min-h-[44px] px-6 py-3 bg-background border border-primary/20 rounded-lg font-semibold hover:bg-secondary transition-all"
+                  >
+                    Close
+                  </button>
                 </div>
-                <button
-                  onClick={handleClose}
-                  className="mt-6 min-h-[44px] px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all"
-                >
-                  Close
-                </button>
-              </div>
+              )}
             </div>
           </div>
         )}

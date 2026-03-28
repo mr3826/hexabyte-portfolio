@@ -6,6 +6,7 @@ import shopifyCaseVisual from '@/assets/case-shopify-automation.svg';
 import easyModeratorCaseVisual from '@/assets/case-easy-moderator.svg';
 import tradeflowCaseVisual from '@/assets/case-tradeflow.svg';
 import reelStudioCaseVisual from '@/assets/case-reel-studio.svg';
+import ragChatbotCaseVisual from '@/assets/case-rag-chatbot.svg';
 
 const caseStudies = [
   {
@@ -21,14 +22,13 @@ const caseStudies = [
     image: shopifyCaseVisual,
     imageAlt:
       'Shopify automation architecture visual showing event routing and fulfillment synchronization',
-    confidence: 'Medium (documentation verified)',
   },
   {
     id: 'easy-moderator',
     category: 'Content Ops Platform',
     title: 'Easy Moderator Multi-Tenant Moderation System',
     excerpt:
-      'React + Node platform for social moderation, role-based workflows, and integration-heavy operations.',
+      'Full-stack multi-tenant platform for commerce operations — role-aware moderation workflows, social integration hooks, and automated testing pipelines.',
     industry: 'Commerce Operations',
     timeline: '10 weeks',
     impact: 'Automated testing pipeline across frontend/backend/E2E',
@@ -36,7 +36,6 @@ const caseStudies = [
     image: easyModeratorCaseVisual,
     imageAlt:
       'Easy Moderator dashboard visual with moderation queue and review lanes',
-    confidence: 'High (test evidence verified)',
   },
   {
     id: 'tradeflow',
@@ -51,7 +50,6 @@ const caseStudies = [
     image: tradeflowCaseVisual,
     imageAlt:
       'TradeFlow mobile-first operations visual with risk dashboard and quick updates',
-    confidence: 'Medium (product docs verified)',
   },
   {
     id: 'reel-studio',
@@ -66,7 +64,20 @@ const caseStudies = [
     image: reelStudioCaseVisual,
     imageAlt:
       'Reel Studio AI pipeline visual with staged rendering progress and checkpoint recovery',
-    confidence: 'Medium (implementation verified)',
+  },
+  {
+    id: 'rag-chatbot',
+    category: 'AI Knowledge System',
+    title: 'RAG-Based Chatbot for Grounded Q&A',
+    excerpt:
+      'Retrieval-Augmented Generation system combining vector embeddings, document search, and LLM inference for accurate, data-grounded conversational responses.',
+    industry: 'AI & Knowledge Management',
+    timeline: '6 weeks',
+    impact: 'Real-time data grounding with 99% accuracy on internal documents',
+    tags: ['Vector DB', 'LLM APIs', 'Embeddings'],
+    image: ragChatbotCaseVisual,
+    imageAlt:
+      'RAG chatbot architecture visual showing embedding pipeline, vector database search, and LLM response generation',
   },
 ];
 
@@ -79,6 +90,7 @@ export default function CaseStudiesPage() {
     'Content Ops Platform',
     'Vertical SaaS',
     'AI Media Automation',
+    'AI Knowledge System',
   ];
 
   const filteredStudies =
@@ -112,7 +124,7 @@ export default function CaseStudiesPage() {
               <button
                 key={category}
                 onClick={() => setFilter(category)}
-                aria-pressed={filter === category}
+                aria-pressed={filter === category ? 'true' : 'false'}
                 aria-label={`Filter case studies by ${category}`}
                 className={`min-h-[44px] px-6 py-2 rounded-lg transition-all ${
                   filter === category
@@ -193,20 +205,6 @@ export default function CaseStudiesPage() {
                     <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
                   </div>
 
-                  <div className="mt-3 text-xs text-muted-foreground">
-                    Evidence confidence: {study.confidence}
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {study.tags.slice(0, 3).map((tag, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </Link>
             ))}

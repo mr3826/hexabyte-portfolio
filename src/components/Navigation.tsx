@@ -1,12 +1,38 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
 import { useModal } from '@/context/ModalContext';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
   const { openModal } = useModal();
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      document.body.style.overflow = '';
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-primary/20">
@@ -24,47 +50,34 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
-              to="/ai-automation"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              AI Automation
-            </Link>
-            <Link
-              to="/web-development"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              Web Development
-            </Link>
-            <Link
-              to="/mobile-development"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              Mobile Development
-            </Link>
-            <Link
               to="/about"
-              className="text-muted-foreground hover:text-primary transition-colors group flex items-center gap-1.5"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
-              <span>About</span>
-              <svg
-                className="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
+              About
+            </Link>
+            <Link
+              to="/products"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              Products
             </Link>
             <Link
               to="/case-studies"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
-              Case Studies
+              Work
+            </Link>
+            <Link
+              to="/process"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              Process
+            </Link>
+            <Link
+              to="/pricing"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              Pricing
             </Link>
             <button
               onClick={() => openModal('navigation_desktop')}
@@ -78,7 +91,7 @@ export default function Navigation() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileMenuOpen}
+            aria-expanded={mobileMenuOpen ? 'true' : 'false'}
             aria-controls="mobile-navigation"
             className="md:hidden min-h-[44px] min-w-[44px] p-2 text-foreground"
           >
@@ -88,55 +101,59 @@ export default function Navigation() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div
-            id="mobile-navigation"
-            className="md:hidden py-4 space-y-4 border-t border-primary/20"
-          >
-            <Link
-              to="/ai-automation"
-              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              AI Automation
-            </Link>
-            <Link
-              to="/web-development"
-              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Web Development
-            </Link>
-            <Link
-              to="/mobile-development"
-              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Mobile Development
-            </Link>
-            <Link
-              to="/about"
-              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              to="/case-studies"
-              className="block min-h-[44px] py-3 text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Case Studies
-            </Link>
+          <>
             <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                openModal('navigation_mobile');
-              }}
-              className="block w-full min-h-[44px] px-6 py-2.5 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all"
+              aria-label="Close mobile menu overlay"
+              className="md:hidden fixed inset-0 top-20 z-40 bg-background/70 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <div
+              id="mobile-navigation"
+              className="md:hidden fixed inset-x-0 top-20 bottom-0 z-50 overflow-y-auto border-t border-primary/20 bg-card px-6 py-6"
             >
-              Book Discovery Inquiry
-            </button>
-          </div>
+              <div className="space-y-3">
+                <Link
+                  to="/about"
+                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                >
+                  About
+                </Link>
+                <Link
+                  to="/products"
+                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                >
+                  Products
+                </Link>
+                <Link
+                  to="/case-studies"
+                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                >
+                  Work
+                </Link>
+                <Link
+                  to="/process"
+                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                >
+                  Process
+                </Link>
+                <Link
+                  to="/pricing"
+                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                >
+                  Pricing
+                </Link>
+              </div>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openModal('navigation_mobile');
+                }}
+                className="mt-6 block w-full min-h-[44px] px-6 py-3 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all"
+              >
+                Book Discovery Inquiry
+              </button>
+            </div>
+          </>
         )}
       </div>
     </nav>

@@ -1,0 +1,170 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define gradients -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#0f0f1e"/>
+
+  <!-- Title -->
+  <text x="600" y="40" font-size="32" font-weight="bold" fill="#00d9ff" text-anchor="middle" font-family="'Space Grotesk', sans-serif">
+    RAG Chatbot Architecture
+  </text>
+
+  <!-- Stage 1: User Query - Top Left -->
+  <rect x="50" y="100" width="140" height="80" rx="10" fill="url(#grad1)" opacity="0.9"/>
+  <text x="120" y="135" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">User Query</text>
+  <text x="120" y="155" font-size="11" fill="white" text-anchor="middle" font-family="Arial">Natural Language</text>
+  <text x="120" y="170" font-size="11" fill="white" text-anchor="middle" font-family="Arial">Question</text>
+
+  <!-- Arrow 1 -->
+  <path d="M 190 140 L 240 140" stroke="#00d9ff" stroke-width="2" fill="none" marker-end="url(#arrowhead-cyan)"/>
+  <defs>
+    <marker id="arrowhead-cyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#00d9ff" />
+    </marker>
+  </defs>
+
+  <!-- Stage 2: Generate Embedding -->
+  <rect x="240" y="100" width="140" height="80" rx="10" fill="url(#grad2)" opacity="0.9"/>
+  <text x="310" y="132" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Generate</text>
+  <text x="310" y="150" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Embedding</text>
+  <text x="310" y="170" font-size="10" fill="white" text-anchor="middle" font-family="Arial">OpenAI / Cohere</text>
+
+  <!-- Arrow 2 -->
+  <path d="M 380 140 L 430 140" stroke="#00d9ff" stroke-width="2" fill="none" marker-end="url(#arrowhead-cyan)"/>
+
+  <!-- Stage 3: Vector Search -->
+  <rect x="430" y="100" width="140" height="80" rx="10" fill="url(#grad3)" opacity="0.9"/>
+  <text x="500" y="132" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Vector</text>
+  <text x="500" y="150" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Search</text>
+  <text x="500" y="170" font-size="10" fill="white" text-anchor="middle" font-family="Arial">Find Similar Docs</text>
+
+  <!-- Arrow 3 -->
+  <path d="M 570 140 L 620 140" stroke="#00d9ff" stroke-width="2" fill="none" marker-end="url(#arrowhead-cyan)"/>
+
+  <!-- Stage 4: Retrieve Documents -->
+  <rect x="620" y="100" width="140" height="80" rx="10" fill="url(#grad1)" opacity="0.9"/>
+  <text x="690" y="132" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Retrieve</text>
+  <text x="690" y="150" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Documents</text>
+  <text x="690" y="170" font-size="10" fill="white" text-anchor="middle" font-family="Arial">Relevant Context</text>
+
+  <!-- Arrow 4 -->
+  <path d="M 760 140 L 810 140" stroke="#00d9ff" stroke-width="2" fill="none" marker-end="url(#arrowhead-cyan)"/>
+
+  <!-- Stage 5: Send to LLM -->
+  <rect x="810" y="100" width="140" height="80" rx="10" fill="url(#grad2)" opacity="0.9"/>
+  <text x="880" y="132" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Send to</text>
+  <text x="880" y="150" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">LLM API</text>
+  <text x="880" y="170" font-size="10" fill="white" text-anchor="middle" font-family="Arial">GPT-4/Claude</text>
+
+  <!-- Arrow 5 -->
+  <path d="M 950 140 L 1000 140" stroke="#00d9ff" stroke-width="2" fill="none" marker-end="url(#arrowhead-cyan)"/>
+
+  <!-- Stage 6: Response -->
+  <rect x="1000" y="100" width="150" height="80" rx="10" fill="url(#grad3)" opacity="0.9"/>
+  <text x="1075" y="132" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Grounded</text>
+  <text x="1075" y="150" font-size="14" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Response</text>
+  <text x="1075" y="170" font-size="10" fill="white" text-anchor="middle" font-family="Arial">With Citations</text>
+
+  <!-- Lower Section: Infrastructure -->
+  <!-- Document Store -->
+  <g>
+    <circle cx="200" cy="350" r="60" fill="url(#grad1)" opacity="0.8"/>
+    <text x="200" y="345" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Document</text>
+    <text x="200" y="360" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Store</text>
+  </g>
+
+  <!-- Embedding API -->
+  <g>
+    <rect x="350" y="310" width="120" height="80" rx="10" fill="url(#grad2)" opacity="0.8"/>
+    <text x="410" y="340" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Embedding</text>
+    <text x="410" y="358" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">API</text>
+    <text x="410" y="375" font-size="9" fill="white" text-anchor="middle" font-family="Arial">OpenAI/Cohere</text>
+  </g>
+
+  <!-- Vector Database -->
+  <g>
+    <rect x="550" y="310" width="120" height="80" rx="10" fill="url(#grad3)" opacity="0.8"/>
+    <text x="610" y="340" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Vector</text>
+    <text x="610" y="358" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">Database</text>
+    <text x="610" y="375" font-size="9" fill="white" text-anchor="middle" font-family="Arial">Qdrant/Pinecone</text>
+  </g>
+
+  <!-- LLM API -->
+  <g>
+    <rect x="750" y="310" width="120" height="80" rx="10" fill="url(#grad1)" opacity="0.8"/>
+    <text x="810" y="340" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">LLM</text>
+    <text x="810" y="358" font-size="13" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">API</text>
+    <text x="810" y="375" font-size="9" fill="white" text-anchor="middle" font-family="Arial">GPT-4/Claude</text>
+  </g>
+
+  <!-- Processing layer connections -->
+  <path d="M 260 250 L 410 310" stroke="#667eea" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+  <path d="M 410 390 L 610 310" stroke="#667eea" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+  <path d="M 610 390 L 810 310" stroke="#667eea" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+
+  <!-- Key Benefits Section -->
+  <text x="50" y="500" font-size="18" font-weight="bold" fill="#00d9ff" font-family="'Space Grotesk', sans-serif">Key Benefits</text>
+
+  <!-- Benefit 1 -->
+  <g>
+    <rect x="50" y="530" width="200" height="100" rx="8" fill="#1a1a2e" stroke="#00d9ff" stroke-width="2"/>
+    <circle cx="75" cy="555" r="15" fill="url(#grad1)"/>
+    <text x="75" y="562" font-size="18" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">✓</text>
+    <text x="105" y="545" font-size="12" font-weight="bold" fill="#00d9ff" font-family="Arial">99% Accuracy</text>
+    <text x="105" y="560" font-size="10" fill="#ccc" font-family="Arial">Grounded in real</text>
+    <text x="105" y="575" font-size="10" fill="#ccc" font-family="Arial">company data</text>
+  </g>
+
+  <!-- Benefit 2 -->
+  <g>
+    <rect x="300" y="530" width="200" height="100" rx="8" fill="#1a1a2e" stroke="#667eea" stroke-width="2"/>
+    <circle cx="325" cy="555" r="15" fill="url(#grad2)"/>
+    <text x="325" y="562" font-size="18" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">✓</text>
+    <text x="355" y="545" font-size="12" font-weight="bold" fill="#667eea" font-family="Arial">Real-time Data</text>
+    <text x="355" y="560" font-size="10" fill="#ccc" font-family="Arial">Updates reflect</text>
+    <text x="355" y="575" font-size="10" fill="#ccc" font-family="Arial">immediately</text>
+  </g>
+
+  <!-- Benefit 3 -->
+  <g>
+    <rect x="550" y="530" width="200" height="100" rx="8" fill="#1a1a2e" stroke="#f5576c" stroke-width="2"/>
+    <circle cx="575" cy="555" r="15" fill="url(#grad3)"/>
+    <text x="575" y="562" font-size="18" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">✓</text>
+    <text x="605" y="545" font-size="12" font-weight="bold" fill="#f5576c" font-family="Arial">Scaled Support</text>
+    <text x="605" y="560" font-size="10" fill="#ccc" font-family="Arial">70% cost reduction</text>
+    <text x="605" y="575" font-size="10" fill="#ccc" font-family="Arial">via automation</text>
+  </g>
+
+  <!-- Benefit 4 -->
+  <g>
+    <rect x="800" y="530" width="250" height="100" rx="8" fill="#1a1a2e" stroke="#00d9ff" stroke-width="2"/>
+    <circle cx="830" cy="555" r="15" fill="url(#grad1)"/>
+    <text x="830" y="562" font-size="18" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial">✓</text>
+    <text x="860" y="545" font-size="12" font-weight="bold" fill="#00d9ff" font-family="Arial">Always Current</text>
+    <text x="860" y="560" font-size="10" fill="#ccc" font-family="Arial">No model retraining</text>
+    <text x="860" y="575" font-size="10" fill="#ccc" font-family="Arial">needed for updates</text>
+  </g>
+
+  <!-- Use Cases Section -->
+  <text x="50" y="690" font-size="18" font-weight="bold" fill="#00d9ff" font-family="'Space Grotesk', sans-serif">Enterprise Use Cases</text>
+
+  <!-- Use Case 1 -->
+  <text x="50" y="730" font-size="12" fill="#ccc" font-family="Arial">• Knowledge Base Q&amp;A • Internal Documentation • Policy Assistant • Compliance Bot • Product Knowledge</text>
+
+  <!-- Use Case 2 -->
+  <text x="50" y="760" font-size="12" fill="#ccc" font-family="Arial">• Customer Support Automation • Technical Support • Sales Enablement • Training &amp; Onboarding</text>
+</svg>
