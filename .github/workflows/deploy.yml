@@ -43,7 +43,7 @@ jobs:
 
       - name: Deploy to AWS Amplify
         env:
-          AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
+          AMPLIFY_APP_ID: d5zbageo5whj0
           BRANCH_NAME: main
         run: |
           # 1. Create a deployment in Amplify
@@ -60,3 +60,4 @@ jobs:
           aws amplify start-deployment --app-id $AMPLIFY_APP_ID --branch-name $BRANCH_NAME --job-id $JOB_ID
           
           echo "Deployment initiated! Job ID: $JOB_ID"
+          echo "View at: https://d5zbageo5whj0.amplifyapp.com"
