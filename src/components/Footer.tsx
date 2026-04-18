@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github } from 'lucide-react';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
 import { useModal } from '@/context/ModalContext';
 
