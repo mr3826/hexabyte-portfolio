@@ -1,8 +1,0 @@
-src/components/__tests__/ProjectModal.test.tsx(44,15): error TS6133: 'backdrop' is declared but its value is never read.
-src/components/__tests__/ScrollToTop.test.tsx(3,24): error TS6133: 'Router' is declared but its value is never read.
-src/components/__tests__/ScrollToTop.test.tsx(4,1): error TS6133: 'createMemoryHistory' is declared but its value is never read.
-src/components/__tests__/ScrollToTop.test.tsx(4,37): error TS2307: Cannot find module 'history' or its corresponding type declarations.
-src/components/__tests__/ScrollToTop.test.tsx(10,9): error TS2322: Type 'Mock<[x: number, y: number], void>' is not assignable to type '{ (options?: ScrollToOptions | undefined): void; (x: number, y: number): void; } & { (options?: ScrollToOptions | undefined): void; (x: number, y: number): void; }'.
-  Type 'Mock<[x: number, y: number], void>' is not assignable to type '{ (options?: ScrollToOptions | undefined): void; (x: number, y: number): void; }'.
-    Target signature provides too few arguments. Expected 2 or more, but got 1.
-src/pages/__tests__/CaseStudiesPage.test.tsx(1,18): error TS6133: 'screen' is declared but its value is never read.

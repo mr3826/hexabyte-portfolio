@@ -1,0 +1,34 @@
+{
+  "name": "Hexabyte Agency Portfolio",
+  "description": "Agency portfolio website built with React, TypeScript, and Supabase",
+  "version": "1.0.0",
+  "permissions": {
+    "read": true,
+    "write": true,
+    "execute": true,
+    "network": true
+  },
+  "config": {
+    "default_model": "cascade",
+    "max_tokens": 64000,
+    "temperature": 0.1,
+    "tools_enabled": [
+      "file_operations",
+      "terminal",
+      "web_search",
+      "memory",
+      "supabase",
+      "heroku"
+    ]
+  },
+  "workspace": {
+    "root": "d:\\hexabyte\\agency-portfoli-website",
+    "exclude_patterns": [
+      "node_modules/**",
+      "dist/**",
+      "coverage/**",
+      "*.log",
+      ".env*"
+    ]
+  }
+}

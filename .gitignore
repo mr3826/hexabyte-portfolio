@@ -5,3 +5,9 @@ coverage/
 .env.*
 *.log
 deploy.zip
+
+# Cascade AI configuration
+.claude/settings.local.json
+.claude/**/*.local.md
+
+.vercel
