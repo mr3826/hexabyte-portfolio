@@ -1,3 +1,4 @@
+// Footer component with contact info v2
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Linkedin, Github } from 'lucide-react';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
@@ -134,3 +135,4 @@ export default function Footer() {
     </footer>
   );
 }
+
