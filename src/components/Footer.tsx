@@ -6,6 +6,7 @@ import { useModal } from '@/context/ModalContext';
 
 export default function Footer() {
   const { openModal } = useModal();
+  // Phone: +880 1886-895874
   return (
     <footer className="bg-card border-t border-primary/20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
