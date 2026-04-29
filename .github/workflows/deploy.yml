@@ -1,4 +1,4 @@
-name: Deploy to AWS Amplify
+name: Deploy to AWS Amplify v2
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
           sudo ./aws/install --update
           aws --version
 
-      - name: Deploy to AWS Amplify
+      - name: Deploy to AWS Amplify v2
         env:
           AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
           BRANCH_NAME: main
