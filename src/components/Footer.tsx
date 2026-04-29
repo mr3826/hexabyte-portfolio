@@ -1,4 +1,4 @@
-// Footer component with contact info v2
+// Footer component with contact info v3
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Linkedin, Github } from 'lucide-react';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
