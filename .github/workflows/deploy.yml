@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
   NODE_VERSION: '20'
+  AWS_REGION: 'us-east-1'
 
 jobs:
   deploy:
@@ -21,11 +23,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm ci
-
       - name: Clean Build Cache
         run: rm -rf node_modules/.vite dist
+
+      - name: Install Dependencies
+        run: npm ci
 
       - name: Build Project
         run: npm run build
@@ -35,25 +37,81 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+          aws --version
 
       - name: Deploy to AWS Amplify
         env:
           AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
           BRANCH_NAME: main
         run: |
+          echo "Deploying to Amplify App: $AMPLIFY_APP_ID"
+          
           # Create deployment
-          DEPLOYMENT=$(aws amplify create-deployment --app-id $AMPLIFY_APP_ID --branch-name $BRANCH_NAME)
-          UPLOAD_URL=$(echo $DEPLOYMENT | jq -r '.zipUploadUrl')
-          JOB_ID=$(echo $DEPLOYMENT | jq -r '.jobId')
-
+          DEPLOYMENT=$(aws amplify create-deployment \
+            --app-id "$AMPLIFY_APP_ID" \
+            --branch-name "$BRANCH_NAME" \
+            --output json)
+          
+          UPLOAD_URL=$(echo "$DEPLOYMENT" | jq -r '.zipUploadUrl')
+          JOB_ID=$(echo "$DEPLOYMENT" | jq -r '.jobId')
+          
+          echo "Upload URL: $UPLOAD_URL"
+          echo "Job ID: $JOB_ID"
+          
           # Zip and upload
           cd dist
           zip -r ../deploy.zip .
           cd ..
-          curl -H "Content-Type: application/zip" --upload-file deploy.zip "$UPLOAD_URL"
-
+          
+          curl -H "Content-Type: application/zip" \
+            --upload-file deploy.zip \
+            "$UPLOAD_URL"
+          
           # Start deployment
-          aws amplify start-deployment --app-id $AMPLIFY_APP_ID --branch-name $BRANCH_NAME --job-id $JOB_ID
-
+          aws amplify start-deployment \
+            --app-id "$AMPLIFY_APP_ID" \
+            --branch-name "$BRANCH_NAME" \
+            --job-id "$JOB_ID"
+          
           echo "Deployment initiated! Job ID: $JOB_ID"
+
+      - name: Wait for Deployment
+        env:
+          AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
+          BRANCH_NAME: main
+        run: |
+          echo "Waiting for deployment to complete..."
+          MAX_ATTEMPTS=30
+          ATTEMPT=0
+          
+          while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
+            STATUS=$(aws amplify get-job \
+              --app-id "$AMPLIFY_APP_ID" \
+              --branch-name "$BRANCH_NAME" \
+              --job-id "$JOB_ID" \
+              --query 'job.status' \
+              --output text)
+            
+            echo "Attempt $((ATTEMPT + 1))/$MAX_ATTEMPTS - Status: $STATUS"
+            
+            if [ "$STATUS" = "SUCCEED" ]; then
+              echo "Deployment completed successfully!"
+              exit 0
+            elif [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then
+              echo "Deployment failed with status: $STATUS"
+              exit 1
+            fi
+            
+            ATTEMPT=$((ATTEMPT + 1))
+            sleep 10
+          done
+          
+          echo "Timeout waiting for deployment"
+          exit 1
