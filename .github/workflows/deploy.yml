@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 env:
   NODE_VERSION: '20'
@@ -25,6 +24,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Clean Build Cache
+        run: rm -rf node_modules/.vite dist
+
       - name: Build Project
         run: npm run build
 
@@ -33,30 +35,25 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }} # e.g., us-east-1
-
-      - name: Zip build output
-        run: |
-          cd dist
-          zip -r ../deploy.zip .
-          cd ..
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy to AWS Amplify
         env:
           AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
           BRANCH_NAME: main
         run: |
-          # 1. Create a deployment in Amplify
+          # Create deployment
           DEPLOYMENT=$(aws amplify create-deployment --app-id $AMPLIFY_APP_ID --branch-name $BRANCH_NAME)
-          
-          # 2. Extract upload URL and jobId
           UPLOAD_URL=$(echo $DEPLOYMENT | jq -r '.zipUploadUrl')
           JOB_ID=$(echo $DEPLOYMENT | jq -r '.jobId')
-          
-          # 3. Upload the zipped build artifact
+
+          # Zip and upload
+          cd dist
+          zip -r ../deploy.zip .
+          cd ..
           curl -H "Content-Type: application/zip" --upload-file deploy.zip "$UPLOAD_URL"
-          
-          # 4. Start the deployment job
+
+          # Start deployment
           aws amplify start-deployment --app-id $AMPLIFY_APP_ID --branch-name $BRANCH_NAME --job-id $JOB_ID
-          
+
           echo "Deployment initiated! Job ID: $JOB_ID"
