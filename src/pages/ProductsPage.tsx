@@ -27,8 +27,9 @@ export default function ProductsPage() {
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-              Before taking client work, we built our own products to solve problems we saw firsthand in
-              e-commerce and supply chain operations. Both are live. Both are available for your team today.
+              Easy Moderator is a B2B SaaS platform for Bangladeshi f-commerce merchants — replacing manual
+              Facebook/Instagram/WhatsApp operations with AI-powered sales and support. TradeFlow streamlines
+              supply chain operations for buying houses. Both are live and ready to deploy.
             </p>
           </div>
         </div>
@@ -49,26 +50,29 @@ export default function ProductsPage() {
                 Easy Moderator
               </h2>
               <p className="text-lg text-primary font-medium mb-4">
-                Omni-channel inventory management for e-commerce teams
+                AI-powered sales & support layer for Bangladeshi f-commerce merchants
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                E-commerce operators managing inventory across Daraz, Facebook Shop, Shopify, and other
-                channels know the pain — stock mismatches, delayed order updates, manual reconciliation
-                at midnight. Easy Moderator was built to eliminate exactly that.
+                Easy Moderator is a B2B SaaS platform that replaces manual f-commerce operations with an
+                AI-powered sales and support layer — purpose-built for Bangladeshi merchants selling through
+                Facebook Pages, Instagram, and WhatsApp.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                It connects your sales channels, keeps inventory synchronized in real time, and handles
-                routine customer queries through an AI-powered chatbot trained on your products. Your
-                team stops firefighting and starts focusing on growth.
+                From real-time inbox management to COD order creation, comment auto-reply to RTO risk
+                detection — every module is designed to reduce manual work and increase conversion rates
+                for social commerce sellers.
               </p>
 
               <ul className="space-y-3 mb-10">
                 {[
-                  'Real-time inventory sync across all channels',
-                  'AI chatbot that answers product & order questions',
-                  'Automatic stock alerts before you run out',
-                  'Multi-platform order consolidation',
-                  'Built for Daraz, Shopify, Facebook, and more',
+                  'AI Inbox — Real-time SSE-powered inbox with AI-suggested replies',
+                  'Comment Auto-Reply — Facebook comment → DM conversion engine',
+                  'Order Management — Structured COD order creation from conversations',
+                  'RTO Shield — AI flags high-risk orders to reduce return-to-origin losses',
+                  'Product Catalog — AI-assisted catalog with variant/alias management',
+                  'Multi-Channel — Facebook, Instagram, WhatsApp unified inbox',
+                  'Analytics & Reports — Conversion, channel, and team performance dashboards',
+                  'Subscription Billing — aamarpay + SSLCommerz payment gateway integration',
                 ].map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
@@ -98,19 +102,29 @@ export default function ProductsPage() {
                     <div className="text-xs text-primary font-medium">Live Product</div>
                   </div>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {[
-                    { label: 'Channels Connected', value: 'Daraz · Shopify · Facebook' },
-                    { label: 'Inventory Sync', value: 'Real-time' },
-                    { label: 'AI Chatbot', value: 'Product-trained' },
-                    { label: 'Deployment', value: 'Available now' },
-                  ].map(({ label, value }) => (
+                    { module: 'AI Inbox', status: 'Live', desc: 'SSE-powered inbox with AI replies' },
+                    { module: 'Comment Auto-Reply', status: 'Live', desc: 'Comment → DM conversion' },
+                    { module: 'Order Management', status: 'Live', desc: 'COD order creation' },
+                    { module: 'RTO Shield', status: 'Live', desc: 'AI risk detection' },
+                    { module: 'Product Catalog', status: 'Live', desc: 'AI-assisted catalog' },
+                    { module: 'Multi-Channel', status: 'Live', desc: 'FB, IG, WA unified' },
+                    { module: 'Analytics & Reports', status: 'Live', desc: 'Performance dashboards' },
+                    { module: 'Subscription Billing', status: 'Live', desc: 'aamarpay + SSLCommerz' },
+                  ].map(({ module, status, desc }) => (
                     <div
-                      key={label}
-                      className="flex items-center justify-between p-3 bg-background/50 rounded-lg border border-primary/10"
+                      key={module}
+                      className="flex items-center justify-between p-2.5 bg-background/50 rounded-lg border border-primary/10"
                     >
-                      <span className="text-xs text-muted-foreground">{label}</span>
-                      <span className="text-xs font-semibold text-foreground">{value}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                        <div>
+                          <span className="text-xs font-semibold text-foreground block">{module}</span>
+                          <span className="text-[10px] text-muted-foreground">{desc}</span>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">{status}</span>
                     </div>
                   ))}
                 </div>
