@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  WEBHOOK_URL: https://webhooks.amplify.us-east-1.amazonaws.com/prod/webhooks?id=f2bf673c-c44a-48be-939e-d73829a32444&token=c9RyKsgFOvKsx7RjzqWcsbMY9x1NDDijmWHB1y5AME
+  WEBHOOK_URL: https://webhooks.amplify.us-east-1.amazonaws.com/prod/webhooks?id=d681697a-7a87-4c66-8f35-164a10822c74&token=aqSedKP1GKnOcScCeQW89F0vCBqQzLyt8IpXZy28
 
 jobs:
   deploy:
