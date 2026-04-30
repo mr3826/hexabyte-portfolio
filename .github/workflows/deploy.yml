@@ -3,61 +3,19 @@ name: Deploy to Amplify
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 env:
-  NODE_VERSION: '20'
-  AMPLIFY_APP_ID: d1i7p2aita63xs
-  AWS_REGION: us-east-1
+  WEBHOOK_URL: https://webhooks.amplify.us-east-1.amazonaws.com/prod/webhooks?id=f2bf673c-c44a-48be-939e-d73829a32444&token=c9RyKsgFOvKsx7RjzqWcsbMY9x1NDDijmWHB1y5AME
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Create zip deployment package
+      - name: Trigger Amplify Build
         run: |
-          cd dist
-          zip -r ../deploy.zip .
-          cd ..
-
-      - name: Upload to S3 and deploy
-        run: |
-          # Generate unique S3 key
-          S3_KEY="deploy-${{ github.sha }}-${{ github.run_id }}.zip"
-          BUCKET="amplify-${{ env.AMPLIFY_APP_ID }}-${{ env.AWS_REGION }}"
-          
-          # Create S3 bucket if it doesn't exist
-          aws s3 mb "s3://${BUCKET}" --region ${{ env.AWS_REGION }} 2>/dev/null || true
-          
-          # Upload zip to S3
-          aws s3 cp deploy.zip "s3://${BUCKET}/${S3_KEY}"
-          
-          # Start Amplify deployment from S3
-          aws amplify start-deployment \
-            --app-id ${{ env.AMPLIFY_APP_ID }} \
-            --branch-name main \
-            --source-url "s3://${BUCKET}/${S3_KEY}" \
-            --no-cli-pager
-          
-          echo "Deployment started successfully!"
+          echo "Triggering Amplify build via webhook..."
+          curl -X POST "${{ env.WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            --silent --show-error --fail
+          echo "Build triggered successfully!"
