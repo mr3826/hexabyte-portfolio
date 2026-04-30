@@ -73,12 +73,6 @@ export default function Navigation() {
             >
               Process
             </Link>
-            <Link
-              to="/pricing"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              Pricing
-            </Link>
             <button
               onClick={() => openModal('navigation_desktop')}
               className="min-h-[44px] px-6 py-2.5 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
@@ -135,12 +129,6 @@ export default function Navigation() {
                   className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
                 >
                   Process
-                </Link>
-                <Link
-                  to="/pricing"
-                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-                >
-                  Pricing
                 </Link>
               </div>
               <button

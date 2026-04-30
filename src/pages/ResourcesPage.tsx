@@ -11,7 +11,6 @@ import {
   BookOpen,
   Mail,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const leadMagnets = [
   {
@@ -347,12 +346,6 @@ export default function ResourcesPage() {
             >
               Book Discovery Call
             </button>
-            <Link
-              to="/pricing"
-              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
-            >
-              View Pricing
-            </Link>
           </div>
         </div>
       </section>

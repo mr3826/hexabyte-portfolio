@@ -1,0 +1,17 @@
+{
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "www.hexabyte.tech",
+        "Type": "CNAME",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "d3cotrbo6hzujj.amplifyapp.com"
+          }
+        ]
+      }
+    }
+  ]
+}

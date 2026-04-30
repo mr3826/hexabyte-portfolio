@@ -61,12 +61,6 @@ export default function Footer() {
                 Work
               </Link>
               <Link
-                to="/pricing"
-                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Pricing
-              </Link>
-              <Link
                 to="/resources"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >

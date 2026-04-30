@@ -10,7 +10,6 @@ import CaseStudiesPage from '@/pages/CaseStudiesPage';
 import CaseStudyDetail from '@/pages/CaseStudyDetail';
 import AboutPage from '@/pages/AboutPage';
 import ProcessPage from '@/pages/ProcessPage';
-import PricingPage from '@/pages/PricingPage';
 import ResourcesPage from '@/pages/ResourcesPage';
 import ProductsPage from '@/pages/ProductsPage';
 import { ModalProvider } from '@/context/ModalContext';
@@ -57,11 +56,6 @@ const ROUTE_SEO: Record<string, RouteSeo> = {
     title: 'Our Process | Hexabyte — How We Scope & Deliver',
     description:
       'How Hexabyte thinks, scopes, and delivers. A 4-phase framework with direct founder communication, weekly demos, and milestone-based delivery from 6 to 20 weeks.',
-  },
-  '/pricing': {
-    title: 'Pricing | Hexabyte — Fixed-Price Custom Software',
-    description:
-      'Transparent fixed pricing for custom software projects. Focused Build (from $3,000), Systems Integration (from $8,000), and Custom Platform — scoped before work begins.',
   },
   '/resources': {
     title: 'Resources | Hexabyte - Free Automation Tools & Guides',
@@ -269,7 +263,6 @@ export default function App() {
             <Route path="/mobile-development" element={<MobileAppPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/process" element={<ProcessPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/case-studies" element={<CaseStudiesPage />} />
