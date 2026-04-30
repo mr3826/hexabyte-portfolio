@@ -3,14 +3,13 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - echo "Pre-built artifacts deployed from GitHub Actions"
     build:
       commands:
-        - npm run build
+        - echo "Skipping build - using pre-built artifacts"
   artifacts:
-    baseDirectory: dist
+    baseDirectory: .
     files:
       - '**/*'
   cache:
-    paths:
-      - node_modules/**/*
+    paths: []
