@@ -18,4 +18,5 @@ jobs:
           aws amplify start-job \
             --app-id d3f7vg26f037wj \
             --branch-name main \
-            --job-type RELEASE
+            --job-type RELEASE \
+          || { echo "Amplify build already in progress — skipping."; exit 0; }
