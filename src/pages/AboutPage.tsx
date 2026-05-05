@@ -1,10 +1,8 @@
-import { Zap, Package, Layers, Users, Shield, ArrowRight } from 'lucide-react';
-import { useModal } from '@/context/ModalContext';
+import { Zap, Package, Layers, Shield, ArrowRight, Cpu, Bot } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import founderImage from '@/assets/founder.png';
 
 export default function AboutPage() {
-  const { openModal } = useModal();
 
   return (
     <div className="min-h-screen bg-background pt-20">
@@ -41,18 +39,20 @@ export default function AboutPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  type="button"
-                  onClick={() => openModal('about_hero_primary')}
-                  className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium"
+                <a
+                  href="https://calendly.com/hexabyte/discovery"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-engineering"
                 >
-                  Start a Conversation
-                </button>
+                  Book Engineering Consultation
+                  <ArrowRight className="w-4 h-4" />
+                </a>
                 <Link
                   to="/case-studies"
-                  className="min-h-[44px] px-8 py-4 border border-primary/30 text-foreground rounded-lg hover:border-primary hover:bg-primary/5 transition-all font-medium inline-flex items-center justify-center gap-2"
+                  className="min-h-[44px] px-8 py-4 border border-border text-foreground rounded-lg hover:bg-secondary transition-all font-medium inline-flex items-center justify-center gap-2"
                 >
-                  See Our Work
+                  View Deployments
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -73,49 +73,56 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Act 2 — What Hexabyte Is */}
-      <section id="how-it-works" className="py-16 sm:py-20 border-t border-primary/20 bg-card/30">
+      {/* Engineering Principles */}
+      <section id="principles" className="py-16 sm:py-20 border-t border-border bg-card/30">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] mb-4">
-              How Hexabyte Works
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">Our Approach</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Engineering Principles
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Not a traditional agency. Not a freelancer. Something more deliberate.
+              Opinionated stances on how we build systems.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             {[
               {
-                icon: Package,
-                title: 'Products First',
-                body: 'We built two SaaS products before taking client work. That experience shapes how we scope and deliver — we know what it means to own a system long after launch.',
+                num: '01',
+                icon: Cpu,
+                title: 'Ship Fast',
+                body: 'Production in weeks, not quarters. Working systems over perfect specs. We deploy early and iterate with real data.',
               },
               {
+                num: '02',
                 icon: Shield,
-                title: 'Custom Solutions Second',
-                body: 'Client work is an extension of the same discipline. When a product doesn\'t fit your problem, we build the solution with the same ownership mindset.',
+                title: 'Own the Stack',
+                body: 'Full accountability from API to UI. No handoffs, no gaps. The engineer who designs it deploys it and monitors it.',
               },
               {
-                icon: Users,
-                title: 'Relationship Over Retainer',
-                body: 'We don\'t optimize for volume. We take a small number of clients at a time and stay closely involved. The goal is long-term trust, not short-term throughput.',
+                num: '03',
+                icon: Bot,
+                title: 'Measure Everything',
+                body: 'Latency, throughput, error rates. If it moves, we instrument it. Dashboards are not optional — they\'re part of the deliverable.',
               },
               {
+                num: '04',
                 icon: Layers,
-                title: 'Selective Intake',
-                body: 'Taking fewer clients means more time and depth per engagement. If a project isn\'t a strong fit, we say so — and point to someone better positioned to help.',
+                title: 'Scale First',
+                body: 'Built for 10x load from day one. No "we\'ll fix it later" architecture. Horizontal scaling should be a config change, not a rewrite.',
               },
-            ].map(({ icon: Icon, title, body }) => (
-              <div
-                key={title}
-                className="bg-card border border-primary/20 rounded-xl p-6 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/10 group"
-              >
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="w-6 h-6 text-primary" />
+            ].map(({ num, icon: Icon, title, body }) => (
+              <div key={title} className="bento-card group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold text-primary">{num}</span>
+                  </div>
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold font-['Space_Grotesk'] mb-3">{title}</h3>
+                <h3 className="text-xl font-bold mb-3">{title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{body}</p>
               </div>
             ))}
@@ -216,22 +223,24 @@ export default function AboutPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 sm:py-20 border-t border-primary/20">
+      <section className="py-16 sm:py-20 border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] mb-6">
-            If this resonates, let's talk.
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
+            Ready to <span className="text-primary">Ship?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            We won't take every project. But if yours is a strong fit, we'll tell you
-            clearly — and if not, we'll point you in the right direction.
+            Book a 30-minute engineering consultation. We'll map your automation 
+            requirements and define a production-ready architecture.
           </p>
-          <button
-            type="button"
-            onClick={() => openModal('about_final_cta')}
-            className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 font-medium text-lg"
+          <a
+            href="https://calendly.com/hexabyte/discovery"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-engineering inline-flex"
           >
-            Start a Conversation
-          </button>
+            Book Engineering Consultation
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </a>
         </div>
       </section>
     </div>

@@ -2,6 +2,8 @@ export type AnalyticsEventName =
   | 'cta_clicked'
   | 'inquiry_started'
   | 'inquiry_submitted'
+  | 'inquiry_confirmation_shown'
+  | 'inquiry_submission_failed'
   | 'service_page_viewed'
   | 'case_study_viewed';
 
@@ -16,20 +18,20 @@ declare global {
 export function getAttributionFromUrl() {
   if (typeof window === 'undefined') {
     return {
-      utm_source: null,
-      utm_medium: null,
-      utm_campaign: null,
-      referrer: null,
+      utm_source: undefined,
+      utm_medium: undefined,
+      utm_campaign: undefined,
+      referrer: undefined,
     };
   }
 
   const params = new URLSearchParams(window.location.search);
 
   return {
-    utm_source: params.get('utm_source'),
-    utm_medium: params.get('utm_medium'),
-    utm_campaign: params.get('utm_campaign'),
-    referrer: document.referrer || null,
+    utm_source: params.get('utm_source') || undefined,
+    utm_medium: params.get('utm_medium') || undefined,
+    utm_campaign: params.get('utm_campaign') || undefined,
+    referrer: document.referrer || undefined,
   };
 }
 

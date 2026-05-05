@@ -1,13 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import {
-  ArrowLeft,
-  Clock,
-  Users,
-  TrendingUp,
-  CheckCircle2,
-  ArrowRight,
-} from 'lucide-react';
-import { useModal } from '@/context/ModalContext';
+import { ArrowLeft, Clock, Users, TrendingUp, CheckCircle2, ArrowRight } from 'lucide-react';
 import shopifyCaseVisual from '@/assets/case-shopify-automation.svg';
 import easyModeratorCaseVisual from '@/assets/case-easy-moderator.svg';
 import tradeflowCaseVisual from '@/assets/case-tradeflow.svg';
@@ -1186,14 +1178,13 @@ const caseStudyVisuals: Record<string, { src: string; alt: string }> = {
 };
 
 export default function CaseStudyDetail() {
-  const { openModal } = useModal();
   const { id } = useParams();
   const study = id ? caseStudyData[id] : null;
   const studyVisual = id ? caseStudyVisuals[id] : null;
 
   if (!study) {
     return (
-      <main className="pt-20 min-h-screen flex items-center justify-center">
+      <main className="pt-20 min-h-screen flex items-center justify-center bg-[#0a0a0a]">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Case Study Not Found</h1>
           <Link to="/case-studies" className="text-primary hover:underline">
@@ -1205,9 +1196,9 @@ export default function CaseStudyDetail() {
   }
 
   return (
-    <main className="pt-20">
+    <main className="pt-20 bg-[#0a0a0a]">
       {/* Header */}
-      <section className="bg-gradient-to-b from-secondary/50 to-background py-12">
+      <section className="py-12 border-b border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
             <Link
@@ -1538,26 +1529,28 @@ export default function CaseStudyDetail() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-secondary/30">
+      <section className="py-16 sm:py-24 border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
-            Want Similar <span className="text-primary">Results?</span>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-6">
+            Ready to <span className="text-primary">Deploy?</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground mb-8">
-            Let's discuss how we can transform your business
+            Book a 30-minute engineering consultation. We'll map your automation requirements and define a production-ready architecture.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => openModal('case_study_detail_final_cta')}
-              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50 inline-flex items-center justify-center"
+            <a
+              href="https://calendly.com/hexabyte/discovery"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-engineering inline-flex"
             >
-              Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
-            </button>
+              Book Engineering Consultation <ArrowRight className="w-4 h-4 ml-2" />
+            </a>
             <Link
               to="/case-studies"
-              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              className="min-h-[44px] px-8 py-4 bg-secondary border border-border text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all inline-flex items-center justify-center"
             >
-              View More Projects
+              View Deployments
             </Link>
           </div>
         </div>

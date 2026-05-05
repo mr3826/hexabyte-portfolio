@@ -23,49 +23,49 @@ type RouteSeo = {
 
 const ROUTE_SEO: Record<string, RouteSeo> = {
   '/': {
-    title: 'Hexabyte | Founder-Led AI Automation, Web & Mobile Development',
+    title: 'Hexabyte | AI Systems That Ship. Production-Ready Automation Infrastructure',
     description:
-      'Founder-led agency helping SMB teams ship AI automation, web apps, and mobile products with direct accountability and production-first delivery.',
+      'We build production-ready RAG pipelines, n8n orchestration, and automation engines for fast-moving teams. Deploy infrastructure that scales.',
   },
   '/ai-automation': {
-    title: 'AI Automation Services | Hexabyte',
+    title: 'AI Automation Engineering | Hexabyte',
     description:
-      'Automate repetitive operations with founder-led AI workflow systems, integrations, and production-ready automation delivery.',
+      'Production-grade AI workflow systems, RAG pipelines, and autonomous agents. Built for scale, not demos.',
   },
   '/web-development': {
-    title: 'Custom Web App Development | Hexabyte',
+    title: 'Web Application Engineering | Hexabyte',
     description:
-      'Build reliable, scalable web applications with founder-level accountability and practical product execution.',
+      'Next.js + Supabase stacks with real-time sync. Production-ready web applications deployed in weeks.',
   },
   '/mobile-development': {
-    title: 'Mobile App Development | Hexabyte',
+    title: 'Mobile Systems Engineering | Hexabyte',
     description:
-      'Launch mobile products faster with production-focused Flutter and mobile engineering support for founder teams.',
+      'Flutter + native SDK integrations for iOS/Android. Ship mobile infrastructure that performs at scale.',
   },
   '/products': {
-    title: 'Our Products | Easy Moderator & TradeFlow | Hexabyte',
+    title: 'Live Products | Easy Moderator & TradeFlow | Hexabyte',
     description:
-      'Two live SaaS products built by Hexabyte: Easy Moderator for omni-channel e-commerce inventory management and TradeFlow for garment supply chain operations.',
+      'Production SaaS systems: Easy Moderator for BD f-commerce automation, TradeFlow for supply chain orchestration. Ready to deploy.',
   },
   '/about': {
-    title: 'About Hexabyte | The Founder Story',
+    title: 'The Engineering Partner | Hexabyte',
     description:
-      'The story behind Hexabyte — why we built our own products first, how we approach client work, and where we are headed.',
+      'High-velocity engineering partner for fast-moving teams. Production-first systems, direct technical leadership.',
   },
   '/process': {
-    title: 'Our Process | Hexabyte — How We Scope & Deliver',
+    title: 'How We Deliver | Hexabyte Engineering Process',
     description:
-      'How Hexabyte thinks, scopes, and delivers. A 4-phase framework with direct founder communication, weekly demos, and milestone-based delivery from 6 to 20 weeks.',
+      '4-phase delivery: Discovery → Architecture → Build → Scale. Direct engineering leadership, weekly demos, production in weeks not quarters.',
   },
   '/resources': {
-    title: 'Resources | Hexabyte - Free Automation Tools & Guides',
+    title: 'Engineering Resources | Hexabyte',
     description:
-      'Free automation checklists, ROI calculators, and guides for e-commerce and supply chain operations. Subscribe to our newsletter for weekly insights.',
+      'Technical guides, automation patterns, and architecture blueprints for engineering teams building scalable systems.',
   },
   '/case-studies': {
-    title: 'Case Studies | Hexabyte',
+    title: 'System Deployments | Hexabyte Case Studies',
     description:
-      'Explore founder-led AI automation, web app, and mobile delivery case studies with implementation details and outcomes.',
+      'Production deployments with architecture details: RAG pipelines, event-driven automation, multi-tenant SaaS systems. Technical breakdowns.',
   },
 };
 

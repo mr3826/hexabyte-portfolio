@@ -2,12 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
-import { useModal } from '@/context/ModalContext';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { openModal } = useModal();
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -73,12 +71,14 @@ export default function Navigation() {
             >
               Process
             </Link>
-            <button
-              onClick={() => openModal('navigation_desktop')}
-              className="min-h-[44px] px-6 py-2.5 bg-primary text-background rounded-lg hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+            <a
+              href="https://calendly.com/hexabyte/discovery"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-engineering"
             >
-              Book Discovery Inquiry
-            </button>
+              Book Engineering Consultation
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -131,15 +131,15 @@ export default function Navigation() {
                   Process
                 </Link>
               </div>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openModal('navigation_mobile');
-                }}
-                className="mt-6 block w-full min-h-[44px] px-6 py-3 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all"
+              <a
+                href="https://calendly.com/hexabyte/discovery"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-6 block w-full min-h-[44px] px-6 py-3 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all font-semibold"
               >
-                Book Discovery Inquiry
-              </button>
+                Book Engineering Consultation
+              </a>
             </div>
           </>
         )}

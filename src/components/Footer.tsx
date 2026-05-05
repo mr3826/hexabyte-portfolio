@@ -2,10 +2,8 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Linkedin, Github } from 'lucide-react';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
-import { useModal } from '@/context/ModalContext';
 
 export default function Footer() {
-  const { openModal } = useModal();
   // Phone: +880 1886-895874
   return (
     <footer className="bg-card border-t border-primary/20">
@@ -13,15 +11,20 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <div className="mb-4">
+            <div className="mb-4 flex items-center gap-3">
               <img
                 src={hexabyteLogo}
                 alt="Hexabyte"
                 className="h-10 w-auto object-contain"
               />
+              {/* Status Indicator */}
+              <div className="status-indicator">
+                <span className="status-dot status-dot-green" />
+                <span className="text-xs text-muted-foreground">Accepting Projects</span>
+              </div>
             </div>
             <p className="text-sm text-muted-foreground">
-              Founder-led. Relationship-first. Two live products and selective client work.
+              High-velocity engineering partner. Production-ready systems for fast-moving teams.
             </p>
           </div>
 
@@ -66,13 +69,12 @@ export default function Footer() {
               >
                 Resources
               </Link>
-              <button
-                type="button"
-                onClick={() => openModal('footer_primary_cta')}
-                className="block text-left text-sm text-muted-foreground hover:text-primary transition-colors"
+              <a
+                href="mailto:contact@hexabyte.tech"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Contact
-              </button>
+              </a>
             </div>
           </div>
 
