@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
 
 export default function Navigation() {
@@ -96,17 +97,19 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile Menu — rendered outside <nav> to escape backdrop-filter stacking context */}
-      {mobileMenuOpen && (
+      {/* Mobile Menu — portalled into document.body to guarantee it escapes all stacking contexts */}
+      {mobileMenuOpen && createPortal(
         <>
           <button
             aria-label="Close mobile menu overlay"
-            className="md:hidden fixed inset-0 top-20 z-40 bg-background/70 backdrop-blur-sm"
+            className="fixed inset-0 z-[9998] bg-background/70 backdrop-blur-sm"
+            style={{ top: '80px' }}
             onClick={() => setMobileMenuOpen(false)}
           />
           <div
             id="mobile-navigation"
-            className="md:hidden fixed inset-x-0 top-20 bottom-0 z-50 overflow-y-auto border-t border-primary/20 bg-card px-6 py-6"
+            className="fixed inset-x-0 bottom-0 z-[9999] overflow-y-auto border-t border-primary/20 bg-card px-6 py-6"
+            style={{ top: '80px' }}
           >
             <div className="space-y-3">
               <Link
@@ -144,7 +147,8 @@ export default function Navigation() {
               Book Engineering Consultation
             </a>
           </div>
-        </>
+        </>,
+        document.body
       )}
     </>
   );
