@@ -1184,7 +1184,7 @@ export default function CaseStudyDetail() {
 
   if (!study) {
     return (
-      <main className="pt-20 min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+      <main className="pt-[108px] md:pt-20 min-h-screen flex items-center justify-center bg-[#0a0a0a]">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Case Study Not Found</h1>
           <Link to="/case-studies" className="text-primary hover:underline">
@@ -1196,7 +1196,7 @@ export default function CaseStudyDetail() {
   }
 
   return (
-    <main className="pt-20 bg-[#0a0a0a]">
+    <main className="pt-[108px] md:pt-20 bg-[#0a0a0a]">
       {/* Header */}
       <section className="py-12 border-b border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">

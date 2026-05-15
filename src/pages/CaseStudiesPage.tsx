@@ -97,7 +97,7 @@ export default function CaseStudiesPage() {
       : caseStudies.filter((study) => study.category === filter);
 
   return (
-    <main className="pt-20 bg-[#0a0a0a]">
+    <main className="pt-[108px] md:pt-20 bg-[#0a0a0a]">
       {/* Hero */}
       <section className="relative overflow-hidden py-20 lg:py-32">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />

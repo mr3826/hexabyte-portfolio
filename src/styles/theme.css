@@ -293,6 +293,15 @@
     @apply text-[#22c55e];
   }
 
+  /* Mobile nav strip — hide scrollbar cross-browser */
+  .nav-strip-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .nav-strip-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Stack/Logo Row */
   .stack-row {
     @apply flex items-center justify-center gap-8 flex-wrap;

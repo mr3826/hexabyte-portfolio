@@ -104,7 +104,7 @@ export default function ResourcesPage() {
   };
 
   return (
-    <main className="pt-24 md:pt-20">
+    <main className="pt-[108px] md:pt-20">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/50 to-background">
         <div className="absolute inset-0">

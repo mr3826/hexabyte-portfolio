@@ -1,78 +1,47 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
 
+const NAV_LINKS = [
+  { to: '/about', label: 'About' },
+  { to: '/products', label: 'Products' },
+  { to: '/case-studies', label: 'Work' },
+  { to: '/process', label: 'Process' },
+];
+
 export default function Navigation() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) {
-      document.body.style.overflow = '';
-      return;
-    }
-
-    document.body.style.overflow = 'hidden';
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleEscape);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleEscape);
-    };
-  }, [mobileMenuOpen]);
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <>
-      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-primary/20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center">
+    <header className="fixed top-0 w-full z-50">
+      {/* Top bar: logo + desktop nav */}
+      <div className="bg-background/80 backdrop-blur-lg border-b border-primary/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 md:h-20">
+            <Link to="/" className="flex items-center shrink-0">
               <img
                 src={hexabyteLogo}
                 alt="Hexabyte"
-                className="h-16 w-auto object-contain"
+                className="h-10 md:h-16 w-auto object-contain"
               />
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <Link
-                to="/about"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                to="/products"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                Products
-              </Link>
-              <Link
-                to="/case-studies"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                Work
-              </Link>
-              <Link
-                to="/process"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                Process
-              </Link>
+              {NAV_LINKS.map(({ to, label }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`transition-colors ${
+                    isActive(to)
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
+                  {label}
+                </Link>
+              ))}
               <a
                 href="https://calendly.com/hexabyte/discovery"
                 target="_blank"
@@ -82,74 +51,36 @@ export default function Navigation() {
                 Book Engineering Consultation
               </a>
             </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={mobileMenuOpen ? 'true' : 'false'}
-              aria-controls="mobile-navigation"
-              className="md:hidden min-h-[44px] min-w-[44px] p-2 text-foreground"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* Mobile Menu — portalled into document.body to guarantee it escapes all stacking contexts */}
-      {mobileMenuOpen && createPortal(
-        <>
-          <button
-            aria-label="Close mobile menu overlay"
-            className="fixed inset-0 z-[9998] bg-background/70 backdrop-blur-sm"
-            style={{ top: '80px' }}
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          <div
-            id="mobile-navigation"
-            className="fixed inset-x-0 bottom-0 z-[9999] overflow-y-auto border-t border-primary/20 bg-card px-6 py-6"
-            style={{ top: '80px' }}
-          >
-            <div className="space-y-3">
-              <Link
-                to="/about"
-                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                to="/products"
-                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-              >
-                Products
-              </Link>
-              <Link
-                to="/case-studies"
-                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-              >
-                Work
-              </Link>
-              <Link
-                to="/process"
-                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-              >
-                Process
-              </Link>
-            </div>
-            <a
-              href="https://calendly.com/hexabyte/discovery"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="mt-6 block w-full min-h-[44px] px-6 py-3 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all font-semibold"
+      {/* Mobile category strip — horizontal scrollable, no hamburger */}
+      <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border">
+        <div className="flex items-center overflow-x-auto nav-strip-scroll px-4 gap-1 h-11">
+          {NAV_LINKS.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+                isActive(to)
+                  ? 'bg-primary/15 text-primary border border-primary/30'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+              }`}
             >
-              Book Engineering Consultation
-            </a>
-          </div>
-        </>,
-        document.body
-      )}
-    </>
+              {label}
+            </Link>
+          ))}
+          <a
+            href="https://calendly.com/hexabyte/discovery"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 ml-1 px-4 py-1.5 rounded-full text-sm font-semibold bg-primary text-background whitespace-nowrap hover:bg-primary/90 transition-colors"
+          >
+            Book a Call
+          </a>
+        </div>
+      </div>
+    </header>
   );
 }

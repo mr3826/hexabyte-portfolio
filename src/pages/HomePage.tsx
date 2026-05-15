@@ -5,7 +5,7 @@ import TerminalWidget from '@/components/TerminalWidget';
 
 export default function HomePage() {
   return (
-    <main className="pt-24 md:pt-20">
+    <main className="pt-[108px] md:pt-20">
       {/* Hero Section - SV Engineering Partner Style */}
       <section className="relative overflow-hidden bg-[#0a0a0a]">
         {/* Subtle grid background */}

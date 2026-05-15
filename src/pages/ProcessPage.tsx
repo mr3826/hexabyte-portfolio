@@ -42,7 +42,7 @@ const phases = [
 
 export default function ProcessPage() {
   return (
-    <main className="pt-24 md:pt-20 bg-[#0a0a0a]">
+    <main className="pt-[108px] md:pt-20 bg-[#0a0a0a]">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
