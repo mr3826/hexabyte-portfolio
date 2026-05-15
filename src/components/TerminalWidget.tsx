@@ -124,7 +124,7 @@ export default function TerminalWidget() {
       </div>
       <div
         ref={terminalRef}
-        className="terminal-body font-mono text-sm overflow-y-auto max-h-[280px]"
+        className="terminal-body font-mono text-sm overflow-y-auto max-h-[180px] sm:max-h-[280px]"
       >
         {logs.length === 0 && !isTyping && (
           <div className="text-muted-foreground/50">

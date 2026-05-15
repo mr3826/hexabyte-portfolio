@@ -112,17 +112,17 @@ export default function ProductsPage() {
           {/* Dependency Chain */}
           <div className="bg-card border border-border rounded-xl p-6 mb-8">
             <h3 className="text-sm font-semibold text-primary mb-4 uppercase tracking-wider">System Dependency Chain</h3>
-            <div className="flex flex-wrap items-center gap-2 text-sm">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 text-sm">
               <span className="px-3 py-1 bg-primary/10 text-primary rounded-full">Channel Connected</span>
-              <span className="text-muted-foreground">→</span>
+              <span className="hidden sm:inline text-muted-foreground">→</span>
               <span className="px-3 py-1 bg-primary/10 text-primary rounded-full">Inbox Receives Messages</span>
-              <span className="text-muted-foreground">→</span>
+              <span className="hidden sm:inline text-muted-foreground">→</span>
               <span className="px-3 py-1 bg-primary/10 text-primary rounded-full">AI Uses Knowledge + Products</span>
-              <span className="text-muted-foreground">→</span>
+              <span className="hidden sm:inline text-muted-foreground">→</span>
               <span className="px-3 py-1 bg-primary/10 text-primary rounded-full">Order Created</span>
-              <span className="text-muted-foreground">→</span>
+              <span className="hidden sm:inline text-muted-foreground">→</span>
               <span className="px-3 py-1 bg-primary/10 text-primary rounded-full">Courier Booked</span>
-              <span className="text-muted-foreground">→</span>
+              <span className="hidden sm:inline text-muted-foreground">→</span>
               <span className="px-3 py-1 bg-primary/10 text-primary rounded-full">Tracking Updated</span>
             </div>
           </div>

@@ -14,7 +14,7 @@ export default function AIAutomationPage() {
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/50 to-background py-20 lg:py-32">
+      <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/50 to-background py-14 sm:py-20 lg:py-32">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,217,255,0.1),transparent_50%)]"></div>
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
