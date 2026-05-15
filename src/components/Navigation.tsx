@@ -33,117 +33,119 @@ export default function Navigation() {
   }, [mobileMenuOpen]);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-primary/20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img
-              src={hexabyteLogo}
-              alt="Hexabyte"
-              className="h-16 w-auto object-contain"
-            />
-          </Link>
+    <>
+      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-primary/20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <Link to="/" className="flex items-center">
+              <img
+                src={hexabyteLogo}
+                alt="Hexabyte"
+                className="h-16 w-auto object-contain"
+              />
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/about"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              to="/products"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              Products
-            </Link>
-            <Link
-              to="/case-studies"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              Work
-            </Link>
-            <Link
-              to="/process"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              Process
-            </Link>
-            <a
-              href="https://calendly.com/hexabyte/discovery"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-engineering"
-            >
-              Book Engineering Consultation
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileMenuOpen ? 'true' : 'false'}
-            aria-controls="mobile-navigation"
-            className="md:hidden min-h-[44px] min-w-[44px] p-2 text-foreground"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <>
-            <button
-              aria-label="Close mobile menu overlay"
-              className="md:hidden fixed inset-0 top-20 z-40 bg-background/70 backdrop-blur-sm"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            <div
-              id="mobile-navigation"
-              className="md:hidden fixed inset-x-0 top-20 bottom-0 z-50 overflow-y-auto border-t border-primary/20 bg-card px-6 py-6"
-            >
-              <div className="space-y-3">
-                <Link
-                  to="/about"
-                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-                >
-                  About
-                </Link>
-                <Link
-                  to="/products"
-                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-                >
-                  Products
-                </Link>
-                <Link
-                  to="/case-studies"
-                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-                >
-                  Work
-                </Link>
-                <Link
-                  to="/process"
-                  className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-                >
-                  Process
-                </Link>
-              </div>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
+              <Link
+                to="/about"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                About
+              </Link>
+              <Link
+                to="/products"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                Products
+              </Link>
+              <Link
+                to="/case-studies"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                Work
+              </Link>
+              <Link
+                to="/process"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                Process
+              </Link>
               <a
                 href="https://calendly.com/hexabyte/discovery"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-6 block w-full min-h-[44px] px-6 py-3 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all font-semibold"
+                className="cta-engineering"
               >
                 Book Engineering Consultation
               </a>
             </div>
-          </>
-        )}
-      </div>
-    </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen ? 'true' : 'false'}
+              aria-controls="mobile-navigation"
+              className="md:hidden min-h-[44px] min-w-[44px] p-2 text-foreground"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu — rendered outside <nav> to escape backdrop-filter stacking context */}
+      {mobileMenuOpen && (
+        <>
+          <button
+            aria-label="Close mobile menu overlay"
+            className="md:hidden fixed inset-0 top-20 z-40 bg-background/70 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div
+            id="mobile-navigation"
+            className="md:hidden fixed inset-x-0 top-20 bottom-0 z-50 overflow-y-auto border-t border-primary/20 bg-card px-6 py-6"
+          >
+            <div className="space-y-3">
+              <Link
+                to="/about"
+                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+              >
+                About
+              </Link>
+              <Link
+                to="/products"
+                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+              >
+                Products
+              </Link>
+              <Link
+                to="/case-studies"
+                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+              >
+                Work
+              </Link>
+              <Link
+                to="/process"
+                className="block min-h-[44px] rounded-lg px-3 py-3 text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+              >
+                Process
+              </Link>
+            </div>
+            <a
+              href="https://calendly.com/hexabyte/discovery"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-6 block w-full min-h-[44px] px-6 py-3 bg-primary text-background rounded-lg text-center hover:bg-primary/90 transition-all font-semibold"
+            >
+              Book Engineering Consultation
+            </a>
+          </div>
+        </>
+      )}
+    </>
   );
 }
