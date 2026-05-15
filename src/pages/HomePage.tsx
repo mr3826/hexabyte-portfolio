@@ -2,36 +2,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Cpu, Workflow, ShoppingCart, Bot, Globe, Smartphone } from 'lucide-react';
 import TerminalWidget from '@/components/TerminalWidget';
 
-// Tech stack logos as SVG components for reliability
-const N8nLogo = () => (
-  <svg viewBox="0 0 120 40" className="h-5 w-auto">
-    <text x="0" y="28" fill="currentColor" fontSize="20" fontWeight="600">n8n</text>
-  </svg>
-);
-
-const OpenAILogo = () => (
-  <svg viewBox="0 0 120 40" className="h-5 w-auto">
-    <text x="0" y="28" fill="currentColor" fontSize="16" fontWeight="500">OpenAI</text>
-  </svg>
-);
-
-const NextJSLogo = () => (
-  <svg viewBox="0 0 120 40" className="h-5 w-auto">
-    <text x="0" y="28" fill="currentColor" fontSize="16" fontWeight="600">Next.js</text>
-  </svg>
-);
-
-const SupabaseLogo = () => (
-  <svg viewBox="0 0 140 40" className="h-5 w-auto">
-    <text x="0" y="28" fill="currentColor" fontSize="16" fontWeight="600">Supabase</text>
-  </svg>
-);
-
-const PostgresLogo = () => (
-  <svg viewBox="0 0 120 40" className="h-5 w-auto">
-    <text x="0" y="28" fill="currentColor" fontSize="14" fontWeight="500">PostgreSQL</text>
-  </svg>
-);
 
 export default function HomePage() {
   return (
@@ -166,17 +136,53 @@ export default function HomePage() {
       </section>
 
       {/* Tech Stack Section */}
-      <section className="py-12 bg-[#0a0a0a] border-t border-border">
+      <section className="py-16 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <p className="text-center text-xs text-muted-foreground uppercase tracking-wider mb-6">
-            The Hexabyte Stack
-          </p>
-          <div className="stack-row">
-            <N8nLogo />
-            <OpenAILogo />
-            <NextJSLogo />
-            <SupabaseLogo />
-            <PostgresLogo />
+          <div className="text-center mb-10">
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">Technology</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">The Hexabyte Stack</h2>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
+              Production-grade tooling across AI, automation, and full-stack engineering.
+            </p>
+          </div>
+
+          <div className="space-y-5">
+            {[
+              {
+                category: 'AI / LLM',
+                items: ['OpenAI GPT-4o', 'Claude 3.5 Sonnet', 'LangChain', 'Pinecone', 'Whisper'],
+              },
+              {
+                category: 'Automation',
+                items: ['n8n', 'Make (Integromat)', 'AWS EventBridge', 'Zapier', 'Webhooks'],
+              },
+              {
+                category: 'Frontend',
+                items: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+              },
+              {
+                category: 'Backend / DB',
+                items: ['Supabase', 'PostgreSQL', 'Node.js', 'Redis', 'Prisma'],
+              },
+              {
+                category: 'Infrastructure',
+                items: ['AWS Lambda', 'Vercel', 'Docker', 'GitHub Actions', 'Cloudflare'],
+              },
+            ].map(({ category, items }) => (
+              <div key={category} className="flex flex-col sm:flex-row sm:items-center gap-3 py-4 border-b border-border/50 last:border-0">
+                <span className="text-xs font-mono font-medium text-primary/70 sm:w-32 shrink-0 uppercase tracking-wider">{category}</span>
+                <div className="flex flex-wrap gap-2">
+                  {items.map((item) => (
+                    <span
+                      key={item}
+                      className="px-3 py-1.5 bg-card border border-border rounded-md text-sm font-medium text-foreground hover:border-primary/50 hover:text-primary transition-colors cursor-default"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
