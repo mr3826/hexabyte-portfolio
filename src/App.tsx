@@ -23,9 +23,9 @@ type RouteSeo = {
 
 const ROUTE_SEO: Record<string, RouteSeo> = {
   '/': {
-    title: 'Hexabyte | AI Systems That Ship. Production-Ready Automation Infrastructure',
+    title: 'Hexabyte | AI-Powered Systems & Digital Products Built for Operational Growth',
     description:
-      'We build production-ready RAG pipelines, n8n orchestration, and automation engines for fast-moving teams. Deploy infrastructure that scales.',
+      'Hexabyte helps businesses streamline operations, automate workflows, and launch scalable digital products through founder-led execution and practical AI systems.',
   },
   '/ai-automation': {
     title: 'AI Automation Engineering | Hexabyte',
