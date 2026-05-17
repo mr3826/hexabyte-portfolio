@@ -15,8 +15,48 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-south-1
         run: |
-          aws amplify start-job \
+          JOB_ID=$(aws amplify start-job \
             --app-id d3f7vg26f037wj \
             --branch-name main \
             --job-type RELEASE \
+            --query 'jobSummary.jobId' \
+            --output text) \
           || { echo "Amplify build already in progress — skipping."; exit 0; }
+
+          echo "Amplify job started: $JOB_ID"
+          echo "Waiting for Amplify build to complete..."
+
+          for i in $(seq 1 30); do
+            sleep 20
+            STATUS=$(aws amplify get-job \
+              --app-id d3f7vg26f037wj \
+              --branch-name main \
+              --job-id "$JOB_ID" \
+              --query 'job.summary.status' \
+              --output text)
+            echo "  [$i] Status: $STATUS"
+            if [ "$STATUS" = "SUCCEED" ]; then
+              echo "Build succeeded."
+              break
+            elif [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then
+              echo "Build $STATUS — aborting."
+              exit 1
+            fi
+          done
+
+      - name: Invalidate CloudFront Cache
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+        run: |
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id E1QPRQT12IQGL9 \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text)
+          echo "CloudFront invalidation created: $INVALIDATION_ID"
+          aws cloudfront wait invalidation-completed \
+            --distribution-id E1QPRQT12IQGL9 \
+            --id "$INVALIDATION_ID"
+          echo "Cache invalidated. hexabyte.tech is live."
