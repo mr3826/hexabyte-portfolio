@@ -1,94 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
-import shopifyCaseVisual from '@/assets/case-shopify-automation.svg';
-import easyModeratorCaseVisual from '@/assets/case-easy-moderator.svg';
-import tradeflowCaseVisual from '@/assets/case-tradeflow.svg';
-import reelStudioCaseVisual from '@/assets/case-reel-studio.svg';
-import ragChatbotCaseVisual from '@/assets/case-rag-chatbot.svg';
-
-const caseStudies = [
-  {
-    id: 'shopify-automation',
-    category: 'Automation Platform',
-    title: 'Shopify Automation for Multi-Channel Operations',
-    excerpt:
-      'Event-driven automation architecture connecting Shopify, Amazon, eBay, ShipStation, and AI support workflows.',
-    industry: 'E-commerce',
-    timeline: '12 weeks',
-    impact: 'Production-ready orchestration stack',
-    tags: ['AWS Lambda', 'PostgreSQL', 'Make.com'],
-    image: shopifyCaseVisual,
-    imageAlt:
-      'Shopify automation architecture visual showing event routing and fulfillment synchronization',
-  },
-  {
-    id: 'easy-moderator',
-    category: 'Content Ops Platform',
-    title: 'Easy Moderator Multi-Tenant Moderation System',
-    excerpt:
-      'Full-stack multi-tenant platform for commerce operations — role-aware moderation workflows, social integration hooks, and automated testing pipelines.',
-    industry: 'Commerce Operations',
-    timeline: '10 weeks',
-    impact: 'Automated testing pipeline across frontend/backend/E2E',
-    tags: ['React 18', 'Express', 'Redis'],
-    image: easyModeratorCaseVisual,
-    imageAlt:
-      'Easy Moderator dashboard visual with moderation queue and review lanes',
-  },
-  {
-    id: 'tradeflow',
-    category: 'Vertical SaaS',
-    title: 'TradeFlow for Bangladesh Buying Houses',
-    excerpt:
-      'Mobile-first operational SaaS with WhatsApp-native updates, risk scoring, and auditable order management.',
-    industry: 'Garments Supply Chain',
-    timeline: '8 weeks',
-    impact: '30-second quick update workflows',
-    tags: ['Next.js 14', 'TypeScript', 'Audit Logs'],
-    image: tradeflowCaseVisual,
-    imageAlt:
-      'TradeFlow mobile-first operations visual with risk dashboard and quick updates',
-  },
-  {
-    id: 'reel-studio',
-    category: 'AI Media Automation',
-    title: 'Reel Studio AI Content Automation Pipeline',
-    excerpt:
-      'FastAPI-based video generation workflow with queue orchestration, checkpoint recovery, and cloud storage integration.',
-    industry: 'Media Automation',
-    timeline: '9 weeks',
-    impact: 'Pipeline ETA and staged processing observability',
-    tags: ['FastAPI', 'GCP Storage', 'PyTorch'],
-    image: reelStudioCaseVisual,
-    imageAlt:
-      'Reel Studio AI pipeline visual with staged rendering progress and checkpoint recovery',
-  },
-  {
-    id: 'rag-chatbot',
-    category: 'AI Knowledge System',
-    title: 'RAG-Based Chatbot for Grounded Q&A',
-    excerpt:
-      'Retrieval-Augmented Generation system combining vector embeddings, document search, and LLM inference for accurate, data-grounded conversational responses.',
-    industry: 'AI & Knowledge Management',
-    timeline: '6 weeks',
-    impact: 'Real-time data grounding with 99% accuracy on internal documents',
-    tags: ['Vector DB', 'LLM APIs', 'Embeddings'],
-    image: ragChatbotCaseVisual,
-    imageAlt:
-      'RAG chatbot architecture visual showing embedding pipeline, vector database search, and LLM response generation',
-  },
-];
+import { caseStudies } from '@/data/caseStudies';
+import { ProductStatusBadge } from '@/components/ProductStatusBadge';
 
 export default function CaseStudiesPage() {
   const [filter, setFilter] = useState('All');
   const categories = [
     'All',
-    'Automation Platform',
     'Content Ops Platform',
     'Vertical SaaS',
     'AI Media Automation',
     'AI Knowledge System',
+    'Product Build',
   ];
 
   const filteredStudies =
@@ -109,8 +33,7 @@ export default function CaseStudiesPage() {
             <span className="text-primary">Real Outcomes.</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Architecture breakdowns of deployed automation systems. RAG pipelines, 
-            event-driven orchestration, and multi-tenant SaaS platforms.
+            Architecture breakdowns of deployed automation systems, product builds, and multi-tenant SaaS platforms.
           </p>
         </div>
       </section>
@@ -155,10 +78,8 @@ export default function CaseStudiesPage() {
                     <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">
                       {study.category}
                     </span>
-                    {study.id === 'shopify-automation' && (
-                      <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">
-                        Featured
-                      </span>
+                    {study.productId && (
+                      <ProductStatusBadge status={study.id === 'easy-moderator' ? 'live' : study.id === 'tradeflow' ? 'beta' : 'private-beta'} />
                     )}
                   </div>
                   <span className="text-xs text-muted-foreground flex items-center gap-1">
@@ -178,8 +99,8 @@ export default function CaseStudiesPage() {
                 {/* Tech Stack */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {study.tags.map((tag) => (
-                    <span key={tag} className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
-                      {tag}
+                    <span key={tag.label} className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
+                      {tag.label}
                     </span>
                   ))}
                 </div>
@@ -202,7 +123,7 @@ export default function CaseStudiesPage() {
             Ready to <span className="text-primary">Deploy?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Book a 30-minute engineering consultation. We'll map your automation 
+            Book a 30-minute engineering consultation. We'll map your automation
             requirements and define a production-ready architecture.
           </p>
           <a

@@ -27,7 +27,7 @@ const deploymentScenarios = [
     ],
   },
   {
-    command: 'hexabyte provision --shopify-automation',
+    command: 'hexabyte provision --ecom-automation',
     outputs: [
       { text: '[2026-05-05T14:22:10] Provisioning event-driven architecture...', delay: 1000 },
       { text: '[2026-05-05T14:22:15] Webhook handlers configured', delay: 800 },

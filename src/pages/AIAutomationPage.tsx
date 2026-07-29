@@ -193,10 +193,10 @@ export default function AIAutomationPage() {
               Book Discovery Inquiry
             </button>
             <Link
-              to="/case-studies/shopify-automation"
+              to="/case-studies/easy-ecommerce"
               className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
             >
-              View Shopify Automation Case
+              View E-commerce Automation Case
             </Link>
           </div>
         </div>

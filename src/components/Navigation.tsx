@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { to: '/products', label: 'Products' },
   { to: '/case-studies', label: 'Work' },
   { to: '/process', label: 'Process' },
+  { to: '/company-information', label: 'Company' },
 ];
 
 export default function Navigation() {

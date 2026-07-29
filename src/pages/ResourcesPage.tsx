@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useModal } from '@/context/ModalContext';
 import {
   Download,
-  FileText,
   Calculator,
   ListChecks,
   ArrowRight,
@@ -10,6 +9,7 @@ import {
   Zap,
   BookOpen,
   Mail,
+  Shield,
 } from 'lucide-react';
 
 const leadMagnets = [
@@ -20,7 +20,6 @@ const leadMagnets = [
       'A comprehensive 25-point checklist to identify automation opportunities in your business. Covers operations, sales, marketing, and customer support workflows.',
     icon: ListChecks,
     pages: '12 pages',
-    downloads: '200+',
     cta: 'Download Free Checklist',
     modalId: 'leadmagnet_automation_audit',
     popular: true,
@@ -33,24 +32,22 @@ const leadMagnets = [
       'Google Sheets template to calculate time savings, cost reduction, and payback period for your automation investments.',
     icon: Calculator,
     pages: 'Spreadsheet',
-    downloads: '150+',
     cta: 'Get Free Template',
     modalId: 'leadmagnet_roi_calculator',
     popular: false,
     color: 'accent',
   },
   {
-    id: 'shopify-automations',
-    title: '5 Shopify Automations Guide',
+    id: 'ai-commerce-launch',
+    title: 'AI Commerce Launch Checklist',
     description:
-      'Step-by-step implementation guide for the highest-impact Shopify automations: inventory sync, order routing, customer tagging, and more.',
-    icon: FileText,
-    pages: '18 pages',
-    downloads: '300+',
-    cta: 'Download Guide',
-    modalId: 'leadmagnet_shopify_guide',
+      'A practical checklist for preparing product data, store structure, checkout, COD controls, payments, courier setup, customer messaging, analytics, and launch readiness for a modern Bangladesh-focused online store.',
+    icon: Shield,
+    pages: '15 pages',
+    cta: 'Get the Checklist',
+    modalId: 'leadmagnet_ai_commerce_launch',
     popular: true,
-    color: 'primary',
+    color: 'success',
   },
   {
     id: 'integration-blueprint',
@@ -59,7 +56,6 @@ const leadMagnets = [
       'Decision tree and technical criteria for choosing between Make.com, Zapier, n8n, or custom API development for your use case.',
     icon: BookOpen,
     pages: '8 pages',
-    downloads: '120+',
     cta: 'Download Framework',
     modalId: 'leadmagnet_integration_blueprint',
     popular: false,
@@ -173,14 +169,18 @@ export default function ResourcesPage() {
                       className={`w-12 h-12 ${
                         item.color === 'primary'
                           ? 'bg-primary/10'
-                          : 'bg-accent/10'
+                          : item.color === 'accent'
+                          ? 'bg-accent/10'
+                          : 'bg-success/10'
                       } rounded-lg flex items-center justify-center flex-shrink-0`}
                     >
                       <Icon
                         className={`w-6 h-6 ${
                           item.color === 'primary'
                             ? 'text-primary'
-                            : 'text-accent'
+                            : item.color === 'accent'
+                            ? 'text-accent'
+                            : 'text-success'
                         }`}
                       />
                     </div>
