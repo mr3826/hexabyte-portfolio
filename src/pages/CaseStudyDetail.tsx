@@ -1,9 +1,15 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Users, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { getCaseStudyById, getCaseStudyImage } from '@/data/caseStudies';
 
 export default function CaseStudyDetail() {
   const { id } = useParams();
+  
+  // Redirect old Shopify case study to Easy E-commerce
+  if (id === 'shopify-automation') {
+    return <Navigate to="/case-studies/easy-ecommerce" replace />;
+  }
+
   const study = id ? getCaseStudyById(id) : null;
   const studyVisual = id ? getCaseStudyImage(id) : null;
 
