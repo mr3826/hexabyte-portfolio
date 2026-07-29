@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, Settings, Globe, Cpu, Brain,
-  Package, Layers, Users, Target, Zap,
+  Users, Target, Zap,
   CheckCircle, Search, Code, Rocket, Shield,
+  Smartphone,
 } from 'lucide-react';
-
+import { products } from '@/data/products';
+import { ProductStatusBadge } from '@/components/ProductStatusBadge';
 
 export default function HomePage() {
   return (
@@ -25,14 +27,13 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
-                AI-Powered Systems &amp; Digital Products{' '}
-                <span className="text-primary">Built for Operational Growth</span>
+                AI-Powered Systems & Digital Products{' '}
+                <span className="text-primary">Built for Real Operations</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-muted-foreground mb-6 leading-relaxed max-w-xl">
-                Hexabyte helps businesses streamline operations, automate repetitive workflows,
-                and launch scalable digital products through founder-led execution and practical
-                AI systems.
+                Hexabyte Technologies helps businesses automate work, launch scalable software,
+                and run customer operations through practical AI, web, mobile, and workflow systems.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -46,22 +47,23 @@ export default function HomePage() {
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <Link
-                  to="/case-studies"
+                  to="/products"
                   className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"
                 >
-                  Explore Solutions
+                  Explore Products
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
 
-            {/* Right: Operational impact stats */}
+            {/* Right: Verifiable company signals */}
             <div className="relative">
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: '70%', label: 'Reduction in manual processing time' },
-                  { value: '99.9%', label: 'Automation rate for routine operations' },
-                  { value: '20x', label: 'Throughput gains from workflow automation' },
-                  { value: '2', label: 'Live SaaS products solving real problems' },
+                  { value: '1', label: 'Live Product' },
+                  { value: '3', label: 'Products in Beta' },
+                  { value: '4', label: 'Phase Delivery Framework' },
+                  { value: 'Direct', label: 'Founder Access' },
                 ].map(({ value, label }) => (
                   <div
                     key={label}
@@ -79,7 +81,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Solutions Bento Grid */}
+      {/* Solutions Section */}
       <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -103,24 +105,24 @@ export default function HomePage() {
               },
               {
                 icon: Globe,
-                title: 'Digital Product Development',
-                desc: 'Build scalable web and mobile products designed for long-term business growth.',
-                tags: ['Web Apps', 'Mobile', 'SaaS'],
+                title: 'Web, Commerce & SaaS Platforms',
+                desc: 'Build scalable web, e-commerce, dashboard, SaaS, and internal systems designed for long-term business growth.',
+                tags: ['Web Apps', 'E-commerce', 'SaaS'],
                 link: '/web-development',
               },
               {
                 icon: Cpu,
-                title: 'Internal Business Systems',
-                desc: 'Centralize operations, improve visibility, and streamline business workflows with custom platforms.',
-                tags: ['Custom Platforms', 'Data Sync', 'Dashboards'],
-                link: '/case-studies',
+                title: 'AI Customer & Knowledge Systems',
+                desc: 'Integrate practical AI capabilities — assistants, RAG, document intelligence — into customer operations.',
+                tags: ['AI Assistants', 'RAG', 'Document Intelligence'],
+                link: '/ai-automation',
               },
               {
-                icon: Brain,
-                title: 'AI Integration & Intelligence',
-                desc: 'Integrate practical AI capabilities into existing business operations and customer experiences.',
-                tags: ['RAG Pipelines', 'LLM Integration', 'Automation'],
-                link: '/ai-automation',
+                icon: Smartphone,
+                title: 'Mobile & Field Operations',
+                desc: 'Flutter apps, offline-first workflows, real-time operational tools for field and supply-chain teams.',
+                tags: ['Flutter', 'Offline-First', 'Real-time Ops'],
+                link: '/mobile-development',
               },
             ].map((solution) => (
               <Link
@@ -149,7 +151,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Products Built by Hexabyte */}
+      {/* Products Section */}
       <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -158,73 +160,39 @@ export default function HomePage() {
               Products Built by Hexabyte
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We build and operate our own products — validating systems thinking through
-              real-world deployment before applying it to client work.
+              We build and operate focused software products for commerce, service businesses, and supply-chain teams.
+              One product is publicly available, while three are being validated through beta programmes.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            {/* Easy Moderator */}
-            <div className="bento-card">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center">
-                  <Package className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="font-bold text-base">Easy Moderator</div>
-                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-primary/10 border border-primary/20 rounded-full">
-                    <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                    <span className="text-xs font-medium text-primary">Live &amp; Available</span>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {products.map((product) => (
+              <div key={product.id} className="bento-card">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center">
+                    <product.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-base">{product.name}</div>
+                    <ProductStatusBadge status={product.status} />
                   </div>
                 </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Replaces manual Facebook, Instagram, and WhatsApp operations for e-commerce
-                merchants with AI-powered sales and support workflows.
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
-                  SaaS Platform
-                </span>
-                <Link
-                  to="/products"
-                  className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 font-medium transition-colors"
-                >
-                  Learn More <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-
-            {/* TradeFlow */}
-            <div className="bento-card">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-accent/15 rounded-lg flex items-center justify-center">
-                  <Layers className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <div className="font-bold text-base">TradeFlow</div>
-                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-accent/10 border border-accent/20 rounded-full">
-                    <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-                    <span className="text-xs font-medium text-accent">Beta Access</span>
-                  </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                  {product.shortDescription}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
+                    {product.category}
+                  </span>
+                  <Link
+                    to={`/products#${product.anchor}`}
+                    className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+                  >
+                    Learn More <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Supply chain and order management for garment buying houses — WhatsApp-native
-                updates, AI risk scoring, and full audit trail.
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
-                  Mobile-First SaaS
-                </span>
-                <Link
-                  to="/products"
-                  className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 font-medium transition-colors"
-                >
-                  Learn More <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="text-center">
@@ -238,7 +206,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Why Companies Work With Hexabyte */}
+      {/* Product Ecosystem Section */}
+      <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
+              Focused Products. One Operational Direction.
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Each Hexabyte product solves a specific operational problem. Easy E-commerce is designed to help merchants launch and run branded stores.
+              Easy Moderator handles social-commerce conversations and order operations. Easy Assistance coordinates bookings and service customers.
+              TradeFlow brings structure to supply-chain updates and risk visibility. Each product can stand alone, with deeper interoperability
+              introduced only where it creates real operational value.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Hexabyte Section */}
       <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -361,40 +346,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Operational Results */}
+      {/* What We Measure Section */}
       <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs text-primary uppercase tracking-wider mb-3">Results</p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">Operational Results</h2>
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">What We Measure</p>
+            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">Operational Signals Over Vanity Metrics</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              {
-                quote: 'Manual order processing that used to consume our entire support team is now fully automated. We redirected those hours into growth activities.',
-                company: 'E-commerce Operator',
-                result: '70% time savings',
-              },
-              {
-                quote: 'The workflow automation Hexabyte built handles what three people used to do — and it runs without errors. The ROI was visible within the first month.',
-                company: 'B2B Operations',
-                result: '99.9% automation rate',
-              },
-              {
-                quote: 'We went from a chaotic patchwork of spreadsheets and manual steps to a single connected system. Operations feel like they are finally under control.',
-                company: 'Logistics Business',
-                result: '20x throughput gain',
-              },
-            ].map((t, idx) => (
-              <div key={idx} className="bento-card">
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">"{t.quote}"</p>
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <span className="text-sm font-medium">{t.company}</span>
-                  <span className="text-xs text-primary bg-primary/10 px-2 py-1 rounded">
-                    {t.result}
-                  </span>
-                </div>
+              { title: 'Reliability', desc: 'Uptime, error rates, and system stability under load' },
+              { title: 'Processing Time', desc: 'End-to-end latency for critical workflows' },
+              { title: 'Adoption', desc: 'Active usage, feature penetration, and retention' },
+              { title: 'Operational Throughput', desc: 'Orders, bookings, tickets processed per period' },
+              { title: 'Error Rates', desc: 'Failed operations, retries, and exception handling' },
+              { title: 'Customer Response Time', desc: 'Time from enquiry to meaningful response' },
+            ].map((metric, idx) => (
+              <div key={idx} className="bento-card text-center">
+                <h3 className="text-lg font-semibold mb-2">{metric.title}</h3>
+                <p className="text-sm text-muted-foreground">{metric.desc}</p>
               </div>
             ))}
           </div>

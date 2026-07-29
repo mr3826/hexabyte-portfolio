@@ -12,6 +12,7 @@ import AboutPage from '@/pages/AboutPage';
 import ProcessPage from '@/pages/ProcessPage';
 import ResourcesPage from '@/pages/ResourcesPage';
 import ProductsPage from '@/pages/ProductsPage';
+import CompanyInformationPage from '@/pages/CompanyInformationPage';
 import { ModalProvider } from '@/context/ModalContext';
 import ScrollToTop from '@/components/ScrollToTop';
 import { trackEvent } from '@/utils/analytics';
@@ -23,9 +24,9 @@ type RouteSeo = {
 
 const ROUTE_SEO: Record<string, RouteSeo> = {
   '/': {
-    title: 'Hexabyte | AI-Powered Systems & Digital Products Built for Operational Growth',
+    title: 'Hexabyte Technologies | AI Systems, Automation and Digital Products',
     description:
-      'Hexabyte helps businesses streamline operations, automate workflows, and launch scalable digital products through founder-led execution and practical AI systems.',
+      'Hexabyte Technologies builds practical AI automation, web and mobile systems, and focused software products including Easy Moderator, Easy Assistance, Easy E-commerce, and TradeFlow.',
   },
   '/ai-automation': {
     title: 'AI Automation Engineering | Hexabyte',
@@ -43,9 +44,9 @@ const ROUTE_SEO: Record<string, RouteSeo> = {
       'Flutter + native SDK integrations for iOS/Android. Ship mobile infrastructure that performs at scale.',
   },
   '/products': {
-    title: 'Live Products | Easy Moderator & TradeFlow | Hexabyte',
+    title: 'Software Products | Easy Moderator, Easy E-commerce, Easy Assistance and TradeFlow',
     description:
-      'Production SaaS systems: Easy Moderator for BD f-commerce automation, TradeFlow for supply chain orchestration. Ready to deploy.',
+      'Explore software products built by Hexabyte Technologies for social commerce, online stores, bookings, customer operations, and supply-chain teams.',
   },
   '/about': {
     title: 'The Engineering Partner | Hexabyte',
@@ -65,7 +66,12 @@ const ROUTE_SEO: Record<string, RouteSeo> = {
   '/case-studies': {
     title: 'System Deployments | Hexabyte Case Studies',
     description:
-      'Production deployments with architecture details: RAG pipelines, event-driven automation, multi-tenant SaaS systems. Technical breakdowns.',
+      'Production deployments with architecture details: RAG pipelines, event-driven automation, multi-tenant SaaS systems, and product builds. Technical breakdowns.',
+  },
+  '/company-information': {
+    title: 'Company Information | Hexabyte Technologies',
+    description:
+      'Registered business details for Hexabyte Technologies: legal name, address, contact information, products operated, and verification for customers, partners, and platform reviewers.',
   },
 };
 
@@ -116,10 +122,6 @@ function RouteObserver() {
     const caseId = isCaseDetail ? location.pathname.replace('/case-studies/', '') : null;
 
     const CASE_SEO: Record<string, RouteSeo> = {
-      'shopify-automation': {
-        title: 'Shopify Multi-Channel Automation Case Study | Hexabyte',
-        description: 'How Hexabyte built an event-driven automation platform syncing Shopify, Amazon, and eBay inventory and order workflows in 12 weeks.',
-      },
       'easy-moderator': {
         title: 'Easy Moderator — Commerce Moderation Platform Case Study | Hexabyte',
         description: 'Full-stack multi-tenant moderation system with role-aware workflows, social integration hooks, and automated testing pipelines.',
@@ -135,6 +137,14 @@ function RouteObserver() {
       'rag-chatbot': {
         title: 'RAG Chatbot — Retrieval-Augmented Generation Case Study | Hexabyte',
         description: 'Vector embedding pipeline combined with LLM inference for accurate, data-grounded conversational responses on internal documents.',
+      },
+      'easy-assistance': {
+        title: 'Easy Assistance — AI Booking and Customer Operations Case Study | Hexabyte',
+        description: 'Conversational booking platform for service businesses — AI qualification, availability checking, confirmation, reminders, and follow-up automation.',
+      },
+      'easy-ecommerce': {
+        title: 'Easy E-commerce — AI Store and Commerce Builder Case Study | Hexabyte',
+        description: 'AI-guided website and commerce operations platform for Bangladesh-first merchants — store creation, catalogue, checkout, courier, and merchant operations.',
       },
     };
 
@@ -154,7 +164,7 @@ function RouteObserver() {
 
     // OpenGraph
     upsertOgTag('og:type', 'website');
-    upsertOgTag('og:site_name', 'Hexabyte');
+    upsertOgTag('og:site_name', 'Hexabyte Technologies');
     upsertOgTag('og:url', fullUrl);
     upsertOgTag('og:title', routeSeo.title);
     upsertOgTag('og:description', routeSeo.description);
@@ -174,15 +184,30 @@ function RouteObserver() {
       {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Hexabyte',
+        name: 'Hexabyte Technologies',
+        alternateName: 'Hexabyte',
+        legalName: 'Hexabyte Technologies',
         url: window.location.origin,
         logo: `${window.location.origin}/hexabyte-logo.png`,
         email: 'contact@hexabyte.tech',
+        telephone: '+8801886895874',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Plot-107, North Tower, 8th Floor, Sector-7',
+          addressLocality: 'Uttara',
+          addressRegion: 'Dhaka',
+          postalCode: '1230',
+          addressCountry: 'BD',
+        },
+        founder: {
+          '@type': 'Person',
+          name: 'Evan Ahmed',
+        },
         sameAs: [
           'https://www.linkedin.com/in/mr3826',
           'https://github.com/mr3826',
         ],
-        description: 'Founder-led B2B software agency. Custom automation, web and mobile solutions, and two live SaaS products: Easy Moderator and TradeFlow.',
+        description: 'Founder-led technology company. Practical AI systems, operational automation, web and mobile applications, and focused software products for commerce, service, and supply-chain operations.',
       },
     ];
 
@@ -267,6 +292,7 @@ export default function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/case-studies" element={<CaseStudiesPage />} />
             <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
+            <Route path="/company-information" element={<CompanyInformationPage />} />
           </Routes>
           <Footer />
         </div>

@@ -1,6 +1,6 @@
 // Footer component with contact info v3
 import { Link } from 'react-router-dom';
-import { Mail, Phone, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github, ExternalLink } from 'lucide-react';
 import hexabyteLogo from '@/assets/hexabyte-logo.png';
 
 export default function Footer() {
@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t border-primary/20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+        <div className="grid md:grid-cols-5 gap-8 mb-8">
           {/* Brand */}
-          <div>
+          <div className="md:col-span-2">
             <div className="mb-4 flex items-center gap-3">
               <img
                 src={hexabyteLogo}
@@ -39,6 +39,18 @@ export default function Footer() {
                 Easy Moderator
               </Link>
               <Link
+                to="/products#easy-ecommerce"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Easy E-commerce
+              </Link>
+              <Link
+                to="/products#easy-assistance"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Easy Assistance
+              </Link>
+              <Link
                 to="/products#tradeflow"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
@@ -64,16 +76,62 @@ export default function Footer() {
                 Work
               </Link>
               <Link
+                to="/process"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Process
+              </Link>
+              <Link
                 to="/resources"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Resources
+              </Link>
+              <Link
+                to="/company-information"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Company Information
               </Link>
               <a
                 href="mailto:contact@hexabyte.tech"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Contact
+              </a>
+            </div>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="font-semibold mb-4">Legal</h3>
+            <div className="space-y-2">
+              <a
+                href="https://easymod.tech/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Easy Moderator Privacy
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href="https://easymod.tech/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Easy Moderator Terms
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href="https://easymod.tech/api/webhooks/meta/data-deletion"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Easy Moderator Data Deletion
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
@@ -132,4 +190,3 @@ export default function Footer() {
     </footer>
   );
 }
-
