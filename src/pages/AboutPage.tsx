@@ -1,4 +1,4 @@
-import { Zap, Package, Layers, Shield, ArrowRight, Cpu, Bot } from 'lucide-react';
+import { Zap, Package, Layers, Shield, ArrowRight, Cpu, Bot, Calendar, Store } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import founderImage from '@/assets/founder.png';
 
@@ -33,7 +33,7 @@ export default function AboutPage() {
               </p>
 
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Easy Moderator and TradeFlow were built to solve those problems directly.
+                Easy Moderator, Easy E-commerce, Easy Assistance, and TradeFlow were built to solve those problems directly.
                 The agency work came from clients who saw what was possible and wanted the
                 same depth of thinking applied to their own operations.
               </p>
@@ -139,11 +139,11 @@ export default function AboutPage() {
               What We Built
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Two products. Both live. Both built from observed problems, not speculation.
+              Four products. One live, three in beta. All built from observed problems, not speculation.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-card border border-primary/20 rounded-2xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center">
@@ -169,11 +169,53 @@ export default function AboutPage() {
             <div className="bg-card border border-accent/20 rounded-2xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-accent/15 rounded-lg flex items-center justify-center">
-                  <Layers className="w-5 h-5 text-accent" />
+                  <Store className="w-5 h-5 text-accent" />
+                </div>
+                <div>
+                  <div className="font-bold font-['Space_Grotesk']">Easy E-commerce</div>
+                  <div className="text-xs text-accent font-medium">Beta Testing</div>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                AI-guided website and commerce operations platform for Bangladesh-first merchants — store creation, catalogue, local checkout, courier workflows, and merchant operations in one mobile-friendly system.
+              </p>
+              <Link
+                to="/products#easy-ecommerce"
+                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
+              >
+                Learn more <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="bg-card border border-accent/20 rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-accent/15 rounded-lg flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-accent" />
+                </div>
+                <div>
+                  <div className="font-bold font-['Space_Grotesk']">Easy Assistance</div>
+                  <div className="text-xs text-accent font-medium">Beta Testing</div>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                AI-powered booking and customer-operations platform for service businesses — conversational booking, staff/availability coordination, reminders, and customer history in one workspace.
+              </p>
+              <Link
+                to="/products#easy-assistance"
+                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
+              >
+                Learn more <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="bg-card border border-warning/20 rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-warning/15 rounded-lg flex items-center justify-center">
+                  <Layers className="w-5 h-5 text-warning" />
                 </div>
                 <div>
                   <div className="font-bold font-['Space_Grotesk']">TradeFlow</div>
-                  <div className="text-xs text-accent font-medium">Beta Access</div>
+                  <div className="text-xs text-warning font-medium">Beta Access</div>
                 </div>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6">
@@ -182,7 +224,7 @@ export default function AboutPage() {
               </p>
               <Link
                 to="/products#tradeflow"
-                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
+                className="inline-flex items-center gap-2 text-warning hover:text-warning/80 transition-colors text-sm font-medium"
               >
                 Learn more <ArrowRight className="w-4 h-4" />
               </Link>
@@ -229,7 +271,7 @@ export default function AboutPage() {
             Ready to <span className="text-primary">Ship?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Book a 30-minute engineering consultation. We'll map your automation 
+            Book a 30-minute engineering consultation. We'll map your automation
             requirements and define a production-ready architecture.
           </p>
           <a
