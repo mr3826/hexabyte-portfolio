@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import HomePage from '@/pages/HomePage';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -291,6 +291,7 @@ export default function App() {
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/case-studies" element={<CaseStudiesPage />} />
+            <Route path="/case-studies/shopify-automation" element={<Navigate to="/case-studies/easy-ecommerce" replace />} />
             <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
             <Route path="/company-information" element={<CompanyInformationPage />} />
           </Routes>
