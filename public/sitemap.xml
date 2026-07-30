@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Every <loc> here must resolve to a route in src/App.tsx; a test asserts that.
+  Every URL here must resolve to a route in src/App.tsx; src/__tests__/sitemap.test.ts
+  asserts that in both directions.
   lastmod is deliberately omitted: it cannot be maintained by hand without going
   stale, and a frozen date is worse than none.
 -->

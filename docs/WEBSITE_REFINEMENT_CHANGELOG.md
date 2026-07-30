@@ -13,7 +13,7 @@ Hexabyte identity is preserved throughout.
 `src/pages/CompanyInformationPage.tsx` was rewritten.
 
 | Before | After |
-|---|---|
+| --- | --- |
 | Whole page inside `max-w-4xl` | `max-w-7xl` primary composition, matching every marketing page |
 | Plain hero, no grid background | Branded hero: technical grid, 12-column split (7/5), trust chips, Business Profile card |
 | Ten near-identical full-width `<dl>` rows | Two grouped bento panels (Company identity / Contact and location), still semantic `<dl>` |
@@ -84,7 +84,7 @@ incompatible class strings; inlining was the smaller change.
 Added `evidenceType` and `domain` to `src/data/caseStudies.ts`, shown on every card:
 
 | Case study | Evidence type | Domain |
-|---|---|---|
+| --- | --- | --- |
 | Easy Moderator | Live Product | AI & Automation |
 | Easy E-commerce | Beta Product Build | Commerce |
 | Easy Assistance | Beta Product Build | AI & Automation |
@@ -155,8 +155,9 @@ Added `evidenceType` and `domain` to `src/data/caseStudies.ts`, shown on every c
 - **`--success` / `--warning` were never defined** in the `@theme inline` block, so every
   `bg-warning/15`, `text-warning`, `bg-success/10` and `text-success` in the codebase
   compiled to nothing under Tailwind v4 — TradeFlow's badges, the Beta Disclosure panel
-  and one Resources card rendered unstyled. Aliased to the existing
-  `--status-green` / `--status-yellow`.
+  and one Resources card rendered unstyled. Now defined, matching the existing
+  `--status-green` / `--status-yellow` hexes, and covered by `src/__tests__/theme.test.ts`.
+  Verified in the built CSS: `.bg-success\/10 { background-color: #22c55e1a }`.
 - Status badges are semantic and distinguishable: live green, beta blue, private-beta
   amber, planned muted. `beta` and `private-beta` previously shared identical accent
   classes; `live` used brand indigo, which signals "Hexabyte" rather than "available".
@@ -208,7 +209,7 @@ Every softened claim, for product-owner review. Product-level public statuses ar
 TradeFlow beta access).
 
 | Claim | Before | After | Why |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | bKash / Nagad / card payments (Easy E-commerce) | Workflow step: "Cash on delivery, bKash, Nagad, and card payments **processed**" | "Cash on delivery today; mobile wallet and card options are planned" | A beta product should not state that a payment method is processed |
 | Bangladesh-First Checkout capability | "bKash and Nagad integration where technically available" | COD described as what is in validation; "Mobile wallet and card payments are planned, not yet enabled" | Removes the ambiguous hedge in favour of a plain statement |
 | Pathao / Steadfast / RedX (Easy E-commerce) | Listed as integrations, `in-validation` | "connections are being validated in beta" | Wording now matches the capability status |
@@ -238,3 +239,50 @@ TradeFlow beta access).
 5. **Prerendering** was deliberately skipped. Static metadata plus per-route JS metadata
    covers the current SEO needs without a headless-Chrome build dependency or Amplify
    build risk.
+6. **Site-wide opacity bug in the theme layer — not fixed, needs a decision.**
+   `@theme inline` cannot resolve a `var()` indirection at build time, so Tailwind
+   silently discards the opacity modifier on every token declared that way. In the
+   current build:
+
+   ```css
+   .bg-primary\/10  { background-color: var(--primary) }   /* solid indigo, not a 10% tint */
+   .bg-accent\/10   { background-color: var(--accent)  }
+   .border-primary\/20 { border-color: var(--primary)  }
+   ```
+
+   Every "subtle tint" on the site — icon boxes, badges, panel borders, hover states —
+   currently renders at full opacity. `--color-success` / `--color-warning` were declared
+   as literals in this branch specifically to avoid inheriting the bug, which is why
+   `.bg-success\/10` correctly emits `#22c55e1a`.
+
+   The one-line fix per token is to replace the `var()` with the literal hex already in
+   `:root`, e.g. `--color-primary: #6366f1`. **This was left alone deliberately**: it
+   would change the appearance of nearly every surface on the site in one commit, and
+   what currently ships is the aesthetic the owner has been looking at. Worth doing, but
+   as its own reviewed change with screenshots — not folded into this pass.
+
+---
+
+## Verification
+
+```text
+npm run typecheck   clean
+npm test -- --run   64 passed (16 files)
+npm run build       clean
+```
+
+Content audits return no hits for the old domain, wrong legal entity, `Space_Grotesk`,
+the internal labels, the non-standard CTA labels, hardcoded prices or page counts.
+Sitemap contains 16 URLs, all on `hexabyte.tech`; `robots.txt` points at it.
+
+Served responses confirmed on the dev server: all seven reviewed routes 200, and
+`/hexabyte-logo.png`, `/og-image.png`, `/sitemap.xml`, `/robots.txt` all resolve — the
+first two were 404 before this branch. Built CSS confirmed to emit real tints for all
+twelve success/warning utilities that previously compiled to nothing.
+
+**Not done:** the visual pass at 360×800 / 390×844 / 768×1024 / 1280×800 / 1440×900 and
+the before/after screenshots. No browser automation was available in the environment that
+produced this branch and Playwright is not a project dependency. The responsive changes
+that need a human eye are the sticky filter offset at 390×844, the sticky product index on
+the Products page, the two-panel company detail layout, and the product-card header
+wrapping at 360px.
