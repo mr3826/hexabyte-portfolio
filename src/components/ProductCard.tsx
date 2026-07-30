@@ -2,7 +2,6 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { Product } from '@/data/products';
-import { ProductStatusBadge } from '@/components/ProductStatusBadge';
 
 /**
  * Tailwind v4 scans source text for class names (`@import 'tailwindcss' source(none)`),
@@ -47,7 +46,7 @@ interface ProductCardProps {
 export function ProductCard({
   product,
   variant = 'full',
-  linkLabel = 'View Product',
+  linkLabel = 'What it changes',
   className = '',
 }: ProductCardProps) {
   const accent = PRODUCT_ACCENT[product.color];
@@ -56,8 +55,7 @@ export function ProductCard({
     <div
       className={`bg-card border border-border rounded-xl p-6 flex flex-col transition-colors ${accent.border} ${className}`}
     >
-      {/* Column-first: the badge does not fit beside the product identity at 360px. */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+      <div className="flex items-center gap-3 mb-4">
         <div
           className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${accent.iconBg}`}
         >
@@ -65,7 +63,7 @@ export function ProductCard({
         </div>
         <div className="min-w-0">
           <div className="font-bold text-base leading-snug">{product.name}</div>
-          <ProductStatusBadge status={product.status} className="mt-1" />
+          <div className="text-xs text-muted-foreground leading-snug">{product.category}</div>
         </div>
       </div>
 
@@ -76,7 +74,7 @@ export function ProductCard({
       <div className="flex flex-wrap items-center justify-between gap-3 mt-auto">
         {variant === 'full' ? (
           <span className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
-            {product.category}
+            {product.audience[0]}
           </span>
         ) : (
           <span />

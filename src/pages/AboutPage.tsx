@@ -107,14 +107,14 @@ export default function AboutPage() {
               {
                 num: '03',
                 icon: Bot,
-                title: 'Measure Everything',
-                body: 'Latency, throughput, error rates. If it moves, we instrument it. Dashboards are not optional — they\'re part of the deliverable.',
+                title: 'Measure What It Saved',
+                body: 'Hours returned, cost per order, reply time, work that failed. If we cannot show the difference in your numbers, we have not finished.',
               },
               {
                 num: '04',
                 icon: Layers,
-                title: 'Scale First',
-                body: 'Built for 10x load from day one. No "we\'ll fix it later" architecture. Horizontal scaling should be a config change, not a rewrite.',
+                title: 'Built for Your Busiest Day',
+                body: 'The system has to hold up when volume triples, not just on a quiet Tuesday. Growth should cost a setting, not a rebuild.',
               },
             ].map(({ num, icon: Icon, title, body }) => (
               <div key={title} className="bento-card group">
@@ -143,7 +143,8 @@ export default function AboutPage() {
               What We Built
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Four products. One live, three in beta. All built from observed problems, not speculation.
+              Four products, each built from a problem we watched a business pay for — not from
+              a market slide.
             </p>
           </div>
 
@@ -196,11 +197,11 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
-            Ready to <span className="text-primary">Ship?</span>
+            Want to Get <span className="text-primary">Your Hours Back?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Book a 30-minute engineering consultation. We'll map your automation
-            requirements and define a production-ready architecture.
+            Book a 30-minute call. We will go through where your operation loses time and money,
+            and what it would cost to fix the worst of it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

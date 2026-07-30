@@ -225,8 +225,8 @@ export default function CompanyInformationPage() {
           </div>
 
           <p className="mt-8 text-sm text-muted-foreground">
-            Product availability and feature scope may change during beta testing. Each product
-            page states its current release status.
+            Each product is operated by {company.legalName}. Scope, pricing and onboarding for a
+            specific business are agreed directly with us before anything goes live.
           </p>
         </div>
       </section>

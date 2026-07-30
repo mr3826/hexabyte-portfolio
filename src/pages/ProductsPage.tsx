@@ -1,37 +1,68 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLink, Zap, Info } from 'lucide-react';
+import { ArrowRight, ExternalLink, Zap, TrendingUp, AlertTriangle, MessageCircle } from 'lucide-react';
 
 import { company } from '@/data/company';
-import { products, Product, ProductCapability } from '@/data/products';
-import { ProductStatusBadge } from '@/components/ProductStatusBadge';
+import { products, productAccessNote, Product } from '@/data/products';
 import { trackEvent } from '@/utils/analytics';
 
-/**
- * A capability marked `available` on a product that has not shipped is still in
- * beta, so the label has to come from the parent product's status rather than the
- * capability alone — Easy Moderator is live and previously read "Available in Beta".
- */
-function capabilityLabel(
-  capabilityStatus: NonNullable<ProductCapability['status']>,
-  productStatus: Product['status'],
-): { label: string; className: string } {
-  if (capabilityStatus === 'available') {
-    return productStatus === 'live'
-      ? { label: 'Available now', className: 'bg-success/10 text-success' }
-      : { label: 'Available in beta', className: 'bg-accent/10 text-accent' };
-  }
-  if (capabilityStatus === 'in-validation') {
-    return { label: 'In validation', className: 'bg-warning/10 text-warning' };
-  }
-  return { label: 'Planned', className: 'bg-muted text-muted-foreground' };
+function ProductIdentity({ product }: { product: Product }) {
+  return (
+    <div>
+      <p className="text-xs uppercase tracking-wider text-primary mb-3">{product.category}</p>
+      <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">{product.name}</h2>
+      <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+        {product.shortDescription}
+      </p>
+
+      <div className="bg-card border border-primary/20 rounded-xl p-6 mb-6">
+        <h3 className="text-sm font-semibold text-primary mb-2 uppercase tracking-wider">
+          What you get out of it
+        </h3>
+        <p className="text-lg font-medium leading-snug">{product.promise}</p>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+        <span className="text-xs uppercase tracking-wider">Built for</span>
+        {product.audience.map((audience) => (
+          <span key={audience} className="px-2.5 py-1 bg-secondary rounded">
+            {audience}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ProductPainPoints({ product }: { product: Product }) {
+  return (
+    <div className="bg-card border border-border rounded-xl p-6">
+      <div className="flex items-center gap-2.5 mb-4">
+        <AlertTriangle className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+          What the current way costs you
+        </h3>
+      </div>
+      <ul className="space-y-3">
+        {product.painPoints.map((point) => (
+          <li key={point} className="flex items-start gap-3 text-sm leading-relaxed">
+            <span
+              className="mt-2 w-1.5 h-1.5 rounded-full bg-destructive/70 flex-shrink-0"
+              aria-hidden="true"
+            />
+            <span className="text-muted-foreground">{point}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 function ProductWorkflow({ product }: { product: Product }) {
   return (
     <div className="bg-card border border-border rounded-xl p-6">
       <h3 className="text-sm font-semibold text-primary mb-4 uppercase tracking-wider">
-        How it works
+        How a day runs
       </h3>
       <ol className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 text-sm">
         {product.workflow.map((step, idx) => (
@@ -51,34 +82,6 @@ function ProductWorkflow({ product }: { product: Product }) {
   );
 }
 
-function ProductCopy({ product }: { product: Product }) {
-  return (
-    <div>
-      <ProductStatusBadge status={product.status} className="mb-4" />
-      <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">{product.name}</h2>
-      <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-        {product.shortDescription}
-      </p>
-
-      <div className="bg-card border border-primary/20 rounded-xl p-6 mb-6">
-        <h3 className="text-sm font-semibold text-primary mb-2 uppercase tracking-wider">
-          What it helps you achieve
-        </h3>
-        <p className="text-lg font-medium leading-snug">{product.promise}</p>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-        <span className="text-xs uppercase tracking-wider">Built for</span>
-        {product.audience.map((audience) => (
-          <span key={audience} className="px-2.5 py-1 bg-secondary rounded">
-            {audience}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function ProductsPage() {
   return (
     <main className="pt-[108px] md:pt-20 bg-[#0a0a0a]">
@@ -94,12 +97,12 @@ export default function ProductsPage() {
               </span>
             </div>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
-              Software Products Built Around{' '}
-              <span className="text-primary">Real Operational Problems</span>
+              Software That Removes{' '}
+              <span className="text-primary">a Cost You Already Pay</span>
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-              Four focused products for commerce, service businesses, and supply-chain teams —
-              each with its current availability stated plainly.
+              Four products for commerce, service and supply-chain operations. Each one starts
+              from a job someone is doing by hand today, and ends with that job running on its own.
             </p>
           </div>
         </div>
@@ -119,7 +122,6 @@ export default function ProductsPage() {
                   className="inline-flex items-center gap-2 min-h-[44px] px-4 rounded-full border border-border text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors whitespace-nowrap"
                 >
                   {product.name}
-                  <ProductStatusBadge status={product.status} className="scale-90 origin-left" />
                 </a>
               </li>
             ))}
@@ -128,8 +130,8 @@ export default function ProductsPage() {
       </nav>
 
       {products.map((product, index) => {
-        // Alternate the copy/visual order so four sections do not read identically.
-        const visualFirst = index % 2 === 1;
+        // Alternate the copy/context order so four sections do not read identically.
+        const contextFirst = index % 2 === 1;
 
         return (
           <section
@@ -140,60 +142,60 @@ export default function ProductsPage() {
           >
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
               <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start mb-12">
-                <div className={visualFirst ? 'lg:order-2' : ''}>
-                  <ProductCopy product={product} />
+                <div className={contextFirst ? 'lg:order-2' : ''}>
+                  <ProductIdentity product={product} />
                 </div>
-                <div className={`space-y-6 ${visualFirst ? 'lg:order-1' : ''}`}>
+                <div className={`space-y-6 ${contextFirst ? 'lg:order-1' : ''}`}>
+                  <ProductPainPoints product={product} />
                   <ProductWorkflow product={product} />
+                </div>
+              </div>
 
-                  {product.betaDisclosure && (
-                    <div className="bg-warning/10 border border-warning/30 rounded-xl p-6">
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-warning/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <Info className="w-4 h-4 text-warning" aria-hidden="true" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-warning mb-2">Current availability</h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {product.betaDisclosure}
-                          </p>
-                        </div>
-                      </div>
+              {/* What changes */}
+              <div className="mb-10">
+                <div className="flex items-center gap-2.5 mb-5">
+                  <TrendingUp className="w-4 h-4 text-primary" aria-hidden="true" />
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">
+                    What changes once it runs
+                  </h3>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {product.outcomes.map((outcome) => (
+                    <div
+                      key={outcome.label}
+                      className="bg-card border border-primary/20 rounded-xl p-6"
+                    >
+                      <h4 className="font-semibold mb-2">{outcome.label}</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {outcome.description}
+                      </p>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
 
               {/* Capabilities */}
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-                {product.capabilities.map((capability) => {
-                  const status = capability.status
-                    ? capabilityLabel(capability.status, product.status)
-                    : null;
-
-                  return (
+              <div className="mb-10">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-5">
+                  What it does
+                </h3>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {product.capabilities.map((capability) => (
                     <div key={capability.title} className="bento-card group flex flex-col">
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                         <capability.icon className="w-5 h-5 text-primary" />
                       </div>
-                      <h3 className="text-base font-semibold mb-2">{capability.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-grow">
+                      <h4 className="text-base font-semibold mb-2">{capability.title}</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
                         {capability.description}
                       </p>
-                      {status && (
-                        <span
-                          className={`text-xs px-2 py-1 rounded self-start ${status.className}`}
-                        >
-                          {status.label}
-                        </span>
-                      )}
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
 
               {/* CTAs — Link for internal routes, anchor for external URLs */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 {product.cta.map((cta) => {
                   const isExternal = cta.href.startsWith('http');
                   const className =
@@ -228,25 +230,38 @@ export default function ProductsPage() {
                 })}
               </div>
 
-              {/* Operator statement & legal links */}
-              <div className="bg-card border border-border rounded-xl p-6">
-                <p className="text-sm font-medium text-primary mb-2">{product.operatorStatement}</p>
-                {product.legalLinks && product.legalLinks.length > 0 && (
-                  <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-                    {product.legalLinks.map((link) => (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline flex items-center gap-1.5"
-                      >
-                        {link.label}
-                        <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                      </a>
-                    ))}
-                  </div>
-                )}
+              {/* How access works, then who operates it */}
+              <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+                <div className="flex items-start gap-3">
+                  <MessageCircle
+                    className="w-4 h-4 text-primary mt-1 flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {productAccessNote}
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm font-medium text-primary mb-2">
+                    {product.operatorStatement}
+                  </p>
+                  {product.legalLinks && product.legalLinks.length > 0 && (
+                    <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                      {product.legalLinks.map((link) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline flex items-center gap-1.5"
+                        >
+                          {link.label}
+                          <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </section>
@@ -258,11 +273,11 @@ export default function ProductsPage() {
         <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
           <p className="text-xs uppercase tracking-wider text-primary mb-4">Custom Engineering</p>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">
-            Need something different?
+            Your bottleneck isn't on this page?
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-8">
-            When a problem doesn't fit a product, we build the solution from the ground up — same
-            engineering standards, scoped to your operations.
+            Then it gets built for your operation — same standards, scoped to the process that is
+            actually costing you time.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

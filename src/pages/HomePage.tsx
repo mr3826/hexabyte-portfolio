@@ -28,13 +28,14 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
-                AI-Powered Systems & Digital Products{' '}
-                <span className="text-primary">Built for Real Operations</span>
+                The Work That Eats Your Day,{' '}
+                <span className="text-primary">Running On Its Own</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-muted-foreground mb-6 leading-relaxed max-w-xl">
-                Hexabyte Technologies helps businesses automate work, launch scalable software,
-                and run customer operations through practical AI, web, mobile, and workflow systems.
+                Hexabyte Technologies builds the systems that answer your customers, capture
+                orders, book deliveries and keep the numbers straight — so your team spends its
+                hours on the decisions that actually need a person.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -88,12 +89,13 @@ export default function HomePage() {
       <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs text-primary uppercase tracking-wider mb-3">Solutions</p>
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">What We Fix</p>
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
-              Built to Solve Business Problems
+              Four Places a Business Loses Hours
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We focus on the operational outcomes — not just the technology behind them.
+              We start from the job someone is doing by hand, not from the technology we would
+              enjoy using.
             </p>
           </div>
 
@@ -101,30 +103,30 @@ export default function HomePage() {
             {[
               {
                 icon: Settings,
-                title: 'Operational Automation',
-                desc: 'Automate repetitive workflows, reporting, approvals, and internal processes using AI-powered systems.',
-                tags: ['Workflow Design', 'n8n', 'AI Agents'],
+                title: 'Work that repeats itself',
+                desc: 'The reports, approvals, re-typing and follow-ups that quietly consume a day each week — handled by a system that never forgets a step.',
+                tags: ['Fewer manual hours', 'Nothing skipped', 'Same-day visibility'],
                 link: '/ai-automation',
               },
               {
                 icon: Globe,
-                title: 'Web, Commerce & SaaS Platforms',
-                desc: 'Build scalable web, e-commerce, dashboard, SaaS, and internal systems designed for long-term business growth.',
-                tags: ['Web Apps', 'E-commerce', 'SaaS'],
+                title: 'Selling and serving online',
+                desc: 'Storefronts, customer portals, dashboards and internal tools that hold up when order volume doubles instead of becoming the bottleneck.',
+                tags: ['More completed orders', 'One source of truth', 'Room to grow'],
                 link: '/web-development',
               },
               {
                 icon: Cpu,
-                title: 'AI Customer & Knowledge Systems',
-                desc: 'Integrate practical AI capabilities — assistants, RAG, document intelligence — into customer operations.',
-                tags: ['AI Assistants', 'RAG', 'Document Intelligence'],
+                title: 'Customer questions, answered',
+                desc: 'Assistants that answer from your own documents, prices and policies — instantly, at any hour, and honestly when they do not know.',
+                tags: ['Faster replies', 'Lower support cost', 'Answers you can trust'],
                 link: '/ai-automation',
               },
               {
                 icon: Smartphone,
-                title: 'Mobile & Field Operations',
-                desc: 'Flutter apps, offline-first workflows, real-time operational tools for field and supply-chain teams.',
-                tags: ['Flutter', 'Offline-First', 'Real-time Ops'],
+                title: 'Teams away from a desk',
+                desc: 'Field, floor and delivery work captured on a phone, on a weak connection, in seconds — so head office stops calling to ask.',
+                tags: ['Updates in seconds', 'Works offline', 'Status without calls'],
                 link: '/mobile-development',
               },
             ].map((solution) => (
@@ -163,8 +165,8 @@ export default function HomePage() {
               Products Built by Hexabyte
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Focused software for commerce, service businesses, and supply-chain teams. Each card
-              states its current availability.
+              Four products for commerce, service and supply-chain operations — each one removing
+              a job a business currently pays someone to do by hand.
             </p>
           </div>
 
@@ -251,10 +253,11 @@ export default function HomePage() {
       <section className="py-16 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-10">
-            <p className="text-xs text-primary uppercase tracking-wider mb-3">Technology</p>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">The Hexabyte Stack</h2>
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">For Reference</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">What It's Built On</h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-              Production-grade tooling across AI, automation, and full-stack engineering.
+              You are buying an outcome, not a toolchain. But if your team needs to know what they
+              would be inheriting, this is it.
             </p>
           </div>
 
@@ -304,17 +307,17 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="text-xs text-primary uppercase tracking-wider mb-3">What We Measure</p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">Operational Signals Over Vanity Metrics</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">The Numbers That Decide Whether It Worked</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              { title: 'Reliability', desc: 'Uptime, error rates, and system stability under load' },
-              { title: 'Processing Time', desc: 'End-to-end latency for critical workflows' },
-              { title: 'Adoption', desc: 'Active usage, feature penetration, and retention' },
-              { title: 'Operational Throughput', desc: 'Orders, bookings, tickets processed per period' },
-              { title: 'Error Rates', desc: 'Failed operations, retries, and exception handling' },
-              { title: 'Customer Response Time', desc: 'Time from enquiry to meaningful response' },
+              { title: 'Hours given back', desc: 'Staff time no longer spent on the work the system now handles' },
+              { title: 'Cost per order', desc: 'What it costs your business to get one order out the door' },
+              { title: 'Reply time', desc: 'How long a customer waits for a useful answer' },
+              { title: 'Orders completed', desc: 'How many enquiries turn into delivered, paid work' },
+              { title: 'Work that fails', desc: 'Errors, refused deliveries and jobs that need doing twice' },
+              { title: 'Adoption', desc: 'Whether your team actually uses it a month later' },
             ].map((metric, idx) => (
               <div key={idx} className="bento-card text-center">
                 <h3 className="text-lg font-semibold mb-2">{metric.title}</h3>

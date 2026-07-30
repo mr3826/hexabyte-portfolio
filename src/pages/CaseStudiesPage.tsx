@@ -3,29 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
 
 import { company } from '@/data/company';
-import {
-  caseStudies,
-  CASE_STUDY_DOMAINS,
-  EVIDENCE_TYPES,
-  EvidenceType,
-} from '@/data/caseStudies';
-import { getProductById } from '@/data/products';
-import { ProductStatusBadge } from '@/components/ProductStatusBadge';
-
-/** Plural filter label for each evidence type. */
-const EVIDENCE_FILTER_LABEL: Record<EvidenceType, string> = {
-  'Deployed System': 'Deployed Systems',
-  'Live Product': 'Live Products',
-  'Beta Product Build': 'Beta Product Builds',
-  'Internal R&D': 'Internal R&D',
-};
-
-const EVIDENCE_STYLE: Record<EvidenceType, string> = {
-  'Deployed System': 'bg-success/10 text-success border border-success/25',
-  'Live Product': 'bg-primary/10 text-primary border border-primary/25',
-  'Beta Product Build': 'bg-warning/10 text-warning border border-warning/25',
-  'Internal R&D': 'bg-muted text-muted-foreground border border-border',
-};
+import { caseStudies, CASE_STUDY_DOMAINS } from '@/data/caseStudies';
 
 export default function CaseStudiesPage() {
   const [filter, setFilter] = useState('All');
@@ -33,24 +11,12 @@ export default function CaseStudiesPage() {
   // Derived from the data, so a new case study cannot end up unreachable behind a
   // hand-maintained filter list.
   const filters = useMemo(() => {
-    const present = new Set(caseStudies.map((study) => study.evidenceType));
-    const domains = new Set(caseStudies.map((study) => study.domain));
-    return [
-      'All',
-      ...EVIDENCE_TYPES.filter((type) => present.has(type)).map(
-        (type) => EVIDENCE_FILTER_LABEL[type],
-      ),
-      ...CASE_STUDY_DOMAINS.filter((domain) => domains.has(domain)),
-    ];
+    const present = new Set(caseStudies.map((study) => study.domain));
+    return ['All', ...CASE_STUDY_DOMAINS.filter((domain) => present.has(domain))];
   }, []);
 
   const filteredStudies =
-    filter === 'All'
-      ? caseStudies
-      : caseStudies.filter(
-          (study) =>
-            EVIDENCE_FILTER_LABEL[study.evidenceType] === filter || study.domain === filter,
-        );
+    filter === 'All' ? caseStudies : caseStudies.filter((study) => study.domain === filter);
 
   return (
     <main className="pt-[108px] md:pt-20 bg-[#0a0a0a]">
@@ -61,12 +27,12 @@ export default function CaseStudiesPage() {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className="text-xs text-primary uppercase tracking-wider mb-4">Selected Work</p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight">
-            Systems Delivered.{' '}
-            <span className="text-primary">Products Being Built.</span>
+            Operations That Stopped{' '}
+            <span className="text-primary">Costing What They Used To</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            A transparent view of deployed systems, live products, and beta product builds —
-            including the problem, architecture, current status, and available evidence.
+            Each write-up covers the same three things: what the work cost before, what we built,
+            and what changed for the business afterwards.
           </p>
         </div>
       </section>
@@ -99,13 +65,7 @@ export default function CaseStudiesPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredStudies.map((study) => {
-              // Status comes from the product record rather than being re-derived from ids.
-              const productStatus = study.productId
-                ? getProductById(study.productId)?.status
-                : undefined;
-
-              return (
+            {filteredStudies.map((study) => (
               <Link
                 key={study.id}
                 to={`/case-studies/${study.id}`}
@@ -114,14 +74,9 @@ export default function CaseStudiesPage() {
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="flex flex-wrap gap-2">
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${EVIDENCE_STYLE[study.evidenceType]}`}
-                    >
-                      {study.evidenceType}
-                    </span>
-                    {productStatus && <ProductStatusBadge status={productStatus} />}
-                  </div>
+                  <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary border border-primary/25">
+                    {study.category}
+                  </span>
                   <span className="text-xs text-muted-foreground flex items-center gap-1 flex-shrink-0">
                     <Clock className="w-3 h-3" aria-hidden="true" />
                     {study.timeline}
@@ -136,7 +91,7 @@ export default function CaseStudiesPage() {
                   {study.excerpt}
                 </p>
 
-                {/* Tech Stack */}
+                {/* What the build covers */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {study.tags.map((tag) => (
                     <span key={tag.label} className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
@@ -154,8 +109,7 @@ export default function CaseStudiesPage() {
                   />
                 </div>
               </Link>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
@@ -164,11 +118,11 @@ export default function CaseStudiesPage() {
       <section className="py-16 border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-6">
-            Ready to <span className="text-primary">Build?</span>
+            What's <span className="text-primary">Your Bottleneck?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Book a 30-minute call. We will map your requirements and define an architecture you
-            can actually run.
+            Book a 30-minute call. We will walk through where your operation loses time and money,
+            and what it would take to remove it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
