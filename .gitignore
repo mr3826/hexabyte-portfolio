@@ -11,3 +11,12 @@ deploy.zip
 .claude/**/*.local.md
 
 .vercel
+
+# Scratch output from `aws cloudfront get-distribution-config` etc. while
+# debugging the origin. Not configuration — the pipeline owns that.
+cf-*.json
+
+# Screenshots from the responsive check
+test-results/
+playwright-report/
+screenshots/

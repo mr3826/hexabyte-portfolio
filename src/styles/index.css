@@ -1,3 +1,5 @@
-@import './fonts.css';
+/* Fonts are loaded by a <link> in index.html, not from here. An @import inside
+   the bundle cannot be requested until the bundle has downloaded and parsed,
+   which puts the font fetch two round trips behind first paint. */
 @import './tailwind.css';
 @import './theme.css';

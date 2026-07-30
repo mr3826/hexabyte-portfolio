@@ -239,27 +239,28 @@ TradeFlow beta access).
 5. **Prerendering** was deliberately skipped. Static metadata plus per-route JS metadata
    covers the current SEO needs without a headless-Chrome build dependency or Amplify
    build risk.
-6. **Site-wide opacity bug in the theme layer — not fixed, needs a decision.**
-   `@theme inline` cannot resolve a `var()` indirection at build time, so Tailwind
-   silently discards the opacity modifier on every token declared that way. In the
-   current build:
+6. ~~**Site-wide opacity bug in the theme layer.**~~ **Retracted 2026-07-31 — there is no
+   bug.** This entry claimed that `@theme inline` cannot resolve a `var()` indirection at
+   build time and therefore discards every opacity modifier, leaving each "subtle tint" on
+   the site rendering as a solid block. That is wrong, and it was never checked against a
+   built stylesheet. Tailwind v4.1 emits a flat fallback and then overrides it:
 
    ```css
-   .bg-primary\/10  { background-color: var(--primary) }   /* solid indigo, not a 10% tint */
-   .bg-accent\/10   { background-color: var(--accent)  }
-   .border-primary\/20 { border-color: var(--primary)  }
+   .bg-primary\/10{background-color:var(--primary)}
+   @supports (color:color-mix(in lab,red,red)){
+     .bg-primary\/10{background-color:color-mix(in oklab,var(--primary)10%,transparent)}
+   }
    ```
 
-   Every "subtle tint" on the site — icon boxes, badges, panel borders, hover states —
-   currently renders at full opacity. `--color-success` / `--color-warning` were declared
-   as literals in this branch specifically to avoid inheriting the bug, which is why
-   `.bg-success\/10` correctly emits `#22c55e1a`.
+   The `color-mix` rule comes second and wins wherever `color-mix` is supported, which is
+   every browser since 2023. Tints render correctly and always have. Declaring
+   `--color-success` / `--color-warning` as literals is a marginal simplification (the
+   alpha folds at build time into `#22c55e1a`, with no `@supports` guard needed), not a
+   workaround for anything.
 
-   The one-line fix per token is to replace the `var()` with the literal hex already in
-   `:root`, e.g. `--color-primary: #6366f1`. **This was left alone deliberately**: it
-   would change the appearance of nearly every surface on the site in one commit, and
-   what currently ships is the aesthetic the owner has been looking at. Worth doing, but
-   as its own reviewed change with screenshots — not folded into this pass.
+   Left here rather than deleted because the claim also reached
+   `PRODUCTION_LAUNCH_PLAN.md` and a comment in `theme.css`, and a retraction is more
+   useful to the next reader than a gap.
 
 ---
 

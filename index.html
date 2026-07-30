@@ -17,10 +17,16 @@
     <link rel="apple-touch-icon" href="/hexabyte-logo.png" />
     <meta name="theme-color" content="#0a0a0a" />
 
-    <!-- Fonts are imported from src/styles/fonts.css; preconnect so the fetch is
-         not serialised behind the stylesheet. -->
+    <!-- Loaded here rather than @import-ed from the CSS bundle: an @import cannot
+         be requested until that bundle has downloaded and parsed, which puts the
+         font two round trips behind first paint. Weights are only the ones the
+         site uses — Inter 400/500/600/700, JetBrains Mono 400/500. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Hexabyte Technologies" />
