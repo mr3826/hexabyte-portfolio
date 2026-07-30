@@ -13,11 +13,36 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
+/**
+ * Only the site may call this.
+ *
+ * This was "*", which let anyone POST from anywhere, unthrottled — and every
+ * call writes a row and sends two Resend emails. That is a spam amplifier
+ * pointed at the project's own billing, not merely an open endpoint.
+ *
+ * ALLOWED_ORIGINS is comma-separated so a staging domain can be added without a
+ * redeploy; it defaults to production.
+ */
+const allowedOrigins = (
+  Deno.env.get("ALLOWED_ORIGINS") ||
+  "https://hexabyte.tech,https://www.hexabyte.tech"
+)
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+function corsFor(req: Request) {
+  const origin = req.headers.get("origin") || "";
+  return {
+    // Echo only a recognised origin. An unknown one gets no ACAO header at all,
+    // and the browser blocks the response.
+    ...(allowedOrigins.includes(origin)
+      ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" }
+      : {}),
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
 
 async function sendEmail({
   to,
@@ -137,6 +162,13 @@ async function sendSlackNotification(payload: {
 }
 
 serve(async (req) => {
+  const corsHeaders = corsFor(req);
+  const json = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), {
+      status,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
@@ -153,23 +185,15 @@ serve(async (req) => {
       Deno.env.get("INTERNAL_NOTIFICATION_EMAIL") || "contact@hexabyte.tech";
 
     const inquiryData = await req.json();
-    const projectType = Array.isArray(inquiryData.projectType) ? inquiryData.projectType : [];
-    const currentTools = Array.isArray(inquiryData.currentTools) ? inquiryData.currentTools : [];
-    const challenges = Array.isArray(inquiryData.challenges) ? inquiryData.challenges : [];
-    const submittedAt = inquiryData.submittedAt || new Date().toISOString();
 
-    // Validate required fields
-    if (!inquiryData.name || !inquiryData.email) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: "Name and email are required",
-        }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    // Honeypot. The form renders a field no human sees; a bot fills every field
+    // it finds. Answer 200 so the bot has nothing to tune against, and write
+    // nothing.
+    if (inquiryData.website || inquiryData.fax) {
+      console.log("[submit-inquiry] Honeypot triggered, discarding");
+      return json({ success: true, message: "Inquiry received successfully" });
     }
 
-    // Initialize Supabase client
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
@@ -178,6 +202,47 @@ serve(async (req) => {
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Newsletter signups carry an email address and nothing else. Validating
+    // them against the inquiry rules below would reject every one of them with
+    // "Name and email are required", which is what would have happened the
+    // moment this endpoint went live.
+    if (inquiryData.type === "newsletter") {
+      if (!inquiryData.email) {
+        return json({ success: false, message: "Email is required" }, 400);
+      }
+
+      const { error } = await supabase
+        .from("newsletter_subscribers")
+        .upsert(
+          {
+            email: inquiryData.email,
+            cta_source: inquiryData.cta_source || null,
+            referrer: inquiryData.referrer || null,
+            submitted_at: inquiryData.submittedAt || new Date().toISOString(),
+          },
+          { onConflict: "email" }
+        );
+
+      if (error) {
+        console.error("[submit-inquiry] Newsletter error:", error);
+        throw error;
+      }
+
+      return json({ success: true, message: "Subscribed" });
+    }
+
+    const projectType = Array.isArray(inquiryData.projectType) ? inquiryData.projectType : [];
+    const currentTools = Array.isArray(inquiryData.currentTools) ? inquiryData.currentTools : [];
+    const challenges = Array.isArray(inquiryData.challenges) ? inquiryData.challenges : [];
+    const submittedAt = inquiryData.submittedAt || new Date().toISOString();
+    // NOT NULL in the table, and interpolated into the confirmation email below,
+    // where .toLowerCase() on undefined threw a 500 on any POST that omitted it.
+    const goals = typeof inquiryData.goals === "string" ? inquiryData.goals : "";
+
+    if (!inquiryData.name || !inquiryData.email) {
+      return json({ success: false, message: "Name and email are required" }, 400);
+    }
 
     // Insert inquiry into database
     const { data: inquiry, error: dbError } = await supabase
@@ -193,7 +258,7 @@ serve(async (req) => {
           current_tools: currentTools,
           other_tool: inquiryData.otherTool || null,
           challenges,
-          goals: inquiryData.goals,
+          goals,
           utm_source: inquiryData.utm_source || null,
           utm_medium: inquiryData.utm_medium || null,
           utm_campaign: inquiryData.utm_campaign || null,
@@ -217,7 +282,11 @@ serve(async (req) => {
     const confirmationHtml = `
       <h2>Hi ${inquiryData.name},</h2>
       <p>Thank you for reaching out! We've received your inquiry and will review it shortly.</p>
-      <p>We're interested in learning more about your ${projectType.join(", ")} project and your goals to ${inquiryData.goals.toLowerCase()}.</p>
+      ${
+        goals
+          ? `<p>We're interested in learning more about your ${projectType.join(", ")} project and your goals to ${goals.toLowerCase()}.</p>`
+          : ""
+      }
       <p>Our team will follow up within 24 hours with available times to discuss your project and how we can help.</p>
       <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e5e7eb;">
       <p><strong>What we'll cover:</strong></p>
@@ -249,7 +318,7 @@ serve(async (req) => {
       <p><strong>Project Types:</strong> ${projectType.length ? projectType.join(", ") : "Not specified"}</p>
       <p><strong>Current Tools:</strong> ${currentTools.length ? currentTools.join(", ") : "Not specified"}</p>
       <p><strong>Challenges:</strong> ${challenges.length ? challenges.join(", ") : "Not specified"}</p>
-      <p><strong>Goals:</strong> ${inquiryData.goals}</p>
+      <p><strong>Goals:</strong> ${goals}</p>
       <hr>
       <p><strong>Attribution:</strong></p>
       <p>Source: ${inquiryData.utm_source || "Direct"} | Medium: ${inquiryData.utm_medium || "None"} | Campaign: ${inquiryData.utm_campaign || "None"}</p>
@@ -275,7 +344,7 @@ serve(async (req) => {
       role: inquiryData.role,
       projectType,
       challenges,
-      goals: inquiryData.goals,
+      goals,
       ctaSource: inquiryData.cta_source || null,
       utmSource: inquiryData.utm_source || null,
       utmMedium: inquiryData.utm_medium || null,

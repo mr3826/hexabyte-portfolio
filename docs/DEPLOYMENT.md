@@ -84,11 +84,44 @@ check `content-type` when you are testing an asset.
 submission failed. The variable is now unset, and the form offers the visitor a prefilled
 email plus the phone number instead, so a lead is never lost.
 
-To restore automated capture, deploy something that accepts
-`POST { …InquiryFormData, submittedAt }` and returns `{ "success": true }`, then set the
-variable in `.env.production` and redeploy. `supabase/functions/submit-inquiry/index.ts`
-and `supabase/migrations/` are still in the repo and can be redeployed to a new Supabase
-project unchanged.
+> **Do not set this in `.env.production`.** That file is gitignored, so CI never sees it:
+> the build would ship with the variable unset, the form would keep falling back to
+> `mailto:`, and the deploy would report success — the same silent failure that hid the
+> broken endpoint for weeks. Vite inlines `VITE_*` at build time, so the value must exist
+> in the environment of the `npm run build` step.
+
+To restore automated capture:
+
+1. Create a Supabase project. `supabase/functions/submit-inquiry/index.ts` and both
+   migrations in `supabase/migrations/` deploy unchanged:
+
+   ```bash
+   supabase link --project-ref <ref>
+   supabase db push
+   supabase functions deploy submit-inquiry
+   ```
+
+2. Set the function's secrets. `RESEND_API_KEY` and `INTERNAL_NOTIFICATION_EMAIL` are what
+   make a lead reach you; `ALLOWED_ORIGINS` defaults to `https://hexabyte.tech` and
+   `https://www.hexabyte.tech` and only needs setting to add a staging domain.
+
+   ```bash
+   supabase secrets set RESEND_API_KEY=... INTERNAL_NOTIFICATION_EMAIL=you@hexabyte.tech
+   ```
+
+3. Add the function URL as a **repository variable** — Settings → Secrets and variables →
+   Actions → Variables — named `VITE_FORM_SUBMISSION_ENDPOINT`. A variable rather than a
+   secret because the URL is compiled into client JS and served to every visitor; it is
+   public by construction, and as a variable you can read back from the deploy log exactly
+   what shipped.
+
+4. Re-run the deploy (`gh workflow run "Deploy hexabyte.tech"`). The **Confirm build-time
+   config reached the bundle** step greps the built JS for the endpoint and fails the run
+   if it is absent, so a typo cannot produce a green deploy over a dead form.
+
+Any backend works, not just Supabase: it needs to accept
+`POST { …InquiryFormData, submittedAt }` and return `{ "success": true }`, and to answer
+CORS preflight from `hexabyte.tech`.
 
 ### 2. CI credentials are over-privileged
 
@@ -100,6 +133,17 @@ an account takeover, not a defaced website. The fix is a GitHub OIDC role scoped
 
 ### 3. Analytics is wired but not connected
 
-`trackEvent` pushes to `window.dataLayer` and nothing consumes it. Set a GA4 or GTM
-container id and the CTA, inquiry and case-study events already being emitted start
-reporting. Until then, traffic and conversion are invisible.
+`trackEvent` emits `cta_clicked`, `inquiry_started`, `inquiry_submitted`,
+`inquiry_confirmation_shown`, `inquiry_submission_failed`, `service_page_viewed` and
+`case_study_viewed`, and nothing consumes them. Until a container exists you cannot tell a
+good week from a bad one.
+
+Add a repository variable `VITE_GTM_ID` (same place as the endpoint above) and redeploy.
+The tag is injected at build time and **only when the variable is set** — an unconfigured
+build ships no third-party script at all, so there is no extra request, no cookie and no
+consent obligation for a tag reporting to nobody.
+
+Either id shape works. `GTM-…` loads Tag Manager, whose triggers read the `event` key these
+pushes already use — this is the one that needs no further wiring. `G-…` loads GA4
+directly, and `trackEvent` forwards each event through `gtag()` so conversions still
+register rather than only pageviews.

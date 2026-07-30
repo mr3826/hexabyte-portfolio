@@ -25,6 +25,12 @@ export interface InquiryFormData {
   // Intent signals
   cta_source?: string;
   inquiry_started_at?: string;
+  /**
+   * Honeypot. Always empty for a human — the field is positioned off-screen and
+   * kept out of the tab order. The backend discards any submission where it is
+   * set. Not included in buildInquiryMailto: it is plumbing, not content.
+   */
+  website?: string;
 }
 
 export interface SubmissionResponse {

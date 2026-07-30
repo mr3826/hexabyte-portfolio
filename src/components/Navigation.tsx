@@ -53,6 +53,7 @@ export default function Navigation() {
                 href={company.discoveryCallUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="header-cta"
                 className="cta-engineering"
               >
                 Book a Discovery Call
@@ -62,35 +63,42 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Mobile category strip — horizontal scrollable, no hamburger */}
+      {/* Mobile category strip — horizontal scrollable, no hamburger.
+          The CTA sits OUTSIDE the scrolling row. Inside it, the four links plus
+          the button measured wider than a 390px viewport, so the button was
+          clipped at the right edge and only reachable by scrolling the strip —
+          the page itself never overflowed, so nothing flagged it. */}
       <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border">
-        <nav
-          aria-label="Primary"
-          className="flex items-center overflow-x-auto nav-strip-scroll px-4 gap-1 h-11"
-        >
-          {NAV_LINKS.map(({ to, label }) => (
-            <Link
-              key={to}
-              to={to}
-              aria-current={isActive(to) ? 'page' : undefined}
-              className={`shrink-0 inline-flex items-center min-h-[44px] px-4 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
-                isActive(to)
-                  ? 'bg-primary/15 text-primary border border-primary/30'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
-              }`}
-            >
-              {label}
-            </Link>
-          ))}
+        <div className="flex items-center h-11 pr-4">
+          <nav
+            aria-label="Primary"
+            className="flex items-center overflow-x-auto nav-strip-scroll px-4 gap-1 flex-1 min-w-0"
+          >
+            {NAV_LINKS.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                aria-current={isActive(to) ? 'page' : undefined}
+                className={`shrink-0 inline-flex items-center min-h-[44px] px-4 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+                  isActive(to)
+                    ? 'bg-primary/15 text-primary border border-primary/30'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
           <a
             href={company.discoveryCallUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 ml-1 inline-flex items-center min-h-[44px] px-4 rounded-full text-sm font-semibold bg-primary text-background whitespace-nowrap hover:bg-primary/90 transition-colors"
+            data-testid="header-cta"
+            className="shrink-0 inline-flex items-center min-h-[44px] px-4 rounded-full text-sm font-semibold bg-primary text-background whitespace-nowrap hover:bg-primary/90 transition-colors"
           >
             Book a Call
           </a>
-        </nav>
+        </div>
       </div>
     </header>
   );

@@ -12,6 +12,7 @@ type EventPayload = Record<string, string | number | boolean | null | undefined>
 declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -50,8 +51,16 @@ export function trackEvent(name: AnalyticsEventName, payload: EventPayload = {})
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(eventPayload);
 
+  // A dataLayer push is a trigger in Tag Manager, but GA4's gtag.js ignores it —
+  // it only reports what gtag('event', …) sends. Without this line a GA4 property
+  // would record pageviews and no conversions at all. Harmless under GTM, where
+  // gtag is not defined.
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', name, { ...payload, page_path: window.location.pathname });
+  }
+
   if (import.meta.env.DEV) {
-    // Keep this visible in development until GTM/GA4 wiring is finalized.
+    // Visible in development, where no container is configured.
     console.debug('[analytics]', eventPayload);
   }
 }
