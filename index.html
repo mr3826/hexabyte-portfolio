@@ -1,23 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Hexabyte | AI Systems That Ship. Production-Ready Automation Infrastructure</title>
-      <meta
-        name="description"
-        content="We build production-ready RAG pipelines, n8n orchestration, and automation engines for fast-moving teams. Deploy infrastructure that scales."
-      />
-      <meta
-        name="keywords"
-        content="AI automation engineering, RAG pipelines, n8n orchestration, workflow automation, production infrastructure"
-      />
-    </head>
+    <!-- Crawlers and social scrapers that do not run JS see only this head, so it
+         must match the homepage metadata that RouteObserver sets in App.tsx. -->
+    <title>Hexabyte Technologies | AI Systems, Automation and Digital Products</title>
+    <meta
+      name="description"
+      content="Hexabyte Technologies builds practical AI automation, web and mobile systems, and focused software products for commerce, bookings, customer operations, and supply-chain teams."
+    />
+    <link rel="canonical" href="https://hexabyte.tech/" />
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+    <link rel="icon" type="image/png" href="/hexabyte-logo.png" />
+    <link rel="apple-touch-icon" href="/hexabyte-logo.png" />
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- Fonts are imported from src/styles/fonts.css; preconnect so the fetch is
+         not serialised behind the stylesheet. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hexabyte Technologies" />
+    <meta property="og:url" content="https://hexabyte.tech/" />
+    <meta
+      property="og:title"
+      content="Hexabyte Technologies | AI Systems, Automation and Digital Products"
+    />
+    <meta
+      property="og:description"
+      content="Hexabyte Technologies builds practical AI automation, web and mobile systems, and focused software products for commerce, bookings, customer operations, and supply-chain teams."
+    />
+    <meta property="og:image" content="https://hexabyte.tech/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Hexabyte Technologies | AI Systems, Automation and Digital Products"
+    />
+    <meta
+      name="twitter:description"
+      content="Hexabyte Technologies builds practical AI automation, web and mobile systems, and focused software products for commerce, bookings, customer operations, and supply-chain teams."
+    />
+    <meta name="twitter:image" content="https://hexabyte.tech/og-image.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

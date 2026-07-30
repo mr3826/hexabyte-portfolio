@@ -3,7 +3,6 @@ import { Mail, Phone, Linkedin, Github, ExternalLink } from 'lucide-react';
 
 import { company, addressLine } from '@/data/company';
 import { products } from '@/data/products';
-import hexabyteLogo from '@/assets/hexabyte-logo.png';
 
 const COMPANY_LINKS = [
   { to: '/about', label: 'About' },
@@ -30,7 +29,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-3 lg:col-span-2">
             <div className="mb-4 flex items-center gap-3">
-              <img src={hexabyteLogo} alt="Hexabyte" className="h-10 w-auto object-contain" />
+              <img src="/hexabyte-logo.png" alt="Hexabyte" className="h-10 w-auto object-contain" />
               <div className="status-indicator">
                 <span className="status-dot status-dot-green" />
                 <span className="text-xs text-muted-foreground">Accepting Projects</span>

@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Users, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { getCaseStudyById, getCaseStudyImage } from '@/data/caseStudies';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 export default function CaseStudyDetail() {
   const { id } = useParams();
@@ -13,17 +14,9 @@ export default function CaseStudyDetail() {
   const study = id ? getCaseStudyById(id) : null;
   const studyVisual = id ? getCaseStudyImage(id) : null;
 
+  // One 404 implementation, so an unknown case-study id is noindexed too.
   if (!study) {
-    return (
-      <main className="pt-[108px] md:pt-20 min-h-screen flex items-center justify-center bg-[#0a0a0a]">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Case Study Not Found</h1>
-          <Link to="/case-studies" className="text-primary hover:underline">
-            Back to Case Studies
-          </Link>
-        </div>
-      </main>
-    );
+    return <NotFoundPage />;
   }
 
   return (

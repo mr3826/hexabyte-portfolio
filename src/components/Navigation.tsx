@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import { company } from '@/data/company';
-import hexabyteLogo from '@/assets/hexabyte-logo.png';
 
 /**
  * `Company` was removed as a top-level item: it sat next to `About` with no clear
@@ -30,7 +29,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link to="/" className="flex items-center shrink-0">
               <img
-                src={hexabyteLogo}
+                src="/hexabyte-logo.png"
                 alt="Hexabyte"
                 className="h-10 md:h-16 w-auto object-contain"
               />
