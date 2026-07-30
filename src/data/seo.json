@@ -1,0 +1,77 @@
+{
+  "$comment": "Single source of per-route metadata. Read at runtime by RouteObserver in src/App.tsx and at build time by scripts/prerender-head.mjs, which bakes these values into one HTML file per route so crawlers and link unfurlers do not depend on JavaScript. Keep every sitemap.xml path represented here — src/__tests__/sitemap.test.ts asserts it.",
+  "routes": {
+    "/": {
+      "title": "Hexabyte Technologies | Automate the Work That Eats Your Day",
+      "description": "We build the systems that answer your customers, capture orders, book deliveries and keep the numbers straight — so your team stops doing it by hand."
+    },
+    "/products": {
+      "title": "Products for Commerce, Bookings and Supply Chain | Hexabyte",
+      "description": "Four products that remove work a business currently pays someone to do by hand: customer messages, order capture, delivery booking, appointments and order status."
+    },
+    "/ai-automation": {
+      "title": "Business Process Automation | Hexabyte Technologies",
+      "description": "Stop paying salaries for copy and paste. We find the most expensive repetitive work in your operation, automate it, and show the difference in hours and cost."
+    },
+    "/web-development": {
+      "title": "Web, Commerce and Internal Systems | Hexabyte Technologies",
+      "description": "Software your team stops working around: customer platforms, order desks and admin tools that replace the spreadsheet kept beside the system."
+    },
+    "/mobile-development": {
+      "title": "Mobile and Field Operations Apps | Hexabyte Technologies",
+      "description": "Job updates captured on a phone where the work happens, with no signal required — so head office stops calling to ask for status."
+    },
+    "/about": {
+      "title": "About Hexabyte Technologies | Founder-Led Software Company",
+      "description": "Products came first, client work followed. Direct founder access, a small deliberate operation, and systems judged by what they save."
+    },
+    "/process": {
+      "title": "How We Work | Hexabyte Technologies",
+      "description": "Discovery, planning, build and support — with weekly progress you can see, direct founder access, and a clear view of what each phase costs."
+    },
+    "/resources": {
+      "title": "Operations Resources | Hexabyte Technologies",
+      "description": "Practical guides for small operations teams on automating customer messages, order handling, delivery coordination and reporting."
+    },
+    "/case-studies": {
+      "title": "Selected Work | Hexabyte Technologies",
+      "description": "What the work cost before, what we built, and what changed afterwards — six operations rebuilt across commerce, service and supply chain."
+    },
+    "/company-information": {
+      "title": "Company Information | Hexabyte Technologies",
+      "description": "Registered business details for Hexabyte Technologies: legal name, address, contact information and products operated, for customers, partners and platform reviewers."
+    }
+  },
+  "caseStudies": {
+    "easy-moderator": {
+      "title": "Running a Social Shop Without Watching Three Inboxes | Hexabyte",
+      "description": "Conversations, orders, courier bookings and daily numbers in one workspace, so selling no longer depends on who happens to be online."
+    },
+    "tradeflow": {
+      "title": "Order Status a Buying House Can Defend | Hexabyte",
+      "description": "Floor updates captured on a phone in seconds, risk surfaced early, and a change history complete enough to settle a disputed shipment."
+    },
+    "easy-assistance": {
+      "title": "A Diary That Fills Itself for Appointment Businesses | Hexabyte",
+      "description": "Enquiries answered and booked while the team is mid-service, with reminders and follow-up handled so empty chairs stop being routine."
+    },
+    "easy-ecommerce": {
+      "title": "A Store of Your Own Without a Development Project | Hexabyte",
+      "description": "Storefront, catalogue, local checkout and delivery in one system, so getting online stops requiring a developer and three subscriptions."
+    },
+    "reel-studio": {
+      "title": "Short-Form Video Production That Runs Unattended | Hexabyte",
+      "description": "A generation pipeline that survives failure, reports where each job stands, and turns video output from a bottleneck into scheduled work."
+    },
+    "rag-chatbot": {
+      "title": "An Assistant That Answers From Your Documents | Hexabyte",
+      "description": "Routine questions answered from an organisation's own policies and files, with the source attached, so support time goes to cases that need judgement."
+    }
+  },
+  "fallbacks": {
+    "caseStudy": {
+      "title": "Selected Work | Hexabyte Technologies",
+      "description": "What the work cost before, what we built, and what changed afterwards."
+    }
+  }
+}
