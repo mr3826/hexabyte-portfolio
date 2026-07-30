@@ -1,7 +1,7 @@
 import { X, Check, Loader } from 'lucide-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { getAttributionFromUrl, trackEvent } from '@/utils/analytics';
-import { useIsMobile } from '@/components/ui/use-mobile';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import {
   submitInquiryForm,
   buildInquiryMailto,
