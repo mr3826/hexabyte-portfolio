@@ -35,21 +35,27 @@ export interface SubmissionResponse {
 }
 
 /**
- * Submit inquiry form data to backend
- * In production, configure the FORM_SUBMISSION_ENDPOINT environment variable
- * or deployment platform (Vercel, Netlify, etc.) to route to your backend
+ * Submit inquiry form data to the configured backend.
+ *
+ * There is no default endpoint. Falling back to a relative path meant every
+ * submission POSTed to the SPA itself, which returns index.html with a 200 —
+ * so the failure surfaced as a JSON parse error rather than as "no backend
+ * configured". Callers must offer a direct-contact route when this fails; see
+ * buildInquiryMailto below.
  */
 export async function submitInquiryForm(
   formData: InquiryFormData
 ): Promise<SubmissionResponse> {
+  const endpoint = import.meta.env.VITE_FORM_SUBMISSION_ENDPOINT;
+
+  if (!endpoint) {
+    return {
+      success: false,
+      message: 'No submission endpoint is configured.',
+    };
+  }
+
   try {
-    // Get the endpoint from environment or use default
-    const endpoint =
-      import.meta.env.VITE_FORM_SUBMISSION_ENDPOINT ||
-      '/api/inquiries/submit';
-
-    console.log('[FormSubmission] Submitting inquiry to:', endpoint);
-
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -150,25 +156,30 @@ export async function submitNewsletter(
 }
 
 /**
- * Send inquiry via email as fallback
- * This is a placeholder for email notification service
- * In production, integrate with SendGrid, Mailgun, or similar
+ * Builds a mailto: link carrying everything the visitor typed.
+ *
+ * This is the recovery path when submission fails for any reason — no endpoint,
+ * network error, backend down. A lead that took five minutes to fill in must not
+ * be lost to an error message.
  */
-export async function sendInquiryEmail(
-  formData: InquiryFormData
-): Promise<boolean> {
-  try {
-    // Placeholder for email service integration
-    console.log('[FormSubmission] Email fallback - data ready for sending:', {
-      to: formData.email,
-      subject: 'Inquiry Confirmation',
-      replyTo: formData.email,
-    });
-    return true;
-  } catch (error) {
-    console.error('[FormSubmission] Email error:', error);
-    return false;
-  }
+export function buildInquiryMailto(formData: InquiryFormData, to: string): string {
+  const lines = [
+    `Name: ${formData.name}`,
+    `Company: ${formData.company || '—'}`,
+    `Email: ${formData.email}`,
+    `Phone: ${formData.phone || '—'}`,
+    `Role: ${formData.role}`,
+    `Looking for: ${formData.projectType.join(', ') || '—'}`,
+    `Currently using: ${[...formData.currentTools, formData.otherTool].filter(Boolean).join(', ') || '—'}`,
+    `Biggest problems: ${formData.challenges.join(', ') || '—'}`,
+    '',
+    'What we want to achieve:',
+    formData.goals,
+  ];
+
+  const subject = `Project enquiry — ${formData.company || formData.name}`;
+
+  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 /**
