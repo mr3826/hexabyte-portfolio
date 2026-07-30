@@ -120,6 +120,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--status-green);
+  --color-warning: var(--status-yellow);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);
