@@ -52,7 +52,49 @@ jobs:
       # Gates. A broken build must never reach the bucket.
       - run: npm run typecheck
       - run: npm test -- --run
+
+      # Vite inlines VITE_* at build time, so these must be present HERE. Setting
+      # them in .env.production does nothing: that file is gitignored, so CI never
+      # sees it — which is how the site shipped for weeks with an unset endpoint
+      # and a form that quietly fell back to mailto:.
+      #
+      # `vars`, not `secrets`: both values are compiled into client JS and served
+      # to every visitor, so they are public by construction. Keeping them as
+      # variables means you can read them back in the log and confirm what shipped.
       - run: npm run build
+        env:
+          VITE_FORM_SUBMISSION_ENDPOINT: ${{ vars.VITE_FORM_SUBMISSION_ENDPOINT }}
+          VITE_GTM_ID: ${{ vars.VITE_GTM_ID }}
+
+      # A variable that is set but misspelled, or read under a different name in
+      # the source, produces a green deploy and a dead form. Prove the value
+      # actually reached the bundle.
+      - name: Confirm build-time config reached the bundle
+        env:
+          ENDPOINT: ${{ vars.VITE_FORM_SUBMISSION_ENDPOINT }}
+          GTM_ID: ${{ vars.VITE_GTM_ID }}
+        run: |
+          if [ -n "$ENDPOINT" ]; then
+            grep -rqF "$ENDPOINT" dist/assets/*.js || {
+              echo "VITE_FORM_SUBMISSION_ENDPOINT is set but is not in the bundle."
+              echo "The form would fall back to mailto: on the live site."
+              exit 1
+            }
+            echo "ok   inquiry endpoint is in the bundle"
+          else
+            echo "note VITE_FORM_SUBMISSION_ENDPOINT is unset — the form will offer"
+            echo "     a prefilled email instead. See docs/DEPLOYMENT.md."
+          fi
+
+          if [ -n "$GTM_ID" ]; then
+            grep -qF "$GTM_ID" dist/index.html || {
+              echo "VITE_GTM_ID is set but no tag was injected into dist/index.html."
+              exit 1
+            }
+            echo "ok   analytics container $GTM_ID is in the page"
+          else
+            echo "note VITE_GTM_ID is unset — no analytics tag is being shipped."
+          fi
 
       # Hashed filenames, so they can be cached for a year.
       - name: Upload immutable assets

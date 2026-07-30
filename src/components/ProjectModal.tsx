@@ -23,6 +23,8 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
+  // Stays empty for a human; see the hidden field near the top of the form.
+  const [honeypot, setHoneypot] = useState('');
   const [formData, setFormData] = useState({
     // User Information
     name: '',
@@ -149,6 +151,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
         ...attribution,
         cta_source: 'project_modal_submit',
         inquiry_started_at: new Date().toISOString(),
+        website: honeypot,
       };
 
       const result = await submitInquiryForm(submissionData);
@@ -274,6 +277,26 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
 
         {step === 1 ? (
           <form onSubmit={handleSubmit} className="px-8 pb-8">
+            {/*
+              Honeypot. Off-screen rather than display:none — some bots skip
+              fields they can tell are hidden. aria-hidden and tabIndex keep it
+              away from screen readers and keyboard users; autoComplete="off"
+              stops a browser helpfully filling it in for a real visitor.
+              The Edge Function discards any submission that arrives with it set.
+            */}
+            <div className="absolute left-[-9999px] top-auto w-px h-px overflow-hidden" aria-hidden="true">
+              <label htmlFor="website">Do not fill this in</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </div>
+
             {/* Header */}
             <div className="text-center mb-8">
               <h2
