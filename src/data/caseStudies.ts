@@ -4,6 +4,28 @@ export type CaseStudyStatus = 'live' | 'beta' | 'private-beta' | 'planned';
 
 export type EvidenceConfidence = 'High' | 'Medium' | 'Product beta — outcome metrics pending';
 
+/**
+ * What kind of evidence a case study actually represents. Shown on every card so a
+ * beta product build cannot inherit the wording of a delivered production system.
+ */
+export type EvidenceType =
+  | 'Deployed System'
+  | 'Live Product'
+  | 'Beta Product Build'
+  | 'Internal R&D';
+
+/** Problem domain, used for the secondary filters. */
+export type CaseStudyDomain = 'AI & Automation' | 'Commerce';
+
+export const EVIDENCE_TYPES: EvidenceType[] = [
+  'Deployed System',
+  'Live Product',
+  'Beta Product Build',
+  'Internal R&D',
+];
+
+export const CASE_STUDY_DOMAINS: CaseStudyDomain[] = ['AI & Automation', 'Commerce'];
+
 export interface CaseStudyTag {
   label: string;
   color: 'primary' | 'accent' | 'success' | 'warning';
@@ -23,6 +45,8 @@ export interface CaseStudyWorkflowStep {
 export interface CaseStudy {
   id: string;
   category: string;
+  evidenceType: EvidenceType;
+  domain: CaseStudyDomain;
   title: string;
   excerpt: string;
   industry: string;
@@ -80,6 +104,8 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'easy-moderator',
     category: 'Content Ops Platform',
+    evidenceType: 'Live Product',
+    domain: 'AI & Automation',
     title: 'Easy Moderator Multi-Tenant Moderation System',
     excerpt: 'Full-stack multi-tenant platform for commerce operations — role-aware moderation workflows, social integration hooks, and automated testing pipelines.',
     industry: 'Commerce Operations',
@@ -141,11 +167,6 @@ export const caseStudies: CaseStudy[] = [
           value: 'Multi-Tenant',
           description: 'Platform model designed for scale and isolation',
         },
-        {
-          label: 'Evidence Status',
-          value: 'High',
-          description: 'Test automation outputs documented',
-        },
       ],
       outcomes: [
         'Improved delivery confidence with automated regression coverage',
@@ -170,6 +191,8 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'tradeflow',
     category: 'Vertical SaaS',
+    evidenceType: 'Beta Product Build',
+    domain: 'Commerce',
     title: 'TradeFlow for Bangladesh Buying Houses',
     excerpt: 'Mobile-first operational SaaS with WhatsApp-native updates, risk scoring, and auditable order management.',
     industry: 'Garments Supply Chain',
@@ -231,11 +254,6 @@ export const caseStudies: CaseStudy[] = [
           value: 'Audit-Ready',
           description: 'Operational changes designed for traceability',
         },
-        {
-          label: 'Evidence Status',
-          value: 'Medium',
-          description: 'Measured production KPIs are the next step',
-        },
       ],
       outcomes: [
         'Operational updates became easier to execute in constrained environments',
@@ -258,11 +276,13 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'easy-assistance',
     category: 'Product Build',
+    evidenceType: 'Beta Product Build',
+    domain: 'AI & Automation',
     title: 'Easy Assistance — AI Booking and Customer Operations',
-    excerpt: 'Easy Assistance is being developed as a conversational booking and customer-operations platform for service businesses. The product is designed to move an enquiry from initial intent through availability, confirmation, reminders, service completion, and follow-up without forcing teams to manage disconnected tools.',
+    excerpt: 'A conversational booking platform in beta, taking a service enquiry through availability, confirmation, reminders, and follow-up in one place.',
     industry: 'Service Operations',
     timeline: 'Ongoing',
-    impact: 'Beta validation underway',
+    impact: 'Beta validation underway — outcome evidence pending',
     statusLabel: 'Beta validation underway',
     evidenceConfidence: 'Product beta — outcome metrics pending',
     tags: [
@@ -303,7 +323,7 @@ export const caseStudies: CaseStudy[] = [
       'WebSocket/SSE for live updates',
     ],
     results: {
-      title: 'Honest Beta Metrics',
+      title: 'Current Beta Status',
       metrics: [
         { label: 'Status', value: 'Private Beta', description: 'Core workflows in validation with selected businesses' },
         { label: 'Experience', value: 'Conversational', description: 'AI-first booking interface' },
@@ -335,11 +355,13 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'easy-ecommerce',
     category: 'Product Build',
+    evidenceType: 'Beta Product Build',
+    domain: 'Commerce',
     title: 'Easy E-commerce — AI Store and Commerce Builder',
-    excerpt: 'Easy E-commerce is being built as an AI-guided website and commerce operations platform for Bangladesh-based merchants. The product direction combines store creation, catalogue management, local checkout, courier workflows, and merchant operations in one mobile-friendly system.',
+    excerpt: 'An AI-guided store builder in beta, combining store creation, catalogue, local checkout, and courier workflows for Bangladesh-based merchants.',
     industry: 'Bangladesh E-commerce',
     timeline: 'Ongoing',
-    impact: 'Beta validation underway',
+    impact: 'Beta validation underway — outcome evidence pending',
     statusLabel: 'Beta validation underway',
     evidenceConfidence: 'Product beta — outcome metrics pending',
     tags: [
@@ -382,7 +404,7 @@ export const caseStudies: CaseStudy[] = [
       'Payment integrations (bKash, Nagad, SSLCommerz)',
     ],
     results: {
-      title: 'Honest Beta Metrics',
+      title: 'Current Beta Status',
       metrics: [
         { label: 'Status', value: 'Private Beta', description: 'Store-building workflows in validation with Bangladesh merchants' },
         { label: 'Setup', value: 'AI Guided', description: 'Merchant describes business; AI drafts store structure and content' },
@@ -415,6 +437,8 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'reel-studio',
     category: 'AI Media Automation',
+    evidenceType: 'Deployed System',
+    domain: 'AI & Automation',
     title: 'Reel Studio AI Content Automation Pipeline',
     excerpt: 'FastAPI-based video generation workflow with queue orchestration, checkpoint recovery, and cloud storage integration.',
     industry: 'Media Automation',
@@ -464,7 +488,6 @@ export const caseStudies: CaseStudy[] = [
         { label: 'Pipeline Visibility', value: 'Real-time', description: 'Stage-level progress and operational status exposed' },
         { label: 'Reliability', value: 'Checkpointed', description: 'Long-running jobs support failure recovery' },
         { label: 'Processing ETA', value: '~8 min estimate', description: 'Initial documented estimate per reel workflow' },
-        { label: 'Evidence Status', value: 'Medium', description: 'Production benchmark snapshots to be added' },
       ],
       outcomes: [
         'Pipeline moved from ad-hoc processing to orchestrated stages',
@@ -487,11 +510,13 @@ export const caseStudies: CaseStudy[] = [
   {
     id: 'rag-chatbot',
     category: 'AI Knowledge System',
+    evidenceType: 'Deployed System',
+    domain: 'AI & Automation',
     title: 'RAG-Based Chatbot for Grounded Q&A',
     excerpt: 'Retrieval-Augmented Generation system combining vector embeddings, document search, and LLM inference for accurate, data-grounded conversational responses.',
     industry: 'AI & Knowledge Management',
     timeline: '6 weeks',
-    impact: 'Real-time data grounding with 99% accuracy on internal documents',
+    impact: 'Answers grounded in the client\'s own documents',
     statusLabel: 'Delivered',
     evidenceConfidence: 'High',
     tags: [
@@ -536,7 +561,7 @@ export const caseStudies: CaseStudy[] = [
     results: {
       title: 'Results & Impact',
       metrics: [
-        { label: 'Answer Accuracy', value: '99%', description: 'On internal documents with proper source grounding' },
+        { label: 'Answer Grounding', value: 'Cited sources', description: 'Responses reference the source document they came from' },
         { label: 'Retrieval Speed', value: '<500ms', description: 'Sub-half-second vector search and context retrieval' },
         { label: 'Support Cost', value: '70% Reduction', description: 'Automated handling of 80%+ of common queries' },
         { label: 'Knowledge Coverage', value: 'Unlimited', description: 'Scales with document base without model retraining' },

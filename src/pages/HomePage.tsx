@@ -5,8 +5,9 @@ import {
   CheckCircle, Search, Code, Rocket, Shield,
   Smartphone,
 } from 'lucide-react';
+import { company } from '@/data/company';
 import { products } from '@/data/products';
-import { ProductStatusBadge } from '@/components/ProductStatusBadge';
+import { ProductCard } from '@/components/ProductCard';
 
 export default function HomePage() {
   return (
@@ -38,12 +39,12 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="https://calendly.com/hexabyte/discovery"
+                  href={company.discoveryCallUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-engineering justify-center"
                 >
-                  Book Strategy Call
+                  Book a Discovery Call
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <Link
@@ -60,16 +61,18 @@ export default function HomePage() {
             <div className="relative">
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: '1', label: 'Live Product' },
-                  { value: '3', label: 'Products in Beta' },
-                  { value: '4', label: 'Phase Delivery Framework' },
+                  { value: String(products.length), label: 'Focused Products' },
                   { value: 'Direct', label: 'Founder Access' },
+                  { value: 'End-to-End', label: 'Product Engineering' },
+                  { value: 'Bangladesh', label: 'Local Market Expertise' },
                 ].map(({ value, label }) => (
                   <div
                     key={label}
                     className="bg-card border border-border rounded-xl p-6 text-center hover:border-primary/30 transition-colors"
                   >
-                    <div className="text-3xl font-bold text-primary mb-2">{value}</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-primary mb-2 leading-tight">
+                      {value}
+                    </div>
                     <div className="text-xs text-muted-foreground leading-tight">{label}</div>
                   </div>
                 ))}
@@ -160,38 +163,14 @@ export default function HomePage() {
               Products Built by Hexabyte
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We build and operate focused software products for commerce, service businesses, and supply-chain teams.
-              One product is publicly available, while three are being validated through beta programmes.
+              Focused software for commerce, service businesses, and supply-chain teams. Each card
+              states its current availability.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {products.map((product) => (
-              <div key={product.id} className="bento-card">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center">
-                    <product.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-base">{product.name}</div>
-                    <ProductStatusBadge status={product.status} />
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                  {product.shortDescription}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
-                    {product.category}
-                  </span>
-                  <Link
-                    to={`/products#${product.anchor}`}
-                    className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 font-medium transition-colors"
-                  >
-                    Learn More <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
+              <ProductCard key={product.id} product={product} variant="compact" />
             ))}
           </div>
 
@@ -202,23 +181,6 @@ export default function HomePage() {
             >
               View All Products <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Ecosystem Section */}
-      <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
-              Focused Products. One Operational Direction.
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              Each Hexabyte product solves a specific operational problem. Easy E-commerce is designed to help merchants launch and run branded stores.
-              Easy Moderator handles social-commerce conversations and order operations. Easy Assistance coordinates bookings and service customers.
-              TradeFlow brings structure to supply-chain updates and risk visibility. Each product can stand alone, with deeper interoperability
-              introduced only where it creates real operational value.
-            </p>
           </div>
         </div>
       </section>
@@ -279,17 +241,22 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="bg-card border border-primary/20 rounded-xl p-8 text-center max-w-3xl mx-auto">
-            <p className="text-lg text-foreground font-medium leading-relaxed mb-4">
-              "You work directly with builders and decision-makers — not layers of account
-              managers or outsourced coordination."
+          <div className="bg-card border border-primary/20 rounded-xl p-8 max-w-3xl mx-auto">
+            <p className="text-xs text-primary uppercase tracking-wider mb-4">How We Work</p>
+            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+              {['Clear scope', 'Weekly demos', 'Direct technical ownership', 'Production handover'].map(
+                (item) => (
+                  <li key={item} className="flex items-center gap-2.5 text-sm">
+                    <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" aria-hidden="true" />
+                    {item}
+                  </li>
+                ),
+              )}
+            </ul>
+            <p className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground leading-relaxed">
+              You work directly with the people building the system — no account-manager layer
+              between the decision and the implementation.
             </p>
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                <span className="text-xs font-bold text-primary">H</span>
-              </div>
-              <span className="text-sm text-muted-foreground">Hexabyte — Founder-Led Execution</span>
-            </div>
           </div>
         </div>
       </section>
@@ -433,24 +400,25 @@ export default function HomePage() {
             <span className="text-primary">Your Operations?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Book a 30-minute strategy call. We will map your workflow, identify the
-            highest-impact automation opportunities, and outline a clear path forward.
+            Book a 30-minute call. We will map your workflow, identify the highest-impact
+            automation opportunities, and outline a clear path forward.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://calendly.com/hexabyte/discovery"
+              href={company.discoveryCallUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="cta-engineering justify-center"
             >
-              Book Strategy Call
-              <ArrowRight className="w-4 h-4" />
+              Book a Discovery Call
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </a>
             <Link
-              to="/case-studies"
-              className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center"
+              to="/products"
+              className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"
             >
-              Explore Our Work
+              Explore Products
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
