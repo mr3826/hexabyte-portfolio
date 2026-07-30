@@ -20,3 +20,7 @@ Object.defineProperty(window, 'innerWidth', {
   configurable: true,
   value: 1024,
 });
+
+// jsdom does not implement layout, so neither of these exists.
+Element.prototype.scrollIntoView = vi.fn();
+window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;

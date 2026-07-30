@@ -241,23 +241,9 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="bg-card border border-primary/20 rounded-xl p-8 max-w-3xl mx-auto">
-            <p className="text-xs text-primary uppercase tracking-wider mb-4">How We Work</p>
-            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
-              {['Clear scope', 'Weekly demos', 'Direct technical ownership', 'Production handover'].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-2.5 text-sm">
-                    <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" aria-hidden="true" />
-                    {item}
-                  </li>
-                ),
-              )}
-            </ul>
-            <p className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground leading-relaxed">
-              You work directly with the people building the system — no account-manager layer
-              between the decision and the implementation.
-            </p>
-          </div>
+          {/* The self-quotation card that sat here presented company-written
+              positioning as a testimonial. The page already covers this ground in
+              the How We Work section below, so it is not replaced. */}
         </div>
       </section>
 

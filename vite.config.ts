@@ -20,9 +20,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/test-setup.ts',
-  },
+  // Test config lives in vitest.config.ts, which Vitest prefers over this file.
 })
