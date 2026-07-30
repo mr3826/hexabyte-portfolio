@@ -15,9 +15,12 @@ concurrency:
   group: deploy-production
   cancel-in-progress: false
 
+# Needed to mint the OIDC token that hexabyte-site-deploy trusts.
+permissions:
+  id-token: write
+  contents: read
+
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: ap-south-1
   BUCKET: hexabyte-tech-website
   DISTRIBUTION_ID: E1QPRQT12IQGL9
@@ -28,6 +31,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # Short-lived credentials from a role scoped to this one bucket and this one
+      # distribution. The static keys this replaced belonged to cli-admin, the
+      # account's only IAM user, which holds AdministratorAccess — a leaked CI secret
+      # was an account takeover rather than a defaced website. The role's trust policy
+      # only accepts tokens from refs/heads/main of this repository.
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::899628690531:role/hexabyte-site-deploy
+          aws-region: ap-south-1
 
       - uses: actions/setup-node@v4
         with:
