@@ -8,6 +8,7 @@
     "dev": "vite",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:responsive": "playwright test",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
   },
@@ -19,6 +20,7 @@
     "tw-animate-css": "1.3.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/vite": "4.1.12",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.1.2",
