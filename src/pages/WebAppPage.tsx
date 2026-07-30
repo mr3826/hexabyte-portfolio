@@ -20,7 +20,7 @@ export default function WebAppPage() {
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
               Custom <span className="text-primary">Web Applications</span>{' '}
               Built for Scale
             </h1>
@@ -42,14 +42,14 @@ export default function WebAppPage() {
       {/* What We Build */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
+          <h2 className="text-4xl font-bold mb-12 text-center">
             What We <span className="text-primary">Build</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
               <Layers className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
+              <h3 className="text-xl font-semibold mb-3">
                 SaaS Platforms
               </h3>
               <p className="text-muted-foreground mb-4">
@@ -61,7 +61,7 @@ export default function WebAppPage() {
 
             <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
               <Code2 className="w-10 h-10 text-accent mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
+              <h3 className="text-xl font-semibold mb-3">
                 Admin Dashboards
               </h3>
               <p className="text-muted-foreground mb-4">
@@ -73,7 +73,7 @@ export default function WebAppPage() {
 
             <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
               <Rocket className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
+              <h3 className="text-xl font-semibold mb-3">
                 AI-Powered Apps
               </h3>
               <p className="text-muted-foreground mb-4">
@@ -89,7 +89,7 @@ export default function WebAppPage() {
       {/* Technology Stack */}
       <section className="py-20 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
+          <h2 className="text-4xl font-bold mb-12 text-center">
             Our <span className="text-primary">Tech Stack</span>
           </h2>
 
@@ -144,7 +144,7 @@ export default function WebAppPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-4xl font-bold mb-6">
                 Built for <span className="text-primary">Production</span>
               </h2>
               <ul className="space-y-4">
@@ -181,7 +181,7 @@ export default function WebAppPage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             Ready to Build <span className="text-primary">Your Web App?</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground mb-8">

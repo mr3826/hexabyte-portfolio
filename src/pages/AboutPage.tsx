@@ -22,7 +22,7 @@ export default function AboutPage() {
                 <span className="text-sm text-muted-foreground">Available for Select Projects</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
                 Built Products First.{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
                   The Agency Followed.
@@ -138,8 +138,8 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 border-t border-primary/20">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs uppercase tracking-[0.16em] text-primary mb-3">Live Products</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] mb-4">
+            <p className="text-xs uppercase tracking-[0.16em] text-primary mb-3">Our Products</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               What We Built
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -169,7 +169,7 @@ export default function AboutPage() {
             <span className="text-xs uppercase tracking-[0.16em] text-primary font-medium">Where This Is Heading</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] mb-6 leading-snug">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6 leading-snug">
             The goal is not scale for scale's sake.
           </h2>
 

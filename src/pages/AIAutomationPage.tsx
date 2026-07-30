@@ -19,7 +19,7 @@ export default function AIAutomationPage() {
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-4xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
               AI Automation <span className="text-primary">Solutions</span> That
               Work in Production
             </h1>
@@ -41,7 +41,7 @@ export default function AIAutomationPage() {
       {/* Automation Tools */}
       <section className="py-20 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
+          <h2 className="text-4xl font-bold mb-12 text-center">
             Automation <span className="text-primary">Platforms</span> We Use
           </h2>
 
@@ -70,7 +70,7 @@ export default function AIAutomationPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-4xl font-bold mb-6">
                 AI Orchestration{' '}
                 <span className="text-primary">& RAG Systems</span>
               </h2>
@@ -131,7 +131,7 @@ export default function AIAutomationPage() {
       {/* System Diagrams */}
       <section className="py-20 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
+          <h2 className="text-4xl font-bold mb-12 text-center">
             System <span className="text-primary">Architecture</span>
           </h2>
 
@@ -178,7 +178,7 @@ export default function AIAutomationPage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-              <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             Ready to <span className="text-primary">Automate?</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground mb-8">

@@ -45,7 +45,7 @@ export default function CaseStudyDetail() {
             </div>
           </div>
 
-          <h1 className="text-4xl lg:text-6xl font-bold font-['Space_Grotesk'] mb-6">
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6">
             {study.title}
           </h1>
 
@@ -101,7 +101,7 @@ export default function CaseStudyDetail() {
         <div className="max-w-4xl mx-auto px-6 lg:px-8 space-y-12">
           {/* Overview */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-4">
+            <h2 className="text-3xl font-bold mb-4">
               Project <span className="text-primary">Overview</span>
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -111,7 +111,7 @@ export default function CaseStudyDetail() {
 
           {/* Problem */}
           <div className="bg-card border border-destructive/20 rounded-xl p-8">
-            <h2 className="text-2xl font-bold font-['Space_Grotesk'] mb-6">
+            <h2 className="text-2xl font-bold mb-6">
               {study.problem.title}
             </h2>
             <ul className="space-y-3">
@@ -128,7 +128,7 @@ export default function CaseStudyDetail() {
 
           {/* Solution */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-4">
+            <h2 className="text-3xl font-bold mb-4">
               {study.solution.title}
             </h2>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
@@ -150,7 +150,7 @@ export default function CaseStudyDetail() {
           {/* Key Features (if exists) */}
           {study.features && (
             <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-3xl font-bold mb-6">
                 {study.features.title}
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
@@ -174,7 +174,7 @@ export default function CaseStudyDetail() {
           {/* System Architecture (if exists) */}
           {study.architecture && (
             <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-3xl font-bold mb-6">
                 {study.architecture.title}
               </h2>
               <div className="space-y-4">
@@ -191,7 +191,7 @@ export default function CaseStudyDetail() {
           {/* Scalability (if exists) */}
           {study.scalability && (
             <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-3xl font-bold mb-6">
                 {study.scalability.title}
               </h2>
               <p className="text-muted-foreground mb-6">{study.scalability.description}</p>
@@ -209,7 +209,7 @@ export default function CaseStudyDetail() {
           {/* Design Principles (if exists) */}
           {study.designPrinciples && (
             <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+              <h2 className="text-3xl font-bold mb-6">
                 {study.designPrinciples.title}
               </h2>
               <p className="text-muted-foreground mb-6">{study.designPrinciples.description}</p>
@@ -226,7 +226,7 @@ export default function CaseStudyDetail() {
 
           {/* Tech Stack */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">Technology Stack</h2>
+            <h2 className="text-3xl font-bold mb-6">Technology Stack</h2>
             <div className="flex flex-wrap gap-2">
               {study.techStack.map((tech: string, idx: number) => (
                 <span
@@ -241,7 +241,7 @@ export default function CaseStudyDetail() {
 
           {/* Results */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+            <h2 className="text-3xl font-bold mb-6">
               {study.results.title}
             </h2>
             <div className="grid md:grid-cols-2 gap-4 mb-8">
@@ -268,7 +268,7 @@ export default function CaseStudyDetail() {
 
           {/* Workflow */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+            <h2 className="text-3xl font-bold mb-6">
               {study.workflow.title}
             </h2>
             <div className="space-y-4">
@@ -290,7 +290,7 @@ export default function CaseStudyDetail() {
 
           {/* Next Steps */}
           <div className="bg-card border border-primary/20 rounded-xl p-6">
-            <h2 className="text-2xl font-bold font-['Space_Grotesk'] mb-4">Next Steps</h2>
+            <h2 className="text-2xl font-bold mb-4">Next Steps</h2>
             <p className="text-muted-foreground leading-relaxed">{study.nextSteps}</p>
           </div>
         </div>

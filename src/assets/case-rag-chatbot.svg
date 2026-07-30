@@ -19,7 +19,7 @@
   <rect width="1200" height="800" fill="#0f0f1e"/>
 
   <!-- Title -->
-  <text x="600" y="40" font-size="32" font-weight="bold" fill="#00d9ff" text-anchor="middle" font-family="'Space Grotesk', sans-serif">
+  <text x="600" y="40" font-size="32" font-weight="bold" fill="#00d9ff" text-anchor="middle" font-family="sans-serif">
     RAG Chatbot Architecture
   </text>
 
@@ -117,7 +117,7 @@
   <path d="M 610 390 L 810 310" stroke="#667eea" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
 
   <!-- Key Benefits Section -->
-  <text x="50" y="500" font-size="18" font-weight="bold" fill="#00d9ff" font-family="'Space Grotesk', sans-serif">Key Benefits</text>
+  <text x="50" y="500" font-size="18" font-weight="bold" fill="#00d9ff" font-family="sans-serif">Key Benefits</text>
 
   <!-- Benefit 1 -->
   <g>
@@ -160,7 +160,7 @@
   </g>
 
   <!-- Use Cases Section -->
-  <text x="50" y="690" font-size="18" font-weight="bold" fill="#00d9ff" font-family="'Space Grotesk', sans-serif">Enterprise Use Cases</text>
+  <text x="50" y="690" font-size="18" font-weight="bold" fill="#00d9ff" font-family="sans-serif">Enterprise Use Cases</text>
 
   <!-- Use Case 1 -->
   <text x="50" y="730" font-size="12" fill="#ccc" font-family="Arial">• Knowledge Base Q&amp;A • Internal Documentation • Policy Assistant • Compliance Bot • Product Knowledge</text>

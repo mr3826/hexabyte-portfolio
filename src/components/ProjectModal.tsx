@@ -276,7 +276,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
             <div className="text-center mb-8">
               <h2
                 id="project-modal-title"
-                className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2"
+                className="text-2xl sm:text-3xl font-bold mb-2"
               >
                 Book Your{' '}
                 <span className="text-primary">Discovery Inquiry</span>
@@ -588,7 +588,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           <div className="px-8 pb-8">
             {/* Calendar Step */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">
                 Book Your Free{' '}
                 <span className="text-primary">Strategy Call</span>
               </h2>

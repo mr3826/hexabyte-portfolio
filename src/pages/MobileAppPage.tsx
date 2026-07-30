@@ -26,7 +26,7 @@ export default function MobileAppPage() {
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
               <span className="text-primary">Cross-Platform</span> Mobile Apps
               That Scale
             </h1>
@@ -48,14 +48,14 @@ export default function MobileAppPage() {
       {/* Why Flutter */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
+          <h2 className="text-4xl font-bold mb-12 text-center">
             Why <span className="text-primary">Flutter?</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
               <Zap className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
+              <h3 className="text-xl font-semibold mb-3">
                 Single Codebase
               </h3>
               <p className="text-muted-foreground">
@@ -66,7 +66,7 @@ export default function MobileAppPage() {
 
             <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
               <Layers className="w-10 h-10 text-accent mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
+              <h3 className="text-xl font-semibold mb-3">
                 Native Performance
               </h3>
               <p className="text-muted-foreground">
@@ -77,7 +77,7 @@ export default function MobileAppPage() {
 
             <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
               <CheckCircle2 className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
+              <h3 className="text-xl font-semibold mb-3">
                 Beautiful UI
               </h3>
               <p className="text-muted-foreground">
@@ -92,7 +92,7 @@ export default function MobileAppPage() {
       {/* App Features */}
       <section className="py-20 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
+          <h2 className="text-4xl font-bold mb-12 text-center">
             What We <span className="text-primary">Build</span>
           </h2>
 
@@ -165,7 +165,7 @@ export default function MobileAppPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="bg-gradient-to-br from-card to-secondary border border-primary/30 rounded-2xl p-12 text-center">
-            <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-6">
+            <h2 className="text-4xl font-bold mb-6">
               Published on{' '}
               <span className="text-primary">Major App Stores</span>
             </h2>
@@ -190,7 +190,7 @@ export default function MobileAppPage() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             Ready to Build{' '}
             <span className="text-primary">Your Mobile App?</span>
           </h2>

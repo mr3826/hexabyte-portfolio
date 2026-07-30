@@ -1,6 +1,8 @@
 import { Search, Lightbulb, Code, Rocket, Clock, MessageSquare, CheckCircle, ArrowRight, Zap, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { company } from '@/data/company';
+
 const phases = [
   {
     number: '01',
@@ -68,12 +70,12 @@ export default function ProcessPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <a
-                href="https://calendly.com/hexabyte/discovery"
+                href={company.discoveryCallUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cta-engineering"
               >
-                Book Discovery Call
+                Book a Discovery Call
                 <ArrowRight className="w-4 h-4" />
               </a>
               <Link
@@ -256,12 +258,12 @@ export default function ProcessPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://calendly.com/hexabyte/discovery"
+              href={company.discoveryCallUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="cta-engineering justify-center"
             >
-              Book Discovery Call
+              Book a Discovery Call
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>

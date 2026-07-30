@@ -96,6 +96,59 @@ export async function submitInquiryForm(
   }
 }
 
+export interface NewsletterSubscription {
+  email: string;
+  cta_source: string;
+}
+
+/**
+ * Subscribe an email address to the newsletter.
+ *
+ * Deliberately separate from submitInquiryForm: routing a newsletter signup
+ * through the inquiry payload required inventing a name, a role and a goals
+ * string for someone who only gave an email address.
+ *
+ * Returns success only on a verified successful response. A missing endpoint is
+ * a failure, not a silent pass — the caller must not confirm a subscription
+ * that was never sent anywhere.
+ */
+export async function submitNewsletter(
+  subscription: NewsletterSubscription
+): Promise<SubmissionResponse> {
+  const endpoint = import.meta.env.VITE_FORM_SUBMISSION_ENDPOINT;
+
+  if (!endpoint) {
+    return {
+      success: false,
+      message: 'Subscription endpoint is not configured.',
+    };
+  }
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'newsletter',
+        ...subscription,
+        submittedAt: new Date().toISOString(),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Subscription failed: ${response.status} ${response.statusText}`);
+    }
+
+    return { success: true, message: 'Subscribed' };
+  } catch (error) {
+    console.error('[FormSubmission] Newsletter error:', error);
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to subscribe',
+    };
+  }
+}
+
 /**
  * Send inquiry via email as fallback
  * This is a placeholder for email notification service
