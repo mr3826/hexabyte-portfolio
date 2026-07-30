@@ -1,205 +1,159 @@
-import { ArrowRight, Globe, Code2, Layers, Rocket } from 'lucide-react';
+import { ArrowRight, Globe, Code2, Layers, Rocket, ShieldCheck } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
 import { Link } from 'react-router-dom';
-import dashboardImage from '@/assets/placeholder-image.svg';
+
+/** Comes as standard, phrased as what it means for the business rather than the acronym. */
+const STANDARDS = [
+  { title: 'Works on the phone your customers actually use', desc: 'Most visitors arrive on a mid-range Android. The site is built for that first, not for a designer\'s laptop.' },
+  { title: 'Fast enough not to lose the sale', desc: 'Slow pages cost orders and search ranking. Speed is a delivery requirement, not a later optimisation.' },
+  { title: 'Findable', desc: 'Titles, descriptions, structured data and a sitemap that let people find you without paying for every click.' },
+  { title: 'Usable by everyone', desc: 'Keyboard access, readable contrast and screen-reader support — which also happens to be what search engines reward.' },
+  { title: 'Payments that reconcile', desc: 'Checkout and subscription flows that match what lands in the bank, with failures visible instead of silent.' },
+  { title: 'Monitored after launch', desc: 'You find out something broke from an alert, not from an angry customer.' },
+];
 
 export default function WebAppPage() {
   const { openModal } = useModal();
+
   return (
     <main className="pt-[108px] md:pt-20">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/50 to-background py-14 sm:py-20 lg:py-32">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,217,255,0.1),transparent_50%)]"></div>
+      <section className="relative overflow-hidden bg-[#0a0a0a] py-14 sm:py-20 lg:py-28">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
-              <Globe className="w-4 h-4 text-primary" />
-              <span className="text-sm text-primary">
-                Production-Ready Web Apps
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
+              <Globe className="w-4 h-4 text-primary" aria-hidden="true" />
+              <span className="text-xs text-primary font-medium uppercase tracking-wider">
+                Web, Commerce and Internal Systems
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
-              Custom <span className="text-primary">Web Applications</span>{' '}
-              Built for Scale
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
+              Software Your Team Stops{' '}
+              <span className="text-primary">Working Around</span>
             </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-8">
-              SaaS platforms, admin dashboards, and AI-powered web apps built
-              with React and Next.js for SMB founders who need speed without
-              compromising architecture quality.
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
+              Most business software creates a second job: the spreadsheet beside it, the
+              workaround everyone knows, the report someone rebuilds by hand every Monday. We
+              build the system that removes those.
             </p>
-            <button
-              onClick={() => openModal('web_app_hero_primary')}
-              className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
-            >
-              Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
+            <button onClick={() => openModal('web_app_hero_primary')} className="cta-engineering">
+              Describe Your Bottleneck
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* What We Build */}
-      <section className="py-20">
+      {/* What we build */}
+      <section className="py-16 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-12 text-center">
-            What We <span className="text-primary">Build</span>
-          </h2>
+          <div className="text-center mb-12">
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">What We Build</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+              Three Shapes This Usually Takes
+            </h2>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
-              <Layers className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3">
-                SaaS Platforms
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Multi-tenant applications with subscription management, user
-                authentication, and scalable architecture.
-              </p>
-              <div className="text-sm text-primary">✓ Live & Deployed</div>
-            </div>
-
-            <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
-              <Code2 className="w-10 h-10 text-accent mb-4" />
-              <h3 className="text-xl font-semibold mb-3">
-                Admin Dashboards
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Complex data visualization, real-time updates, and intuitive
-                interfaces for managing your business operations.
-              </p>
-              <div className="text-sm text-primary">✓ Production-Ready</div>
-            </div>
-
-            <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
-              <Rocket className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3">
-                AI-Powered Apps
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Intelligent web applications that leverage AI for automation,
-                predictions, and enhanced user experiences.
-              </p>
-              <div className="text-sm text-primary">✓ AI-Integrated</div>
-            </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              {
+                icon: Layers,
+                title: 'Something you sell access to',
+                desc: 'A platform your customers log into and pay for, with accounts, billing and permissions that hold up as you add customers rather than breaking at the tenth one.',
+              },
+              {
+                icon: Code2,
+                title: 'Something your team runs on',
+                desc: 'The dashboard, order desk or admin tool that replaces a shared spreadsheet — so two people stop keeping different versions of the truth.',
+              },
+              {
+                icon: Rocket,
+                title: 'Something that decides for itself',
+                desc: 'Applications where the routine judgement — sorting, drafting, flagging, answering — happens without a person in the loop, and escalates when it should.',
+              },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="bento-card group">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <Icon className="w-5 h-5 text-primary" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Technology Stack */}
-      <section className="py-20 bg-secondary/30">
+      {/* Standards */}
+      <section className="py-16 sm:py-20 bg-card/30 border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-12 text-center">
-            Our <span className="text-primary">Tech Stack</span>
-          </h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid lg:grid-cols-2 gap-12">
             <div>
-              <h3 className="font-semibold mb-4 text-primary">Frontend</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div>React 18</div>
-                <div>Next.js 14</div>
-                <div>TypeScript</div>
-                <div>Tailwind CSS</div>
-                <div>Motion</div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4 text-primary">Backend</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div>Node.js</div>
-                <div>Express</div>
-                <div>Python</div>
-                <div>FastAPI</div>
-                <div>REST APIs</div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4 text-primary">Database</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div>PostgreSQL</div>
-                <div>MongoDB</div>
-                <div>Redis</div>
-                <div>Supabase</div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4 text-primary">Deployment</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div>Vercel</div>
-                <div>AWS</div>
-                <div>Docker</div>
-                <div>CI/CD</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6">
-                Built for <span className="text-primary">Production</span>
+              <p className="text-xs text-primary uppercase tracking-wider mb-3">No Extra Charge</p>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
+                What Comes as Standard
               </h2>
-              <ul className="space-y-4">
-                {[
-                  'Responsive design across all devices',
-                  'Performance optimized (Core Web Vitals)',
-                  'Security best practices (OWASP)',
-                  'SEO optimized',
-                  'Accessibility compliant (WCAG)',
-                  'Real-time features with WebSockets',
-                  'Payment integration (Stripe)',
-                  'Analytics and monitoring',
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <div className="w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center mt-0.5">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    </div>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                These are not line items on a quote. They are the difference between software that
+                works in a demo and software that survives your busiest week.
+              </p>
+              <div className="inline-flex items-start gap-3 rounded-xl border border-primary/20 bg-card p-5">
+                <ShieldCheck
+                  className="w-5 h-5 text-primary mt-0.5 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  At handover you get the code, the deployment, the credentials and documentation
+                  written for whoever maintains it next — including if that is not us.
+                </p>
+              </div>
             </div>
-            <div className="bg-gradient-to-br from-card to-secondary border border-primary/30 rounded-2xl p-2">
-              <img
-                src={dashboardImage}
-                alt="Production-ready dashboard interface"
-                className="w-full h-auto rounded-lg shadow-2xl hover:shadow-primary/20 transition-shadow duration-300 object-cover"
-              />
-            </div>
+
+            <ul className="space-y-4">
+              {STANDARDS.map(({ title, desc }) => (
+                <li key={title} className="flex items-start gap-3">
+                  <div className="w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+                    <div className="w-2 h-2 bg-primary rounded-full" />
+                  </div>
+                  <div>
+                    <div className="font-medium">{title}</div>
+                    <div className="text-sm text-muted-foreground leading-relaxed">{desc}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10">
+      <section className="py-16 sm:py-20 border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            Ready to Build <span className="text-primary">Your Web App?</span>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
+            What Is Your Team{' '}
+            <span className="text-primary">Working Around Today?</span>
           </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
-            Let's discuss your project requirements and create something amazing
-            together
+          <p className="text-lg text-muted-foreground mb-8">
+            Tell us the spreadsheet, the workaround or the report that eats every Monday. That is
+            usually where the first build pays for itself.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => openModal('web_app_final_cta')}
-              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="cta-engineering justify-center"
             >
-              Book Discovery Inquiry
+              Start the Conversation
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </button>
             <Link
-              to="/case-studies/tradeflow"
-              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              to="/case-studies/easy-ecommerce"
+              className="min-h-[44px] px-6 py-3 bg-secondary border border-border text-foreground rounded-lg font-medium hover:bg-secondary/80 transition-all inline-flex items-center justify-center gap-2"
             >
-              View TradeFlow Case
+              See a Commerce Build
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
