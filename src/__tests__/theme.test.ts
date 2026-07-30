@@ -20,12 +20,12 @@ describe('theme tokens', () => {
     expect(block).toMatch(/--color-warning:/);
   });
 
-  it('declares them as literals so opacity modifiers survive', () => {
+  it('declares them as literals so the alpha folds at build time', () => {
     const block = themeInlineBlock();
 
-    // A var() indirection inside @theme inline cannot be resolved at build time,
-    // so Tailwind silently discards the alpha: bg-success/10 would render as a
-    // solid block rather than a 10% tint.
+    // A literal lets Tailwind emit bg-success/10 as #22c55e1a outright, with no
+    // color-mix and no @supports guard. (The var() indirection the other tokens
+    // use works too — see the note in theme.css.)
     expect(block).toMatch(/--color-success:\s*#[0-9a-f]{6}/i);
     expect(block).toMatch(/--color-warning:\s*#[0-9a-f]{6}/i);
   });

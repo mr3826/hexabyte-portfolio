@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import { company } from '@/data/company';
 import { products } from '@/data/products';
 import { ProductCard } from '@/components/ProductCard';
-import founderImage from '@/assets/founder.png';
+// The file is JPEG bytes; it shipped as .png, so S3 served image/png over them.
+// Browsers sniff and render it anyway, which is why nobody noticed.
+import founderImage from '@/assets/founder.jpg';
 
 export default function AboutPage() {
 
@@ -67,6 +69,8 @@ export default function AboutPage() {
                 <img
                   src={founderImage}
                   alt="Founder, Hexabyte"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover rounded-2xl shadow-2xl"
                 />
                 <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl" />

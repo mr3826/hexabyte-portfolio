@@ -55,10 +55,12 @@ Infrastructure"* with `RAG pipelines, n8n orchestration` in the description, `/_
 | F8 | Medium | Four deploy targets are configured simultaneously — `amplify.yml`, `netlify.toml`, `vercel.json`, `.vercel/` — plus `public/rebuild-timestamp.txt` shipping to production as a live artifact. |
 | F9 | Low | `og:image` and every extensionless path return HTTP **200 with HTML** because of the SPA fallback, so a 404 is indistinguishable from a hit when auditing. |
 
-Carried over from the previous refinement pass (documented in
-[WEBSITE_REFINEMENT_CHANGELOG.md](WEBSITE_REFINEMENT_CHANGELOG.md), still open): the
-site-wide `@theme inline` + `var()` indirection silently discards Tailwind opacity
-modifiers, so every `bg-primary/10` renders as solid indigo.
+~~Carried over from the previous refinement pass: the site-wide `@theme inline` + `var()`
+indirection silently discards Tailwind opacity modifiers, so every `bg-primary/10` renders
+as solid indigo.~~ **Retracted 2026-07-31.** Checked against the built stylesheet: Tailwind
+v4.1 emits the flat declaration followed by an `@supports`-guarded `color-mix` override,
+which wins in every browser since 2023. Tints have always rendered correctly. See
+[WEBSITE_REFINEMENT_CHANGELOG.md](WEBSITE_REFINEMENT_CHANGELOG.md) item 6.
 
 ---
 

@@ -121,16 +121,16 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   /*
-   * Literal values, not var(--status-green)/var(--status-yellow).
+   * Literal values, not var(--status-green)/var(--status-yellow), so Tailwind can
+   * fold the alpha at build time: `bg-success/10` emits `#22c55e1a` directly.
    *
-   * Inside `@theme inline` a var() indirection cannot be resolved at build time,
-   * so Tailwind silently drops the opacity modifier: `bg-success/10` would emit
-   * `background-color: var(--status-green)` — a solid block instead of a 10% tint.
-   * With literals it correctly emits `#22c55e1a`.
+   * The var() indirection every other token here uses is NOT broken — an earlier
+   * note in this file claimed it silently discarded opacity modifiers, and that is
+   * wrong. Tailwind v4 emits a flat fallback followed by an @supports-guarded
+   * color-mix override, so `bg-primary/10` resolves to a correct 10% tint in every
+   * browser since 2023. Verified against the built stylesheet; do not "fix" it.
    *
-   * Keep these in sync with --status-green / --status-yellow above.
-   * NOTE: every other colour token in this block still uses var() indirection and
-   * therefore still discards opacity modifiers site-wide. See the changelog.
+   * Keep these two in sync with --status-green / --status-yellow above.
    */
   --color-success: #22c55e;
   --color-warning: #eab308;
