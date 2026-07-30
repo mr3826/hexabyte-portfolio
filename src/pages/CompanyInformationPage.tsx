@@ -1,164 +1,140 @@
-import { Package, Layers, Calendar, Store, Shield, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Building2, Mail, Phone, Globe, MapPin, ShieldCheck } from 'lucide-react';
+
+import { company, addressLine } from '@/data/company';
+import { products } from '@/data/products';
+import { ProductCard } from '@/components/ProductCard';
+
+const TRUST_CHIPS = [
+  `${company.address.region}, ${company.address.country}`,
+  company.structure,
+  'Information Technology',
+  'Founder-Led',
+];
+
+/** Fields shown in the hero profile card — identity only, no contact details or CTAs. */
+const BUSINESS_PROFILE = [
+  { term: 'Legal name', value: company.legalName },
+  { term: 'Public brand', value: company.brandName },
+  { term: 'Business structure', value: company.structure },
+  { term: 'Business activity', value: company.activity },
+  {
+    term: 'Registered location',
+    value: `${company.address.locality}, ${company.address.region}, ${company.address.country}`,
+  },
+];
+
+const IDENTITY_DETAILS = [
+  { term: 'Legal name', value: company.legalName },
+  { term: 'Public brand', value: company.brandName },
+  { term: 'Business structure', value: company.structure },
+  { term: 'Business activity', value: company.activity },
+  { term: 'Founder', value: company.founder },
+];
+
+function DetailPanel({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
+      <h3 className="text-lg font-semibold mb-6">{title}</h3>
+      <dl className="space-y-5">{children}</dl>
+    </div>
+  );
+}
+
+function DetailRow({ term, children }: { term: string; children: React.ReactNode }) {
+  return (
+    <div className="border-b border-border/60 pb-5 last:border-0 last:pb-0">
+      <dt className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">{term}</dt>
+      <dd className="font-medium leading-relaxed">{children}</dd>
+    </div>
+  );
+}
 
 export default function CompanyInformationPage() {
   return (
     <main className="pt-[108px] md:pt-20 bg-[#0a0a0a] min-h-screen">
-      <section className="py-16 sm:py-24 border-b border-border">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <p className="text-xs text-primary uppercase tracking-wider mb-3">Company Information</p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
-            Hexabyte Technologies
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
-            Hexabyte Technologies is a founder-led information technology business based in Dhaka, Bangladesh.
-            We build practical AI systems, operational automation, web and mobile applications, and focused software
-            products for commerce, service, and supply-chain operations.
-          </p>
-        </div>
-      </section>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
 
-      {/* Registered Business Details */}
-      <section className="py-16 sm:py-24 border-b border-border">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-10">Registered Business Details</h2>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-14 sm:py-20 lg:py-24">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-full mb-6">
+                <Building2 className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
+                <span className="text-xs text-primary font-medium uppercase tracking-wider">
+                  Registered Technology Business
+                </span>
+              </div>
 
-          <dl className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Legal Name</dt>
-              <dd className="font-semibold">Hexabyte Technologies</dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Public Brand</dt>
-              <dd className="font-semibold">Hexabyte</dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Business Structure</dt>
-              <dd className="font-semibold">Sole Proprietorship</dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Business Activity</dt>
-              <dd className="font-semibold">Information technology, software products, and engineering services</dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Registered Address</dt>
-              <dd className="font-semibold">
-                Plot-107, North Tower, 8th Floor, Sector-7, Uttara, Dhaka-1230, Bangladesh
-              </dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Email</dt>
-              <dd className="font-semibold">
-                <a href="mailto:contact@hexabyte.tech" className="text-primary hover:underline">contact@hexabyte.tech</a>
-              </dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Phone</dt>
-              <dd className="font-semibold">
-                <a href="tel:+8801886895874" className="text-primary hover:underline">+880 1886-895874</a>
-              </dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Website</dt>
-              <dd className="font-semibold">
-                <a href="https://hexabyte.tech" className="text-primary hover:underline">https://hexabyte.tech</a>
-              </dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Founder</dt>
-              <dd className="font-semibold">Evan Ahmed</dd>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-lg">
-              <dt className="text-sm text-muted-foreground">Discovery Call</dt>
-              <dd className="font-semibold">
-                <a href="https://calendly.com/hexabyte/discovery" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center gap-2">
-                  https://calendly.com/hexabyte/discovery
-                  <ExternalLink className="w-3.5 h-3.5" />
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
+                {company.legalName}
+              </h1>
+
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl">
+                A founder-led technology business in {company.address.region} building practical
+                AI systems, operational software, and focused digital products for commerce,
+                service businesses, and supply-chain teams.
+              </p>
+
+              <ul className="flex flex-wrap gap-2 mb-8">
+                {TRUST_CHIPS.map((chip) => (
+                  <li
+                    key={chip}
+                    className="text-xs px-3 py-1.5 bg-secondary border border-border rounded-full text-muted-foreground"
+                  >
+                    {chip}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/products" className="cta-engineering justify-center">
+                  Explore Products
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </Link>
+                <a
+                  href={`mailto:${company.email}`}
+                  className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"
+                >
+                  Contact Hexabyte
+                  <Mail className="w-4 h-4" aria-hidden="true" />
                 </a>
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-
-      {/* Products Operated by Hexabyte Technologies */}
-      <section className="py-16 sm:py-24 border-b border-border">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-10">Products Operated by Hexabyte Technologies</h2>
-
-          <div className="space-y-4">
-            <div className="bg-card border border-primary/20 rounded-xl p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/15 rounded-lg flex items-center justify-center">
-                  <Package className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <div className="font-bold text-lg">Easy Moderator</div>
-                  <div className="text-sm text-primary font-medium">Live & Available</div>
-                </div>
               </div>
-              <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">AI Social-Commerce Operations</span>
             </div>
 
-            <div className="bg-card border border-accent/20 rounded-xl p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-accent/15 rounded-lg flex items-center justify-center">
-                  <Store className="w-6 h-6 text-accent" />
+            {/* Business profile card */}
+            <div className="lg:col-span-5">
+              <div className="bg-card border border-primary/20 rounded-2xl p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <ShieldCheck className="w-5 h-5 text-primary" aria-hidden="true" />
+                  </div>
+                  <h2 className="text-lg font-semibold">Business Profile</h2>
                 </div>
-                <div>
-                  <div className="font-bold text-lg">Easy E-commerce</div>
-                  <div className="text-sm text-accent font-medium">Beta Testing</div>
-                </div>
-              </div>
-              <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">AI Store Builder</span>
-            </div>
 
-            <div className="bg-card border border-accent/20 rounded-xl p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-accent/15 rounded-lg flex items-center justify-center">
-                  <Calendar className="w-6 h-6 text-accent" />
-                </div>
-                <div>
-                  <div className="font-bold text-lg">Easy Assistance</div>
-                  <div className="text-sm text-accent font-medium">Beta Testing</div>
-                </div>
-              </div>
-              <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">AI Booking & Customer Ops</span>
-            </div>
+                <dl className="space-y-4">
+                  {BUSINESS_PROFILE.map(({ term, value }) => (
+                    <div key={term} className="grid sm:grid-cols-5 gap-1 sm:gap-3">
+                      <dt className="sm:col-span-2 text-xs uppercase tracking-wider text-muted-foreground sm:pt-0.5">
+                        {term}
+                      </dt>
+                      <dd className="sm:col-span-3 text-sm font-medium leading-relaxed">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
 
-            <div className="bg-card border border-warning/20 rounded-xl p-6 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-warning/15 rounded-lg flex items-center justify-center">
-                  <Layers className="w-6 h-6 text-warning" />
-                </div>
-                <div>
-                  <div className="font-bold text-lg">TradeFlow</div>
-                  <div className="text-sm text-warning font-medium">Beta Access</div>
-                </div>
-              </div>
-              <span className="text-xs px-2 py-1 bg-warning/10 text-warning rounded-full">Supply Chain Operations</span>
-            </div>
-          </div>
-
-          <p className="mt-8 text-sm text-muted-foreground">
-            Product availability and feature scope may change during beta testing. Public product pages identify the current release status.
-          </p>
-        </div>
-      </section>
-
-      {/* Verification Note */}
-      <section className="py-16 sm:py-24 border-b border-border">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <div className="bg-card border border-primary/20 rounded-2xl p-8">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Shield className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Verification Note</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Business information is published to help customers, partners, and platform reviewers confirm the operator
-                  behind Hexabyte products and services. The Facebook Page, Meta Business Portfolio, website, and trade-licence
-                  document must use the same legal name, address, phone, and website before business-verification submission.
+                <p className="mt-6 pt-6 border-t border-border text-xs text-muted-foreground leading-relaxed">
+                  Public business details are provided for customers, partners, and platform
+                  verification.
                 </p>
               </div>
             </div>
@@ -166,39 +142,165 @@ export default function CompanyInformationPage() {
         </div>
       </section>
 
-      {/* Structured Data for SEO - JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'Hexabyte Technologies',
-            alternateName: 'Hexabyte',
-            legalName: 'Hexabyte Technologies',
-            url: 'https://hexabyte.tech',
-            logo: 'https://hexabyte.tech/hexabyte-logo.png',
-            email: 'contact@hexabyte.tech',
-            telephone: '+8801886895874',
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: 'Plot-107, North Tower, 8th Floor, Sector-7',
-              addressLocality: 'Uttara',
-              addressRegion: 'Dhaka',
-              postalCode: '1230',
-              addressCountry: 'BD',
-            },
-            founder: {
-              '@type': 'Person',
-              name: 'Evan Ahmed',
-            },
-            sameAs: [
-              'https://www.linkedin.com/in/mr3826',
-              'https://github.com/mr3826',
-            ],
-          }, null, 2),
-        }}
-      />
+      {/* Company and contact details */}
+      <section className="py-16 sm:py-24 border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl mb-10">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Company and Contact Details
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Official public information for {company.legalName} and the products it operates.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <DetailPanel title="Company identity">
+              {IDENTITY_DETAILS.map(({ term, value }) => (
+                <DetailRow key={term} term={term}>
+                  {value}
+                </DetailRow>
+              ))}
+            </DetailPanel>
+
+            <DetailPanel title="Contact and location">
+              <DetailRow term="Registered address">
+                <span className="flex items-start gap-2">
+                  <MapPin
+                    className="w-4 h-4 mt-0.5 text-muted-foreground flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span>{addressLine}</span>
+                </span>
+              </DetailRow>
+              <DetailRow term="Email">
+                <a
+                  href={`mailto:${company.email}`}
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                >
+                  <Mail className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                  Email Hexabyte
+                </a>
+              </DetailRow>
+              <DetailRow term="Phone">
+                <a
+                  href={`tel:${company.phoneHref}`}
+                  className="inline-flex items-center gap-2 text-primary hover:underline"
+                >
+                  <Phone className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                  Call Hexabyte
+                </a>
+                <span className="block mt-1 text-sm text-muted-foreground font-normal">
+                  {company.phoneDisplay}
+                </span>
+              </DetailRow>
+              <DetailRow term="Website">
+                <a href={company.website} className="inline-flex items-center gap-2 text-primary hover:underline">
+                  <Globe className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                  Visit {company.websiteDisplay}
+                </a>
+              </DetailRow>
+            </DetailPanel>
+          </div>
+        </div>
+      </section>
+
+      {/* Products operated by Hexabyte */}
+      <section className="py-16 sm:py-24 border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl mb-10">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Products Operated by {company.brandName}
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Focused software products for commerce, bookings, customer operations, and
+              supply-chain teams.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-6">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          <p className="mt-8 text-sm text-muted-foreground">
+            Product availability and feature scope may change during beta testing. Each product
+            page states its current release status.
+          </p>
+        </div>
+      </section>
+
+      {/* Public business information */}
+      <section className="py-16 sm:py-24 border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="bg-card border border-primary/20 rounded-2xl p-8 sm:p-10 max-w-4xl">
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">
+              Public Business Information
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-5">
+              A clear operator behind every product
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              {company.brandName} publishes its legal business name, public contact details,
+              registered business location, and product ownership so customers, partners, and
+              verification teams can confirm who operates its services.
+            </p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed mb-8">
+              For privacy and security, personal identity documents and non-public registration
+              details are never published on this website.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/products"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-medium"
+              >
+                View Products
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+              <a
+                href={`mailto:${company.email}`}
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-medium"
+              >
+                Email Hexabyte
+                <Mail className="w-4 h-4" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section className="py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Talk to the person building it
+          </h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            Discuss a product, a workflow problem, or an engineering engagement directly with
+            the founder.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={company.discoveryCallUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-engineering justify-center"
+            >
+              Book a Discovery Call
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </a>
+            <Link
+              to="/products"
+              className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"
+            >
+              Explore Products
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
