@@ -58,7 +58,7 @@ export const products: Product[] = [
     status: 'live',
     statusDisplay: 'Live & Available',
     category: 'AI-powered social-commerce operations',
-    shortDescription: 'AI-powered social-commerce operations for Facebook, Instagram, and WhatsApp merchants—bringing customer conversations, product knowledge, orders, courier workflows, and human handoff into one platform.',
+    shortDescription: 'Run social-commerce conversations, orders, and courier workflows from one place, with staff picking up anything the assistant cannot answer.',
     longDescription: 'Easy Moderator is a production-ready, multi-tenant commerce operations platform that replaces manual Facebook, Instagram, and WhatsApp operations with AI-powered sales and support workflows. It unifies product catalogs, conversation inboxes, order management, courier integrations, knowledge bases, and analytics into a single operational workspace for Bangladeshi f-commerce merchants.',
     audience: [
       'Bangladeshi f-commerce merchants',
@@ -133,7 +133,7 @@ export const products: Product[] = [
     status: 'private-beta',
     statusDisplay: 'Beta Testing',
     category: 'AI-powered e-commerce website and store builder',
-    shortDescription: 'Easy E-commerce helps merchants create, launch, and operate a branded online store without stitching together separate website, order, payment, courier, content, and customer-management tools.',
+    shortDescription: 'Launch and run a branded online store without stitching together separate website, order, courier, and customer tools.',
     longDescription: 'Easy E-commerce is an AI-guided website and commerce operations platform for Bangladesh-first merchants. The product combines store creation, catalog management, local checkout, courier workflows, and merchant operations in one mobile-friendly system. Currently in beta testing with selected Bangladesh-based businesses.',
     audience: [
       'Bangladesh-based merchants',
@@ -218,7 +218,7 @@ export const products: Product[] = [
     status: 'private-beta',
     statusDisplay: 'Beta Testing',
     category: 'AI-powered booking and customer operations',
-    shortDescription: 'Easy Assistance is a conversational booking platform designed to turn customer enquiries into confirmed appointments, coordinate staff and service availability, send reminders, and keep customer history in one operational workspace.',
+    shortDescription: 'Turn customer enquiries into confirmed appointments, coordinate staff availability, and keep booking history in one workspace.',
     longDescription: 'Easy Assistance is an AI-powered booking and customer-operations platform for service businesses. It moves an enquiry from initial intent through availability, confirmation, reminders, service completion, and follow-up without forcing teams to manage disconnected tools. Currently in beta testing with selected service businesses.',
     audience: [
       'Salons and beauty businesses',
@@ -298,7 +298,7 @@ export const products: Product[] = [
     status: 'beta',
     statusDisplay: 'Beta Access',
     category: 'Mobile-first supply-chain operations',
-    shortDescription: 'Mobile-first supply-chain operations for garment buying houses, with faster order updates, risk visibility, communication workflows, and auditable activity.',
+    shortDescription: 'Give garment buying houses faster order updates, clearer risk visibility, and an auditable record of every change.',
     longDescription: 'TradeFlow is a mobile-first SaaS for garment buying houses. It brings structure to supply-chain updates with WhatsApp-native communication, AI-powered risk scoring, and full audit trails. Designed for the operational reality of Bangladesh buying house teams.',
     audience: [
       'Garment buying houses',
@@ -339,6 +339,7 @@ export const products: Product[] = [
       { step: 'Share', description: 'Stakeholders receive concise progress visibility' },
       { step: 'Trace', description: 'Audit logging supports accountability and review' },
     ],
+    betaDisclosure: 'Currently in beta access. Capture, communication, and audit workflows are in use with selected buying houses while risk scoring and reporting are still being validated.',
     cta: [
       { label: 'Join Beta', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'tradeflow_beta' },
       { label: 'Discuss Supply Chain Workflow', href: 'https://calendly.com/hexabyte/discovery', variant: 'secondary', source: 'tradeflow_discuss' },
