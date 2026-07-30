@@ -1,5 +1,13 @@
 # Production Launch Plan — hexabyte.tech
 
+> **Status: shipped 2026-07-30.** All eight phases below are live. Two runs deployed it:
+> [#30570722226](https://github.com/mr3826/hexabyte-portfolio/actions/runs/30570722226)
+> (content, SEO, pipeline) and
+> [#30571975233](https://github.com/mr3826/hexabyte-portfolio/actions/runs/30571975233)
+> (OIDC credentials). See [Results](#6-results) for what was verified against the live
+> origin, and [DEPLOYMENT.md](DEPLOYMENT.md) for the three items still needing owner
+> credentials.
+
 Owner decision driving this pass: **the site sells outcomes, not technology, and never
 publishes a product's development state.** Products are presented as what they do for a
 business at full release. Anyone genuinely interested reaches out; there is no waitlist
@@ -163,3 +171,33 @@ curl -s https://hexabyte.tech/robots.txt
 
 Content guard (in the test suite, not just a grep): no product-state vocabulary may appear
 in shipped data or rendered pages.
+
+---
+
+## 6. Results
+
+Verified against the live origin after deploy, not against a local build.
+
+| Check | Result |
+| --- | --- |
+| Gates | `typecheck` clean, **74 tests / 17 files** passing, `build` clean |
+| Prerender | 16 sitemap routes, every one with baked title, description, canonical and OG tags |
+| Live routes | all 16 return 200 with their own `<title>` and their own canonical |
+| `og-image.png` | `image/png`, 86 KB — previously answered by the SPA fallback with HTML |
+| Case-study visuals | `image/svg+xml` at `/case-visuals/*` — every one of them 404ed before |
+| `sitemap.xml` | 16 `<loc>` entries, all on `hexabyte.tech` |
+| Shipped bundle | zero occurrences of `beta`, `waitlist`, `live & available`, `in development` |
+| Bucket | 29 objects; `rebuild-timestamp.txt` and the stale build are gone |
+| Deploy proof | the workflow's own final step curls the live URL and compares served titles against the build it just made |
+
+Findings F1–F9 are all closed. What remains is in
+[DEPLOYMENT.md](DEPLOYMENT.md#open-items-for-the-owner) and needs credentials only the
+owner has: an inquiry endpoint, a GA4 or GTM id, and the decision to delete the now-unused
+`AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` secrets. The orphaned Amplify app
+`d3f7vg26f037wj` can also be deleted; nothing references it.
+
+Not done, and needing a human eye rather than a tool: the responsive pass at 360×800,
+390×844, 768×1024, 1280×800 and 1440×900. No browser automation is available in this
+environment and Playwright is not a project dependency. The layouts most worth looking at
+are the product sections' pain/outcome columns, the sticky product index, and the Work
+filter bar at 390×844.
