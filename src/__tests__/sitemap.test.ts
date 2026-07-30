@@ -3,6 +3,7 @@ import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 
 import { caseStudies } from '@/data/caseStudies';
+import seo from '@/data/seo.json';
 
 const sitemap = readFileSync(path.resolve(__dirname, '../../public/sitemap.xml'), 'utf8');
 const robots = readFileSync(path.resolve(__dirname, '../../public/robots.txt'), 'utf8');
@@ -53,6 +54,19 @@ describe('sitemap.xml', () => {
 
   it('omits lastmod rather than shipping a frozen date', () => {
     expect(sitemap).not.toContain('<lastmod>');
+  });
+
+  it('has metadata for every listed route', () => {
+    // scripts/prerender-head.mjs writes one static HTML file per entry in seo.json.
+    // A sitemap URL with no entry ships with the homepage's title and canonical.
+    const known = new Set([
+      ...Object.keys(seo.routes),
+      ...Object.keys(seo.caseStudies).map((id) => `/case-studies/${id}`),
+    ]);
+
+    for (const path of sitemapPaths()) {
+      expect(known).toContain(path === '' ? '/' : path);
+    }
   });
 });
 

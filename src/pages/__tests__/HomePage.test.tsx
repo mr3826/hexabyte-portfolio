@@ -22,7 +22,7 @@ describe('HomePage', () => {
     renderPage();
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      /AI-Powered Systems & Digital Products/i,
+      /The Work That Eats Your Day,\s*Running On Its Own/i,
     );
 
     const ctas = screen.getAllByRole('link', { name: /Book a Discovery Call/i });

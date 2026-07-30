@@ -14,8 +14,11 @@ describe('AIAutomationPage', () => {
       </MemoryRouter>
     );
 
-    expect(container.textContent).toContain('AI Automation');
-    expect(container.textContent).toContain('Solutions');
+    // Sells the outcome, not the toolchain: the page used to open with the list of
+    // automation platforms we happen to use.
+    expect(container.textContent).toContain('Stop Paying Salaries for');
+    expect(container.textContent).toContain('Four Jobs Worth Taking Off a Person');
+    expect(container.textContent).not.toMatch(/Zapier|n8n|Power Automate|vector database/i);
   });
 
   it('has CTA buttons', () => {

@@ -28,12 +28,14 @@ describe('CompanyInformationPage', () => {
     }
   });
 
-  it('shows each product status from the badge component rather than hardcoded text', () => {
-    renderPage();
+  it('publishes no product release state', () => {
+    const { container } = renderPage();
 
-    // Easy Moderator is live; the other three are in beta. Statuses come from the data.
-    expect(screen.getAllByText('Live & Available')).toHaveLength(1);
-    expect(screen.getAllByText(/Beta Testing|Beta Access/).length).toBe(3);
+    // Owner decision: products are presented by what they do, never by how far
+    // along they are. This page previously carried a status badge per product.
+    expect(container.textContent).not.toMatch(
+      /beta|live & available|in development|coming soon|waitlist/i,
+    );
   });
 
   it('injects no page-level JSON-LD (App.tsx owns Organization schema)', () => {

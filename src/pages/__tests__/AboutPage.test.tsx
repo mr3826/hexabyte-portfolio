@@ -34,7 +34,7 @@ describe('AboutPage', () => {
     expect(ctas[0]).toHaveAttribute('href', company.discoveryCallUrl);
   });
 
-  it('renders product cards from the data rather than hardcoded status text', () => {
+  it('renders product cards from the data rather than hardcoded markup', () => {
     const { container } = renderPage();
 
     for (const product of products) {
@@ -42,8 +42,6 @@ describe('AboutPage', () => {
         container.querySelector(`a[href="/products#${product.anchor}"]`),
       ).toBeInTheDocument();
     }
-    // One live product; the other three are in beta. Sourced from ProductStatusBadge.
-    expect(screen.getAllByText('Live & Available')).toHaveLength(1);
   });
 
   it('links to the registered business information', () => {
