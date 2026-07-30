@@ -14,9 +14,10 @@ describe('WebAppPage', () => {
       </MemoryRouter>
     );
 
-    // Check for key content
-    expect(container.textContent).toContain('Custom');
-    expect(container.textContent).toContain('Web Applications');
+    expect(container.textContent).toContain('Software Your Team Stops');
+    expect(container.textContent).toContain('What Comes as Standard');
+    // The page presented a grey "Placeholder Image" as a dashboard screenshot.
+    expect(container.querySelector('img')).toBeNull();
   });
 
   it('has CTA buttons', () => {

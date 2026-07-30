@@ -1,18 +1,19 @@
-import { Package, Layers, Calendar, Store, MessageSquare, Truck, Brain, LayoutDashboard, Users, Settings, Globe, Smartphone, BarChart3, CreditCard, Box, CheckCircle, Shield, Mail } from 'lucide-react';
-
-export type ProductStatus = 'live' | 'beta' | 'private-beta' | 'planned';
-
-export type ProductStatusDisplay = 'Live & Available' | 'Beta Access' | 'Beta Testing' | 'In Development';
+import { Package, Layers, Calendar, Store, MessageSquare, Truck, Brain, LayoutDashboard, Users, Settings, Smartphone, BarChart3, CreditCard, Box, CheckCircle, Shield, Mail } from 'lucide-react';
 
 export interface ProductCapability {
   title: string;
   description: string;
   icon: React.ComponentType<{ className?: string }>;
-  status?: 'available' | 'in-validation' | 'planned';
 }
 
 export interface ProductWorkflowStep {
   step: string;
+  description: string;
+}
+
+/** What changes for the business once the product is running. */
+export interface ProductOutcome {
+  label: string;
   description: string;
 }
 
@@ -26,16 +27,16 @@ export interface ProductCTA {
 export interface Product {
   id: string;
   name: string;
-  status: ProductStatus;
-  statusDisplay: ProductStatusDisplay;
   category: string;
   shortDescription: string;
   longDescription: string;
   audience: string[];
   promise: string;
+  /** The cost of the current way of working — what the day looks like without this. */
+  painPoints: string[];
+  outcomes: ProductOutcome[];
   capabilities: ProductCapability[];
   workflow: ProductWorkflowStep[];
-  betaDisclosure?: string;
   cta: ProductCTA[];
   operatorStatement: string;
   legalLinks?: { label: string; href: string }[];
@@ -44,77 +45,93 @@ export interface Product {
   anchor: string;
 }
 
-export const PRODUCT_STATUS_DISPLAY: Record<ProductStatus, ProductStatusDisplay> = {
-  live: 'Live & Available',
-  beta: 'Beta Access',
-  'private-beta': 'Beta Testing',
-  planned: 'In Development',
-};
+/**
+ * How a business starts using a product. Deliberately commercial rather than technical:
+ * scope is agreed in conversation, so the site never has to publish a release state.
+ */
+export const productAccessNote =
+  'Onboarding runs directly with us. Tell us how your operation works today and we will show you exactly where this fits — and where it does not.';
 
 export const products: Product[] = [
   {
     id: 'easy-moderator',
     name: 'Easy Moderator',
-    status: 'live',
-    statusDisplay: 'Live & Available',
-    category: 'AI-powered social-commerce operations',
-    shortDescription: 'AI-powered social-commerce operations for Facebook, Instagram, and WhatsApp merchants—bringing customer conversations, product knowledge, orders, courier workflows, and human handoff into one platform.',
-    longDescription: 'Easy Moderator is a production-ready, multi-tenant commerce operations platform that replaces manual Facebook, Instagram, and WhatsApp operations with AI-powered sales and support workflows. It unifies product catalogs, conversation inboxes, order management, courier integrations, knowledge bases, and analytics into a single operational workspace for Bangladeshi f-commerce merchants.',
+    category: 'Social-commerce operations',
+    shortDescription: 'Answer every customer message and capture every order from one place, so sales stop depending on who is watching which inbox.',
+    longDescription: 'Easy Moderator runs the whole distance between a customer message and a delivered parcel for businesses that sell through Facebook, Instagram and WhatsApp. Conversations, product information, orders, courier bookings and daily numbers live in one workspace, with your team stepping in only where judgement is actually needed.',
     audience: [
-      'Bangladeshi f-commerce merchants',
-      'Facebook/Instagram shop operators',
+      'Social-commerce businesses',
+      'Facebook and Instagram shops',
       'WhatsApp Business teams',
       'Multi-channel commerce operations',
     ],
-    promise: 'Turn social conversations into confirmed orders with AI-powered operations.',
+    promise: 'Every message answered and every order captured — without staff watching three inboxes.',
+    painPoints: [
+      'Orders arrive as messages across three inboxes, so someone has to be awake and watching to catch them.',
+      'The same questions about price, stock and delivery get typed out by hand, hundreds of times a week.',
+      'A confirmed order gets re-entered into a courier panel, then chased again when the customer asks where the parcel is.',
+      'Refused deliveries only become visible once the courier has already charged for the return trip.',
+    ],
+    outcomes: [
+      {
+        label: 'Nothing goes unanswered',
+        description: 'Routine questions get a reply immediately, at any hour. Anything uncertain reaches your team with the full conversation attached, so nobody starts from scratch.',
+      },
+      {
+        label: 'Staff cost stops tracking message volume',
+        description: 'Double the messages no longer means double the people. Your team spends its hours on the conversations that actually decide a sale.',
+      },
+      {
+        label: 'One order record instead of four',
+        description: 'The conversation, the order, the courier booking and the delivery status are the same record — so status questions get answered without anyone checking a second system.',
+      },
+      {
+        label: 'Fewer parcels paid for twice',
+        description: 'Risky addresses and repeat refusals are flagged before dispatch, where the decision is still cheap to make.',
+      },
+    ],
     capabilities: [
       {
-        title: 'Products & Catalog',
-        description: 'Manual entry or AI bulk upload. Vector embeddings for AI product search. Low-stock monitoring.',
+        title: 'Your catalogue, always current',
+        description: 'Add products by hand or in bulk, keep pricing and stock accurate, and get warned before something sells out mid-conversation.',
         icon: Box,
-        status: 'available',
       },
       {
-        title: 'Unified Inbox',
-        description: 'Real-time SSE stream from FB/IG/WhatsApp. AI intent routing with confidence scoring. Human handoff (HITL).',
+        title: 'One inbox for every channel',
+        description: 'Customer conversations arrive in a single place, common enquiries are handled automatically, and anything uncertain is handed to a person.',
         icon: MessageSquare,
-        status: 'available',
       },
       {
-        title: 'Order Engine',
-        description: 'Full COD lifecycle: draft → confirm → book courier → track. RTO Shield fraud detection.',
+        title: 'Order to doorstep',
+        description: 'Take an order from first message to confirmed delivery, with checks on the addresses and behaviour patterns that usually end in a refusal.',
         icon: Package,
-        status: 'available',
       },
       {
-        title: 'Delivery Integrations',
-        description: 'Steadfast, Pathao, RedX API connections. Real-time booking and tracking from within orders.',
+        title: 'Delivery without the second screen',
+        description: 'Book couriers and follow tracking from inside the order, so nobody retypes an address into someone else\'s panel.',
         icon: Truck,
-        status: 'available',
       },
       {
-        title: 'Knowledge Base',
-        description: 'RAG-powered AI brain. FAQs with semantic search. Branding rules. Document uploads. Knowledge gaps tracking.',
+        title: 'Answers from your own information',
+        description: 'Replies are drawn from your approved product details, FAQs and policies — and you can see which questions you cannot answer yet.',
         icon: Brain,
-        status: 'available',
       },
       {
-        title: 'Analytics & Campaigns',
-        description: 'Dashboard KPIs. Queue management. Broadcast campaigns to connected channels with delivery stats.',
+        title: 'Numbers you can act on',
+        description: 'Orders, response times and channel performance for the day, plus updates you can send back out to customers.',
         icon: LayoutDashboard,
-        status: 'available',
       },
     ],
     workflow: [
-      { step: 'Channel Connected', description: 'Merchant connects Facebook, Instagram, and WhatsApp accounts' },
-      { step: 'Inbox Receives Messages', description: 'Real-time message ingestion via webhooks and SSE' },
-      { step: 'AI Uses Knowledge + Products', description: 'RAG-powered AI answers queries and recommends products' },
-      { step: 'Order Created', description: 'Conversational flow captures order details and confirms' },
-      { step: 'Courier Booked', description: 'Integrated courier booking with Steadfast, Pathao, RedX' },
-      { step: 'Tracking Updated', description: 'Automated tracking updates sent to customer via messaging channels' },
+      { step: 'Connect channels', description: 'Your selling accounts are connected once' },
+      { step: 'Messages arrive', description: 'Every conversation lands in one shared inbox' },
+      { step: 'Questions answered', description: 'Routine enquiries are handled from your own product information' },
+      { step: 'Order captured', description: 'Details are collected and confirmed inside the conversation' },
+      { step: 'Delivery booked', description: 'The courier is booked without leaving the order' },
+      { step: 'Customer updated', description: 'Tracking goes back on the channel the customer used' },
     ],
     cta: [
-      { label: 'View Product', href: '/products#easy-moderator', variant: 'primary', source: 'easy_moderator_product' },
+      { label: 'Talk to us about Easy Moderator', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_moderator_enquiry' },
       { label: 'Visit Easy Moderator', href: 'https://easymod.tech', variant: 'secondary', source: 'easy_moderator_external' },
     ],
     operatorStatement: 'Easy Moderator is a product operated by Hexabyte Technologies.',
@@ -130,82 +147,83 @@ export const products: Product[] = [
   {
     id: 'easy-ecommerce',
     name: 'Easy E-commerce',
-    status: 'private-beta',
-    statusDisplay: 'Beta Testing',
-    category: 'AI-powered e-commerce website and store builder',
-    shortDescription: 'Easy E-commerce helps merchants create, launch, and operate a branded online store without stitching together separate website, order, payment, courier, content, and customer-management tools.',
-    longDescription: 'Easy E-commerce is an AI-guided website and commerce operations platform for Bangladesh-first merchants. The product combines store creation, catalog management, local checkout, courier workflows, and merchant operations in one mobile-friendly system. Currently in beta testing with selected Bangladesh-based businesses.',
+    category: 'Online store and commerce operations',
+    shortDescription: 'Own a branded store that takes orders the way your customers actually buy — and run stock, delivery and customers from the same place.',
+    longDescription: 'Easy E-commerce gives a business its own storefront without assembling a website project, a payment setup, a courier account and a spreadsheet first. The store, the catalogue, checkout, delivery and customer history are one system, built around how buying works locally rather than how it works in a template.',
     audience: [
-      'Bangladesh-based merchants',
-      'F-commerce businesses moving to owned stores',
-      'SME retailers launching online',
-      'Multi-channel sellers needing unified operations',
+      'Retailers moving from social selling to their own store',
+      'SMEs launching online',
+      'Multi-channel sellers',
+      'Businesses outgrowing marketplace listings',
     ],
-    promise: 'Launch and run a branded Bangladesh-first online store with AI-guided setup, local checkout, and integrated courier operations.',
+    promise: 'A store of your own, live in days, running on the payment and delivery habits your customers already have.',
+    painPoints: [
+      'Getting online means a developer, a designer, a theme licence and three monthly subscriptions before the first sale.',
+      'Product titles, descriptions and photos have to be written one at a time, so half the catalogue never gets published.',
+      'Orders live in DMs, stock lives in a notebook, and the two disagree by Friday.',
+      'Cash-on-delivery refusals and courier charges quietly consume the margin nobody is tracking.',
+    ],
+    outcomes: [
+      {
+        label: 'Live without a development project',
+        description: 'You describe the business and adjust a working store, instead of commissioning one and waiting on someone else\'s timeline.',
+      },
+      {
+        label: 'One place that agrees with itself',
+        description: 'Orders, stock, customers and delivery share a single record, so the numbers you make decisions on are the same numbers your team sees.',
+      },
+      {
+        label: 'Checkout that does not lose the sale',
+        description: 'Phone-first checkout with the payment and delivery options local buyers expect — and rules that stop the orders you would rather not ship.',
+      },
+      {
+        label: 'The customer list is yours',
+        description: 'Buyers, order history and follow-up live in your store, not inside a platform that can change its reach overnight.',
+      },
+    ],
     capabilities: [
       {
-        title: 'AI-Guided Store Creation',
-        description: 'Merchant describes the business; AI proposes store structure, categories, sections, and initial copy with guided onboarding and reusable industry templates.',
+        title: 'A store, drafted for you',
+        description: 'Describe what you sell and get a working first store — structure, categories, sections and starting copy — then make it yours.',
         icon: Brain,
-        status: 'in-validation',
       },
       {
-        title: 'Visual Website & Landing Page Builder',
-        description: 'Theme selection, drag-and-drop or section-based composition for homepage, collection, product, campaign, and landing pages with mobile preview and custom branding/domain.',
+        title: 'Pages you can change yourself',
+        description: 'Compose home, collection, product and campaign pages with your own branding and domain, checked on a phone before it goes out.',
         icon: LayoutDashboard,
-        status: 'in-validation',
       },
       {
-        title: 'Product & Catalogue Management',
-        description: 'Products and variants, pricing and discounts, stock visibility, categories and collections, bulk import, AI-assisted product titles, descriptions, attributes, and SEO content.',
+        title: 'Catalogue without the typing',
+        description: 'Variants, pricing, discounts, stock and collections, with bulk import and drafted product copy you approve rather than write.',
         icon: Box,
-        status: 'in-validation',
       },
       {
-        title: 'Bangladesh-First Checkout',
-        description: 'Cash on delivery, bKash and Nagad integration where technically available, delivery area and charge rules, phone-first checkout, fraud and return-to-origin risk controls.',
+        title: 'Checkout built for local buying',
+        description: 'Phone-first checkout, cash on delivery, mobile wallet and card options, delivery-area charge rules, and controls for orders likely to be refused.',
         icon: CreditCard,
-        status: 'in-validation',
       },
       {
-        title: 'Order & Courier Operations',
-        description: 'Order dashboard, confirmation workflow, Pathao/Steadfast/RedX integrations, courier booking and tracking, fulfilment and delivery status, cancellation and return visibility.',
+        title: 'Orders and delivery together',
+        description: 'One order dashboard, a confirmation flow your team can follow, and courier booking and tracking attached to the order.',
         icon: Truck,
-        status: 'in-validation',
       },
       {
-        title: 'Customer & Marketing Operations',
-        description: 'Customer profiles, order history, coupons and campaigns, abandoned/incomplete checkout follow-up, messaging and support hooks, analytics and conversion visibility.',
+        title: 'Customers who come back',
+        description: 'Customer profiles and order history, coupons and campaigns, abandoned-checkout follow-up, and help answering product questions.',
         icon: Users,
-        status: 'planned',
-      },
-      {
-        title: 'AI Commerce Assistance',
-        description: 'Product content generation, store SEO suggestions, merchandising recommendations, customer-question assistance, operational summaries, human approval for sensitive actions.',
-        icon: Brain,
-        status: 'planned',
-      },
-      {
-        title: 'Hexabyte Ecosystem Direction',
-        description: 'Connection with Easy Moderator for social messaging and assisted sales, shared product/catalogue information where implemented, future workflow interoperability.',
-        icon: Settings,
-        status: 'planned',
       },
     ],
     workflow: [
-      { step: 'Describe the Business', description: 'Merchant describes their business, products, and target customers' },
-      { step: 'AI Drafts the Store', description: 'AI proposes store structure, categories, sections, and initial copy' },
-      { step: 'Merchant Customizes', description: 'Visual builder for theme, layout, branding, and content refinement' },
-      { step: 'Publish', description: 'Launch on custom domain with SSL and mobile-optimized storefront' },
-      { step: 'Receive Orders', description: 'Orders flow into unified dashboard with customer details' },
-      { step: 'Payment/COD', description: 'Cash on delivery, bKash, Nagad, and card payments processed' },
-      { step: 'Courier Fulfilment', description: 'Integrated courier booking, tracking, and delivery confirmation' },
-      { step: 'Growth Analytics', description: 'Conversion, revenue, customer, and operational metrics dashboard' },
+      { step: 'Describe the business', description: 'What you sell and who buys it' },
+      { step: 'Review the draft', description: 'A working store structure and starting content is proposed' },
+      { step: 'Make it yours', description: 'Theme, layout, branding and copy adjusted in the builder' },
+      { step: 'Go live', description: 'Published on your own domain, mobile-first' },
+      { step: 'Take orders', description: 'Orders arrive in one dashboard with customer details' },
+      { step: 'Ship and follow up', description: 'Courier booked, customer updated, performance visible' },
     ],
-    betaDisclosure: 'Currently in beta testing. Store-building, catalogue, checkout, and merchant-operation workflows are being refined for Bangladesh-based businesses before wider availability.',
     cta: [
-      { label: 'Join Beta Waitlist', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_ecommerce_beta' },
-      { label: 'Explore the Product Vision', href: '/products#easy-ecommerce', variant: 'secondary', source: 'easy_ecommerce_vision' },
+      { label: 'Talk to us about Easy E-commerce', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_ecommerce_enquiry' },
+      { label: 'See the build', href: '/case-studies/easy-ecommerce', variant: 'secondary', source: 'easy_ecommerce_case_study' },
     ],
     operatorStatement: 'Easy E-commerce is a product operated by Hexabyte Technologies.',
     icon: Store,
@@ -215,77 +233,83 @@ export const products: Product[] = [
   {
     id: 'easy-assistance',
     name: 'Easy Assistance',
-    status: 'private-beta',
-    statusDisplay: 'Beta Testing',
-    category: 'AI-powered booking and customer operations',
-    shortDescription: 'Easy Assistance is a conversational booking platform designed to turn customer enquiries into confirmed appointments, coordinate staff and service availability, send reminders, and keep customer history in one operational workspace.',
-    longDescription: 'Easy Assistance is an AI-powered booking and customer-operations platform for service businesses. It moves an enquiry from initial intent through availability, confirmation, reminders, service completion, and follow-up without forcing teams to manage disconnected tools. Currently in beta testing with selected service businesses.',
+    category: 'Bookings and customer operations',
+    shortDescription: 'Turn enquiries into confirmed appointments, keep the diary honest, and stop losing repeat customers to follow-up nobody had time for.',
+    longDescription: 'Easy Assistance handles the work around a booking — answering service questions, finding a slot that actually exists, confirming it, reminding the customer, and picking the conversation back up afterwards — so the people delivering the service are not also running a switchboard.',
     audience: [
       'Salons and beauty businesses',
+      'Clinics and appointment-based providers',
       'Consultants and professional services',
-      'Repair and maintenance teams',
-      'Training and coaching businesses',
-      'Clinics and appointment-based service providers',
-      'Multi-location service businesses',
+      'Repair, maintenance and coaching teams',
     ],
-    promise: 'Turn customer enquiries into confirmed appointments with AI-powered booking and automated customer operations.',
+    promise: 'A diary that fills itself, and customers who are reminded, followed up and asked back — without anyone chasing messages.',
+    painPoints: [
+      'The phone rings and the messages pile up while your team is mid-service, so enquiries go cold.',
+      'Availability lives in one person\'s head, which is how double bookings and idle afternoons both happen.',
+      'No-shows are absorbed as a cost of doing business because reminders are manual.',
+      'Regulars stop coming back and nobody notices until the month\'s takings do.',
+    ],
+    outcomes: [
+      {
+        label: 'Enquiries stop going cold',
+        description: 'Service questions get answered and a slot gets offered while the customer is still interested, including outside opening hours.',
+      },
+      {
+        label: 'The diary reflects reality',
+        description: 'Staff, service duration, breaks and locations are all considered before a slot is offered, so the schedule holds together.',
+      },
+      {
+        label: 'Fewer empty chairs',
+        description: 'Confirmations and reminders go out on their own, and a missed appointment triggers a follow-up instead of a shrug.',
+      },
+      {
+        label: 'Returning customers feel known',
+        description: 'History, preferences and past notes are there when they get back in touch — the reason they book with you and not the shop next door.',
+      },
+    ],
     capabilities: [
       {
-        title: 'AI Booking Assistant',
-        description: 'Understands customer booking intent, answers service questions from business knowledge, collects required booking details, recommends available slots, hands conversations to staff when confidence is low.',
+        title: 'Answers and bookings in one conversation',
+        description: 'Service questions answered from your own information, booking details collected, and a handover to staff the moment judgement is needed.',
         icon: Brain,
-        status: 'in-validation',
       },
       {
-        title: 'Services, Staff & Availability',
-        description: 'Service catalogue with duration and pricing, staff assignment, business hours, breaks, blocked time, holidays, branch/location support.',
+        title: 'Services, staff and hours',
+        description: 'Duration and price per service, staff assignment, opening hours, breaks, blocked time, holidays and multiple locations.',
         icon: Settings,
-        status: 'in-validation',
       },
       {
-        title: 'Conversational Booking',
-        description: 'Website booking assistant, messaging-channel enquiry capture, guided booking flow, booking confirmation, reschedule and cancellation workflows.',
+        title: 'Booked from wherever they found you',
+        description: 'Website or messaging channel, through a guided booking, reschedule and cancellation flow the customer can follow alone.',
         icon: MessageSquare,
-        status: 'in-validation',
       },
       {
-        title: 'Customer Operations',
-        description: 'Customer profiles, booking history, notes and preferences, lead and follow-up status, human handoff, repeat-customer context.',
+        title: 'Customer history that stays',
+        description: 'Profiles, past bookings, notes and preferences — the context a returning customer expects you to remember.',
         icon: Users,
-        status: 'in-validation',
       },
       {
-        title: 'Automated Communication',
-        description: 'Confirmation messages, reminders, reschedule notices, missed-appointment follow-up, post-service follow-up.',
+        title: 'Reminders and follow-up',
+        description: 'Confirmations, reminders before the appointment, reschedule notices, and a follow-up after a completed or missed visit.',
         icon: Mail,
-        status: 'planned',
       },
       {
-        title: 'Operations & Analytics',
-        description: 'Daily schedule, staff workload, booking source, completion/cancellation/no-show status, conversion and service-demand visibility.',
+        title: 'A view of the operation',
+        description: 'Today\'s schedule, staff workload, where bookings come from, and no-show patterns worth acting on.',
         icon: BarChart3,
-        status: 'planned',
-      },
-      {
-        title: 'Future-Ready Integrations',
-        description: 'Calendars, payments or deposits, CRM and automation tools, Easy Moderator or other Hexabyte products where integration is real.',
-        icon: Globe,
-        status: 'planned',
       },
     ],
     workflow: [
-      { step: 'Customer Enquiry', description: 'Customer initiates contact via website, WhatsApp, or social messaging' },
-      { step: 'AI Qualification', description: 'AI understands intent, answers questions, collects required booking details' },
-      { step: 'Availability Check', description: 'System checks service, staff, and location availability in real-time' },
-      { step: 'Booking Confirmation', description: 'Customer confirms slot; booking created with all details' },
-      { step: 'Reminder', description: 'Automated reminders sent before appointment via preferred channel' },
-      { step: 'Service Completion', description: 'Staff marks service complete; notes and follow-ups captured' },
-      { step: 'Follow-up', description: 'Post-service feedback, rebooking prompts, and loyalty engagement' },
+      { step: 'Enquiry arrives', description: 'From your website or a messaging channel' },
+      { step: 'Questions answered', description: 'Service details handled, booking needs collected' },
+      { step: 'Real slot offered', description: 'Checked against service, staff and location' },
+      { step: 'Booking confirmed', description: 'The customer picks a time and it is locked in' },
+      { step: 'Reminder sent', description: 'Before the appointment, on their channel' },
+      { step: 'Followed up', description: 'Notes recorded, feedback and rebooking prompted' },
     ],
-    betaDisclosure: 'Currently in beta testing. Core booking workflows are being validated with selected businesses while additional automation, channel, and analytics capabilities are prepared for wider release.',
     cta: [
-      { label: 'Join Beta Waitlist', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_assistance_beta' },
-      { label: 'Discuss a Booking Workflow', href: 'https://calendly.com/hexabyte/discovery', variant: 'secondary', source: 'easy_assistance_discuss' },
+      { label: 'Talk to us about Easy Assistance', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_assistance_enquiry' },
+      { label: 'See the build', href: '/case-studies/easy-assistance', variant: 'secondary', source: 'easy_assistance_case_study' },
     ],
     operatorStatement: 'Easy Assistance is a product operated by Hexabyte Technologies.',
     icon: Calendar,
@@ -295,53 +319,71 @@ export const products: Product[] = [
   {
     id: 'tradeflow',
     name: 'TradeFlow',
-    status: 'beta',
-    statusDisplay: 'Beta Access',
-    category: 'Mobile-first supply-chain operations',
-    shortDescription: 'Mobile-first supply-chain operations for garment buying houses, with faster order updates, risk visibility, communication workflows, and auditable activity.',
-    longDescription: 'TradeFlow is a mobile-first SaaS for garment buying houses. It brings structure to supply-chain updates with WhatsApp-native communication, AI-powered risk scoring, and full audit trails. Designed for the operational reality of Bangladesh buying house teams.',
+    category: 'Supply-chain operations',
+    shortDescription: 'Give buying-house teams one order record everyone trusts, updated from the floor in seconds and defensible when an order is disputed.',
+    longDescription: 'TradeFlow replaces the scattered updates a buying house runs on — message threads, phone calls and someone\'s memory — with a single record of every order, updated from a phone where the work actually happens, and kept in a form that holds up when a buyer disagrees.',
     audience: [
       'Garment buying houses',
-      'Supply chain operations teams',
+      'Supply-chain operations teams',
       'Merchandisers and quality controllers',
-      'Bangladesh export-oriented operations',
+      'Export-oriented operations',
     ],
-    promise: 'Bring structure, speed, and auditability to buying house order operations with mobile-first workflows and WhatsApp-native communication.',
+    promise: 'One order record every team trusts — updated in seconds from the floor, and complete enough to settle a dispute.',
+    painPoints: [
+      'Order status lives in message threads, so a buyer\'s question costs three people twenty minutes.',
+      'Updates are only as current as the last person who remembered to send one.',
+      'When a shipment slips, the reason is reconstructed from memory and screenshots.',
+      'Problems become visible at the point where they are already expensive.',
+    ],
+    outcomes: [
+      {
+        label: 'Status without the phone calls',
+        description: 'Managers and buyers see where an order stands without interrupting the people producing it.',
+      },
+      {
+        label: 'Updates that take seconds',
+        description: 'Logging progress from a phone, on a weak connection, is fast enough that it actually happens.',
+      },
+      {
+        label: 'Disputes settled from the record',
+        description: 'Every change carries who made it and when, so a contested delay is a lookup rather than an argument.',
+      },
+      {
+        label: 'Attention where it pays',
+        description: 'The orders and suppliers most likely to slip surface early, while there is still time to act.',
+      },
+    ],
     capabilities: [
       {
-        title: 'Architecture',
-        description: 'Mobile-first API designed for field operations and constrained connectivity.',
+        title: 'Built for where the work happens',
+        description: 'Runs on a phone, on a weak connection, for people logging updates nowhere near a desk.',
         icon: Smartphone,
-        status: 'available',
       },
       {
-        title: 'Updates',
-        description: 'WhatsApp-native quick updates for order status, quality checkpoints, and shipment milestones.',
+        title: 'Updates where teams already talk',
+        description: 'Order status, quality checkpoints and shipment milestones logged from the messaging app in use today.',
         icon: MessageSquare,
-        status: 'available',
       },
       {
-        title: 'Risk Scoring',
-        description: 'AI-powered supplier and order risk signals surfaced in operational dashboards.',
+        title: 'Early warning',
+        description: 'The suppliers and orders most likely to slip are surfaced before they become the reason for a late shipment.',
         icon: Shield,
-        status: 'in-validation',
       },
       {
-        title: 'Audit Trail',
-        description: 'Full compliance-ready activity logging for every operational action.',
+        title: 'A record that holds up',
+        description: 'Every change logged with who and when, so a disputed order can be reconstructed exactly.',
         icon: CheckCircle,
-        status: 'available',
       },
     ],
     workflow: [
-      { step: 'Capture', description: 'Teams log fast updates from mobile-first interfaces' },
-      { step: 'Score', description: 'System surfaces risk-oriented operational signals' },
-      { step: 'Share', description: 'Stakeholders receive concise progress visibility' },
-      { step: 'Trace', description: 'Audit logging supports accountability and review' },
+      { step: 'Capture', description: 'Teams log updates from a phone' },
+      { step: 'Flag', description: 'Orders and suppliers at risk are surfaced' },
+      { step: 'Share', description: 'Stakeholders see progress without asking' },
+      { step: 'Trace', description: 'Every change stays on the record' },
     ],
     cta: [
-      { label: 'Join Beta', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'tradeflow_beta' },
-      { label: 'Discuss Supply Chain Workflow', href: 'https://calendly.com/hexabyte/discovery', variant: 'secondary', source: 'tradeflow_discuss' },
+      { label: 'Talk to us about TradeFlow', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'tradeflow_enquiry' },
+      { label: 'See the build', href: '/case-studies/tradeflow', variant: 'secondary', source: 'tradeflow_case_study' },
     ],
     operatorStatement: 'TradeFlow is a product operated by Hexabyte Technologies.',
     icon: Layers,
@@ -352,16 +394,4 @@ export const products: Product[] = [
 
 export function getProductById(id: string): Product | undefined {
   return products.find(p => p.id === id);
-}
-
-export function getProductsByStatus(status: ProductStatus): Product[] {
-  return products.filter(p => p.status === status);
-}
-
-export function getLiveProducts(): Product[] {
-  return products.filter(p => p.status === 'live');
-}
-
-export function getBetaProducts(): Product[] {
-  return products.filter(p => p.status === 'beta' || p.status === 'private-beta');
 }

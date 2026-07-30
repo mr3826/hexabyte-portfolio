@@ -1,41 +1,40 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import { ModalProvider } from '@/context/ModalContext';
+
 import CaseStudyDetail from '../CaseStudyDetail';
+import { caseStudies } from '@/data/caseStudies';
+import { ModalProvider } from '@/context/ModalContext';
+
+function renderAt(id: string) {
+  return render(
+    <MemoryRouter initialEntries={[`/case-studies/${id}`]}>
+      <ModalProvider>
+        <Routes>
+          <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
+        </Routes>
+      </ModalProvider>
+    </MemoryRouter>,
+  );
+}
 
 describe('CaseStudyDetail', () => {
-  it('renders a valid case study correctly', () => {
-    render(
-      <MemoryRouter
-        initialEntries={['/case-studies/lead-enrichment-automation']}
-      >
-        <ModalProvider>
-          <Routes>
-            <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
-          </Routes>
-        </ModalProvider>
-      </MemoryRouter>
-    );
+  it('renders a real case study from the data', () => {
+    const study = caseStudies[0];
+    renderAt(study.id);
 
-    expect(
-      screen.getByText(/Lead Enrichment Automation for B2B SaaS/i)
-    ).toBeInTheDocument();
-    expect(screen.getByText(/The Problem/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(study.title);
+    expect(screen.getByText(study.problem.title)).toBeInTheDocument();
   });
 
-  it('renders not found state for invalid id', () => {
-    render(
-      <MemoryRouter initialEntries={['/case-studies/invalid-id']}>
-        <ModalProvider>
-          <Routes>
-            <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
-          </Routes>
-        </ModalProvider>
-      </MemoryRouter>
-    );
+  it('renders the shared 404 page for an unknown id', () => {
+    renderAt('not-a-real-case-study');
 
-    expect(screen.getByText(/Case Study Not Found/i)).toBeInTheDocument();
-    expect(screen.getByText(/Back to Case Studies/i)).toBeInTheDocument();
+    expect(screen.getByText(/404 — Page not found/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Work/i })).toHaveAttribute('href', '/case-studies');
+    // Unknown ids must be noindexed, same as any other unmatched route.
+    expect(document.head.querySelector('meta[name="robots"]')?.getAttribute('content')).toContain(
+      'noindex',
+    );
   });
 });

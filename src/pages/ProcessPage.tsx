@@ -1,42 +1,44 @@
 import { Search, Lightbulb, Code, Rocket, Clock, MessageSquare, CheckCircle, ArrowRight, Zap, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { company } from '@/data/company';
+
 const phases = [
   {
     number: '01',
-    title: 'Discovery',
+    title: 'Understand the cost',
     duration: '1-2 weeks',
     icon: Search,
-    artifact: 'Scope Document',
-    description: 'Map business goals, constraints, and success criteria. Define the automation opportunity.',
-    output: ['Process audit', 'Tech feasibility', 'Success metrics'],
+    artifact: 'Scope and price',
+    description: 'We sit with how the work runs today, work out what it costs you in hours and money, and agree what better looks like in numbers.',
+    output: ['Where the hours go', 'What fixing it costs', 'How we will measure it'],
   },
   {
     number: '02',
-    title: 'Architecture',
+    title: 'Agree the plan',
     duration: '1-2 weeks',
     icon: Lightbulb,
-    artifact: 'System Blueprint',
-    description: 'Design technical architecture, integrations, and data flows. Approve before building.',
-    output: ['Architecture diagram', 'API mapping', 'Security review'],
+    artifact: 'A plan you approve',
+    description: 'You see what will be built, what it connects to, and how your data is handled — before anyone writes code, and while changing your mind is still free.',
+    output: ['What gets built', 'What it connects to', 'How your data is protected'],
   },
   {
     number: '03',
-    title: 'Build',
+    title: 'Build it',
     duration: '6-12 weeks',
     icon: Code,
-    artifact: 'Production System',
-    description: 'Ship in weekly milestones with direct engineering access and continuous demos.',
-    output: ['Working demos', 'CI/CD setup', 'Documentation'],
+    artifact: 'Working software',
+    description: 'Something you can actually use lands every week, so you steer with what you can see rather than with what you imagined at the start.',
+    output: ['Weekly working demos', 'Direct access to the builder', 'Your team trained as it lands'],
   },
   {
     number: '04',
-    title: 'Scale',
+    title: 'Keep it running',
     duration: 'Ongoing',
     icon: Rocket,
-    artifact: 'Monitored Operations',
-    description: 'Instrument, stabilize, and iterate. Production support with 30-day guarantee.',
-    output: ['Monitoring', 'Alerts', 'Team training'],
+    artifact: 'A watched system',
+    description: 'It is monitored and tuned as your volume grows, and problems reach us before they reach your customers.',
+    output: ['Monitoring and alerts', 'Fixes covered for 30 days', 'Changes as you grow'],
   },
 ];
 
@@ -52,35 +54,35 @@ export default function ProcessPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-full mb-6">
               <Zap className="w-4 h-4 text-primary" />
               <span className="text-xs text-primary font-medium uppercase tracking-wider">
-                Engineering Process
+                How We Work
               </span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
-              Discovery → Architecture →{' '}
-              <span className="text-primary">Ship.</span>
+              You Always Know What You Are{' '}
+              <span className="text-primary">Paying For.</span>
             </h1>
 
             <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              4-phase delivery framework. Scoped before work begins, demos every week, 
-              production in weeks not quarters.
+              Priced before the work starts, something working to look at every week, and the
+              person building it on the other end of the call.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <a
-                href="https://calendly.com/hexabyte/discovery"
+                href={company.discoveryCallUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cta-engineering"
               >
-                Book Discovery Call
+                Book a Discovery Call
                 <ArrowRight className="w-4 h-4" />
               </a>
               <Link
                 to="/case-studies"
                 className="min-h-[44px] px-8 py-4 bg-secondary border border-border text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all flex items-center justify-center gap-2"
               >
-                View Deployments
+                See the Results
               </Link>
             </div>
 
@@ -88,19 +90,19 @@ export default function ProcessPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary mb-1">4-8</div>
-                <div className="text-sm text-muted-foreground">Weeks Discovery→Ship</div>
+                <div className="text-sm text-muted-foreground">Weeks to Something You Use</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary mb-1">100%</div>
-                <div className="text-sm text-muted-foreground">Engineering-Led</div>
+                <div className="text-sm text-muted-foreground">Founder-Led</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary mb-1">Weekly</div>
-                <div className="text-sm text-muted-foreground">Working Demos</div>
+                <div className="text-sm text-muted-foreground">Progress You Can See</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary mb-1">30-Day</div>
-                <div className="text-sm text-muted-foreground">Production Support</div>
+                <div className="text-sm text-muted-foreground">Post-Launch Support</div>
               </div>
             </div>
           </div>
@@ -111,12 +113,12 @@ export default function ProcessPage() {
       <section className="py-14 sm:py-20 border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs text-primary uppercase tracking-wider mb-3">4-Phase Framework</p>
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">How It Goes</p>
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
               How We Deliver
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Each phase produces a concrete artifact. No fluff. Just deliverables.
+              Every phase hands you something real — a price, a plan, working software, a system that is being watched.
             </p>
           </div>
 
@@ -142,7 +144,7 @@ export default function ProcessPage() {
                   <p className="text-sm text-muted-foreground mb-4">{phase.description}</p>
 
                   <div className="bg-primary/5 border border-primary/10 rounded-lg p-3 mb-4">
-                    <div className="text-xs text-primary uppercase tracking-wider mb-1">Artifact</div>
+                    <div className="text-xs text-primary uppercase tracking-wider mb-1">You end up with</div>
                     <div className="text-sm font-semibold">{phase.artifact}</div>
                   </div>
 
@@ -178,9 +180,9 @@ export default function ProcessPage() {
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MessageSquare className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Direct Engineering Access</h3>
+              <h3 className="text-lg font-semibold mb-2">You talk to the builder</h3>
               <p className="text-sm text-muted-foreground">
-                Slack channel with the lead engineer. Real-time technical discussions, no intermediaries.
+                A direct line to the person writing the code. No account manager relaying your question and coming back tomorrow.
               </p>
             </div>
 
@@ -188,7 +190,7 @@ export default function ProcessPage() {
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Weekly Working Demos</h3>
+              <h3 className="text-lg font-semibold mb-2">You see it working every week</h3>
               <p className="text-sm text-muted-foreground">
                 See the system working every week. Live deployments, not slide decks.
               </p>
@@ -198,7 +200,7 @@ export default function ProcessPage() {
               <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Milestone Gates</h3>
+              <h3 className="text-lg font-semibold mb-2">Nothing moves without your sign-off</h3>
               <p className="text-sm text-muted-foreground">
                 Each phase requires sign-off before proceeding. No surprises at delivery.
               </p>
@@ -212,26 +214,26 @@ export default function ProcessPage() {
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <p className="text-xs text-primary uppercase tracking-wider text-center mb-3">FAQ</p>
           <h2 className="text-3xl font-bold tracking-tight text-center mb-12">
-            Process Questions
+            Fair Questions
           </h2>
 
           <div className="space-y-4">
             {[
               {
-                q: 'What happens during Discovery?',
-                a: 'Process audit, technical feasibility assessment, and scope document. 1-2 weeks. You get a clear automation roadmap with timeline and success metrics.',
+                q: 'What happens in the first two weeks?',
+                a: 'We go through how the work runs today, count what it costs you, and check what is realistic. You end up with a written scope, a price and an agreed way to tell whether it worked — before you commit to a build.',
               },
               {
-                q: 'How long until production?',
-                a: 'Simple automations: 4-6 weeks. Multi-system orchestration: 8-12 weeks. RAG pipelines and AI agents: 6-10 weeks. We scope before we commit.',
+                q: 'How long before my team is using it?',
+                a: 'One process automated end to end: 4-6 weeks. Several systems that have to agree with each other: 8-12 weeks. You see working software long before that — every week from the build phase on.',
               },
               {
-                q: 'What if requirements change?',
-                a: 'Milestone gates allow scope adjustments at phase boundaries. Minor changes accommodated within buffer. Major pivots may require timeline adjustment.',
+                q: 'What if we change our mind halfway?',
+                a: 'Expected — seeing it working is what tells you what you actually need. Small changes are absorbed as we go. A change of direction gets repriced openly rather than quietly absorbed into a slipping deadline.',
               },
               {
-                q: 'What documentation is included?',
-                a: 'Architecture diagrams, API docs, deployment runbooks, monitoring dashboards, and team training materials. Your team can operate and extend the system.',
+                q: 'Are we locked in to you afterwards?',
+                a: 'No. You get the code, the accounts, the documentation and training for your team. If you want someone else to take it over, or to hire in-house, everything they need is already handed over.',
               },
             ].map((item, idx) => (
               <div key={idx} className="bento-card">
@@ -249,19 +251,19 @@ export default function ProcessPage() {
       <section className="py-14 sm:py-20 bg-gradient-to-b from-[#0a0a0a] to-[#0d0d0d] border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-6">
-            Ready to <span className="text-primary">Ship?</span>
+            Want to Know What <span className="text-primary">Yours Would Cost?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Book a 30-minute discovery call. We'll map your automation requirements and define a production-ready architecture.
+            Book a 30-minute call. We will go through how your operation runs today and come back with a scope, a price and an honest view of whether it is worth doing.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://calendly.com/hexabyte/discovery"
+              href={company.discoveryCallUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="cta-engineering justify-center"
             >
-              Book Discovery Call
+              Book a Discovery Call
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>

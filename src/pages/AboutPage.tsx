@@ -1,11 +1,15 @@
-import { Zap, Package, Layers, Shield, ArrowRight, Cpu, Bot, Calendar, Store } from 'lucide-react';
+import { Zap, Shield, ArrowRight, Cpu, Bot, Layers, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+import { company } from '@/data/company';
+import { products } from '@/data/products';
+import { ProductCard } from '@/components/ProductCard';
 import founderImage from '@/assets/founder.png';
 
 export default function AboutPage() {
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background pt-[108px] md:pt-20">
 
       {/* Hero — Origin Story */}
       <section className="relative py-20 sm:py-28 overflow-hidden">
@@ -18,7 +22,7 @@ export default function AboutPage() {
                 <span className="text-sm text-muted-foreground">Available for Select Projects</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
                 Built Products First.{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
                   The Agency Followed.
@@ -40,20 +44,20 @@ export default function AboutPage() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="https://calendly.com/hexabyte/discovery"
+                  href={company.discoveryCallUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-engineering"
                 >
-                  Book Engineering Consultation
-                  <ArrowRight className="w-4 h-4" />
+                  Book a Discovery Call
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </a>
                 <Link
-                  to="/case-studies"
-                  className="min-h-[44px] px-8 py-4 border border-border text-foreground rounded-lg hover:bg-secondary transition-all font-medium inline-flex items-center justify-center gap-2"
+                  to="/products"
+                  className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg hover:bg-secondary transition-all font-medium inline-flex items-center justify-center gap-2"
                 >
-                  View Deployments
-                  <ArrowRight className="w-4 h-4" />
+                  Explore Products
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -103,14 +107,14 @@ export default function AboutPage() {
               {
                 num: '03',
                 icon: Bot,
-                title: 'Measure Everything',
-                body: 'Latency, throughput, error rates. If it moves, we instrument it. Dashboards are not optional — they\'re part of the deliverable.',
+                title: 'Measure What It Saved',
+                body: 'Hours returned, cost per order, reply time, work that failed. If we cannot show the difference in your numbers, we have not finished.',
               },
               {
                 num: '04',
                 icon: Layers,
-                title: 'Scale First',
-                body: 'Built for 10x load from day one. No "we\'ll fix it later" architecture. Horizontal scaling should be a config change, not a rewrite.',
+                title: 'Built for Your Busiest Day',
+                body: 'The system has to hold up when volume triples, not just on a quiet Tuesday. Growth should cost a setting, not a rebuild.',
               },
             ].map(({ num, icon: Icon, title, body }) => (
               <div key={title} className="bento-card group">
@@ -134,101 +138,26 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 border-t border-primary/20">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs uppercase tracking-[0.16em] text-primary mb-3">Live Products</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] mb-4">
+            <p className="text-xs uppercase tracking-[0.16em] text-primary mb-3">Our Products</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               What We Built
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Four products. One live, three in beta. All built from observed problems, not speculation.
+              Four products, each built from a problem we watched a business pay for — not from
+              a market slide.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-card border border-primary/20 rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center">
-                  <Package className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="font-bold font-['Space_Grotesk']">Easy Moderator</div>
-                  <div className="text-xs text-primary font-medium">Live & Available</div>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                Multi-tenant commerce operations platform — role-aware moderation workflows,
-                social platform integration hooks, and automated test pipelines for release confidence.
-              </p>
-              <Link
-                to="/products#easy-moderator"
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
-              >
-                Learn more <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                variant="compact"
+                linkLabel="Learn more"
+              />
+            ))}
 
-            <div className="bg-card border border-accent/20 rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-accent/15 rounded-lg flex items-center justify-center">
-                  <Store className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <div className="font-bold font-['Space_Grotesk']">Easy E-commerce</div>
-                  <div className="text-xs text-accent font-medium">Beta Testing</div>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                AI-guided website and commerce operations platform for Bangladesh-first merchants — store creation, catalogue, local checkout, courier workflows, and merchant operations in one mobile-friendly system.
-              </p>
-              <Link
-                to="/products#easy-ecommerce"
-                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
-              >
-                Learn more <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="bg-card border border-accent/20 rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-accent/15 rounded-lg flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <div className="font-bold font-['Space_Grotesk']">Easy Assistance</div>
-                  <div className="text-xs text-accent font-medium">Beta Testing</div>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                AI-powered booking and customer-operations platform for service businesses — conversational booking, staff/availability coordination, reminders, and customer history in one workspace.
-              </p>
-              <Link
-                to="/products#easy-assistance"
-                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors text-sm font-medium"
-              >
-                Learn more <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="bg-card border border-warning/20 rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-warning/15 rounded-lg flex items-center justify-center">
-                  <Layers className="w-5 h-5 text-warning" />
-                </div>
-                <div>
-                  <div className="font-bold font-['Space_Grotesk']">TradeFlow</div>
-                  <div className="text-xs text-warning font-medium">Beta Access</div>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                Built for garment buying houses. Mobile-first order management,
-                WhatsApp-native updates, risk scoring, full audit trail.
-              </p>
-              <Link
-                to="/products#tradeflow"
-                className="inline-flex items-center gap-2 text-warning hover:text-warning/80 transition-colors text-sm font-medium"
-              >
-                Learn more <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -241,7 +170,7 @@ export default function AboutPage() {
             <span className="text-xs uppercase tracking-[0.16em] text-primary font-medium">Where This Is Heading</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] mb-6 leading-snug">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6 leading-snug">
             The goal is not scale for scale's sake.
           </h2>
 
@@ -268,21 +197,40 @@ export default function AboutPage() {
       <section className="py-16 sm:py-20 border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
-            Ready to <span className="text-primary">Ship?</span>
+            Want to Get <span className="text-primary">Your Hours Back?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Book a 30-minute engineering consultation. We'll map your automation
-            requirements and define a production-ready architecture.
+            Book a 30-minute call. We will go through where your operation loses time and money,
+            and what it would cost to fix the worst of it.
           </p>
-          <a
-            href="https://calendly.com/hexabyte/discovery"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cta-engineering inline-flex"
-          >
-            Book Engineering Consultation
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={company.discoveryCallUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-engineering inline-flex"
+            >
+              Book a Discovery Call
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </a>
+            <Link
+              to="/products"
+              className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg hover:bg-secondary transition-all font-medium inline-flex items-center justify-center gap-2"
+            >
+              Explore Products
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+          </div>
+
+          <p className="mt-8 text-sm text-muted-foreground">
+            <Link
+              to="/company-information"
+              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-medium"
+            >
+              <FileText className="w-4 h-4" aria-hidden="true" />
+              Registered business information
+            </Link>
+          </p>
         </div>
       </section>
     </div>

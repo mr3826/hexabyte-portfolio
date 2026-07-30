@@ -4,211 +4,213 @@ import {
   Layers,
   Zap,
   CheckCircle2,
+  WifiOff,
 } from 'lucide-react';
 import { useModal } from '@/context/ModalContext';
 import { Link } from 'react-router-dom';
-import mobileScreenshot from '@/assets/placeholder-image.svg';
+
+/** Capabilities described by the operational problem they solve, not the SDK behind them. */
+const CAPABILITIES = [
+  {
+    title: 'Captured on the spot',
+    desc: 'Job status, readings, quantities and signatures recorded where the work happens, instead of written on paper and typed up that evening',
+  },
+  {
+    title: 'Works with no signal',
+    desc: 'A basement, a factory floor or a delivery route still records the update, and syncs when the connection comes back',
+  },
+  {
+    title: 'Photo as proof',
+    desc: 'Condition, damage and completion evidence attached to the job — the thing that settles a dispute later',
+  },
+  {
+    title: 'Everyone sees the same status',
+    desc: 'Head office stops calling to ask, because the update arrives the moment it is made',
+  },
+  {
+    title: 'Alerts that reach the right person',
+    desc: 'A new job, an urgent change or an approval request lands on the phone of whoever needs to act',
+  },
+  {
+    title: 'Sign in without a password',
+    desc: 'Face or fingerprint, so shared logins and sticky notes stop being your access control',
+  },
+  {
+    title: 'Payment in the field',
+    desc: 'Take payment at the door or at the counter, and have it reconcile against the order',
+  },
+  {
+    title: 'Routes and locations',
+    desc: 'Where the team is, where the job is, and the order to do them in',
+  },
+];
 
 export default function MobileAppPage() {
   const { openModal } = useModal();
+
   return (
     <main className="pt-[108px] md:pt-20">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/50 to-background py-14 sm:py-20 lg:py-32">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,217,255,0.1),transparent_50%)]"></div>
+      <section className="relative overflow-hidden bg-[#0a0a0a] py-14 sm:py-20 lg:py-28">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
-              <Smartphone className="w-4 h-4 text-primary" />
-              <span className="text-sm text-primary">
-                App Store & Play Store Ready
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full mb-6">
+              <Smartphone className="w-4 h-4 text-primary" aria-hidden="true" />
+              <span className="text-xs text-primary font-medium uppercase tracking-wider">
+                Mobile and Field Operations
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-['Space_Grotesk'] mb-6 leading-tight">
-              <span className="text-primary">Cross-Platform</span> Mobile Apps
-              That Scale
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
+              The Update Happens{' '}
+              <span className="text-primary">Where the Work Does</span>
             </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-8">
-              Flutter-based iOS and Android apps with AI-powered features,
-              published on App Store and Play Store. One codebase, two
-              platforms, mobile-first from day one.
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed">
+              Delivery routes, factory floors, service calls, site visits. If the record is only
+              written up hours later at a desk, it is already wrong. We build the app that
+              captures it in seconds, on a phone, with no signal required.
             </p>
             <button
               onClick={() => openModal('mobile_app_hero_primary')}
-              className="inline-flex items-center min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="cta-engineering"
             >
-              Book Discovery Inquiry <ArrowRight className="w-5 h-5 ml-2" />
+              Describe Your Field Process
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* Why Flutter */}
-      <section className="py-20">
+      {/* One app, both platforms */}
+      <section className="py-16 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
-            Why <span className="text-primary">Flutter?</span>
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
-              <Zap className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
-                Single Codebase
-              </h3>
-              <p className="text-muted-foreground">
-                Write once, deploy to both iOS and Android. Faster development,
-                lower costs, and easier maintenance.
-              </p>
-            </div>
-
-            <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
-              <Layers className="w-10 h-10 text-accent mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
-                Native Performance
-              </h3>
-              <p className="text-muted-foreground">
-                Compiled to native code for smooth 60fps animations and
-                exceptional performance on both platforms.
-              </p>
-            </div>
-
-            <div className="bg-card border border-primary/20 rounded-xl p-8 hover:border-primary/50 transition-all">
-              <CheckCircle2 className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3 font-['Space_Grotesk']">
-                Beautiful UI
-              </h3>
-              <p className="text-muted-foreground">
-                Rich, customizable widgets that look and feel native on each
-                platform, with pixel-perfect control.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* App Features */}
-      <section className="py-20 bg-secondary/30">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-12 text-center">
-            What We <span className="text-primary">Build</span>
-          </h2>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <ul className="space-y-4">
-                {[
-                  {
-                    title: 'AI-Powered Features',
-                    desc: 'ML Kit, image recognition, natural language processing',
-                  },
-                  {
-                    title: 'Real-Time Sync',
-                    desc: 'Firebase, WebSocket connections for live updates',
-                  },
-                  {
-                    title: 'Push Notifications',
-                    desc: 'FCM integration for iOS and Android',
-                  },
-                  {
-                    title: 'In-App Purchases',
-                    desc: 'Stripe, Apple Pay, Google Pay integration',
-                  },
-                  {
-                    title: 'Offline Support',
-                    desc: 'Local storage and sync when online',
-                  },
-                  {
-                    title: 'Biometric Auth',
-                    desc: 'Face ID, Touch ID, fingerprint',
-                  },
-                  {
-                    title: 'Camera & Media',
-                    desc: 'Photo, video, and audio processing',
-                  },
-                  {
-                    title: 'Maps & Location',
-                    desc: 'Google Maps, location tracking',
-                  },
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div>
-                      <div className="font-semibold">{item.title}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {item.desc}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="relative">
-              {/* Phone Mockup with Real Screenshot */}
-              <div className="w-56 sm:w-72 mx-auto">
-                <img
-                  src={mobileScreenshot}
-                  alt="Mobile app interface showing live data dashboard"
-                  className="w-full h-auto rounded-[2.5rem] shadow-2xl hover:shadow-primary/30 transition-shadow duration-300"
-                />
-              </div>
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-full blur-2xl opacity-50"></div>
-              <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-br from-accent to-primary rounded-full blur-2xl opacity-50"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Store Presence */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-card to-secondary border border-primary/30 rounded-2xl p-12 text-center">
-            <h2 className="text-4xl font-bold font-['Space_Grotesk'] mb-6">
-              Published on{' '}
-              <span className="text-primary">Major App Stores</span>
+          <div className="text-center mb-12">
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">How We Build It</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              One App, Both Platforms
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              We handle the entire submission process, from app store
-              optimization to compliance with Apple and Google guidelines.
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Your team is on a mix of Android and iPhone. Paying for two separate builds — and
+              two sets of changes forever after — is a cost with no benefit to you.
             </p>
-            <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-              <div className="bg-background/50 rounded-lg p-6">
-                <div className="text-3xl font-bold mb-2">25+</div>
-                <div className="text-muted-foreground">Apps on App Store</div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              {
+                icon: Zap,
+                title: 'Built once, not twice',
+                desc: 'One build covers Android and iPhone, so the quote and the timeline are roughly half of what two native apps cost.',
+              },
+              {
+                icon: Layers,
+                title: 'Feels like a normal app',
+                desc: 'Smooth scrolling, native gestures and no lag — your team will not tolerate a phone app that fights them, and neither would we.',
+              },
+              {
+                icon: WifiOff,
+                title: 'Changes reach everyone at once',
+                desc: 'One change ships to every device, instead of two codebases drifting apart until nobody knows which is right.',
+              },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="bento-card group">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <Icon className="w-5 h-5 text-primary" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
               </div>
-              <div className="bg-background/50 rounded-lg p-6">
-                <div className="text-3xl font-bold mb-2">25+</div>
-                <div className="text-muted-foreground">Apps on Play Store</div>
-              </div>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Capabilities */}
+      <section className="py-16 sm:py-20 bg-card/30 border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">What It Does</p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+              Built Around the Job, Not the Feature List
+            </h2>
+          </div>
+
+          <ul className="grid md:grid-cols-2 gap-x-10 gap-y-5">
+            {CAPABILITIES.map(({ title, desc }) => (
+              <li key={title} className="flex items-start gap-3">
+                <CheckCircle2
+                  className="w-5 h-5 text-primary mt-0.5 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <div>
+                  <div className="font-semibold">{title}</div>
+                  <div className="text-sm text-muted-foreground leading-relaxed">{desc}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Getting it into hands */}
+      <section className="py-16 sm:py-20 border-t border-border">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <div className="bg-card border border-primary/20 rounded-2xl p-8 sm:p-12">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">
+              Getting it onto your team's phones
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Publishing is part of the job, not an afterthought you inherit. Store listings,
+              review requirements, privacy declarations and update releases are handled — and if
+              the app is internal, it goes out to your team without a public listing at all.
+            </p>
+            <ul className="space-y-3">
+              {[
+                'Store submission and review requirements handled end to end',
+                'Privacy and permission declarations prepared honestly, which is also what gets them approved',
+                'Internal distribution where the app is for staff rather than the public',
+                'Update releases after launch, so the first version is not the last one',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <CheckCircle2
+                    className="w-5 h-5 text-primary mt-0.5 flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span className="text-muted-foreground">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10">
+      <section className="py-16 sm:py-20 border-t border-border">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold font-['Space_Grotesk'] mb-6">
-            Ready to Build{' '}
-            <span className="text-primary">Your Mobile App?</span>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
+            Still Running on{' '}
+            <span className="text-primary">Paper and Phone Calls?</span>
           </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8">
-            Reach millions of users on iOS and Android with a single codebase
+          <p className="text-lg text-muted-foreground mb-8">
+            Walk us through one day of your field process. We will show you what it looks like
+            when the record writes itself.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => openModal('mobile_app_final_cta')}
-              className="min-h-[44px] px-8 py-4 bg-primary text-background rounded-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/50"
+              className="cta-engineering justify-center"
             >
-              Book Discovery Inquiry
+              Start the Conversation
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </button>
             <Link
-              to="/case-studies/reel-studio"
-              className="min-h-[44px] px-8 py-4 bg-secondary border border-primary/30 text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all"
+              to="/case-studies/tradeflow"
+              className="min-h-[44px] px-6 py-3 bg-secondary border border-border text-foreground rounded-lg font-medium hover:bg-secondary/80 transition-all inline-flex items-center justify-center gap-2"
             >
-              View Reel Studio Case
+              See a Field Operations Build
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

@@ -5,8 +5,9 @@ import {
   CheckCircle, Search, Code, Rocket, Shield,
   Smartphone,
 } from 'lucide-react';
+import { company } from '@/data/company';
 import { products } from '@/data/products';
-import { ProductStatusBadge } from '@/components/ProductStatusBadge';
+import { ProductCard } from '@/components/ProductCard';
 
 export default function HomePage() {
   return (
@@ -27,23 +28,24 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight">
-                AI-Powered Systems & Digital Products{' '}
-                <span className="text-primary">Built for Real Operations</span>
+                The Work That Eats Your Day,{' '}
+                <span className="text-primary">Running On Its Own</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-muted-foreground mb-6 leading-relaxed max-w-xl">
-                Hexabyte Technologies helps businesses automate work, launch scalable software,
-                and run customer operations through practical AI, web, mobile, and workflow systems.
+                Hexabyte Technologies builds the systems that answer your customers, capture
+                orders, book deliveries and keep the numbers straight — so your team spends its
+                hours on the decisions that actually need a person.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="https://calendly.com/hexabyte/discovery"
+                  href={company.discoveryCallUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-engineering justify-center"
                 >
-                  Book Strategy Call
+                  Book a Discovery Call
                   <ArrowRight className="w-4 h-4" />
                 </a>
                 <Link
@@ -60,16 +62,18 @@ export default function HomePage() {
             <div className="relative">
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: '1', label: 'Live Product' },
-                  { value: '3', label: 'Products in Beta' },
-                  { value: '4', label: 'Phase Delivery Framework' },
+                  { value: String(products.length), label: 'Focused Products' },
                   { value: 'Direct', label: 'Founder Access' },
+                  { value: 'End-to-End', label: 'Product Engineering' },
+                  { value: 'Bangladesh', label: 'Local Market Expertise' },
                 ].map(({ value, label }) => (
                   <div
                     key={label}
                     className="bg-card border border-border rounded-xl p-6 text-center hover:border-primary/30 transition-colors"
                   >
-                    <div className="text-3xl font-bold text-primary mb-2">{value}</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-primary mb-2 leading-tight">
+                      {value}
+                    </div>
                     <div className="text-xs text-muted-foreground leading-tight">{label}</div>
                   </div>
                 ))}
@@ -85,12 +89,13 @@ export default function HomePage() {
       <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs text-primary uppercase tracking-wider mb-3">Solutions</p>
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">What We Fix</p>
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
-              Built to Solve Business Problems
+              Four Places a Business Loses Hours
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We focus on the operational outcomes — not just the technology behind them.
+              We start from the job someone is doing by hand, not from the technology we would
+              enjoy using.
             </p>
           </div>
 
@@ -98,30 +103,30 @@ export default function HomePage() {
             {[
               {
                 icon: Settings,
-                title: 'Operational Automation',
-                desc: 'Automate repetitive workflows, reporting, approvals, and internal processes using AI-powered systems.',
-                tags: ['Workflow Design', 'n8n', 'AI Agents'],
+                title: 'Work that repeats itself',
+                desc: 'The reports, approvals, re-typing and follow-ups that quietly consume a day each week — handled by a system that never forgets a step.',
+                tags: ['Fewer manual hours', 'Nothing skipped', 'Same-day visibility'],
                 link: '/ai-automation',
               },
               {
                 icon: Globe,
-                title: 'Web, Commerce & SaaS Platforms',
-                desc: 'Build scalable web, e-commerce, dashboard, SaaS, and internal systems designed for long-term business growth.',
-                tags: ['Web Apps', 'E-commerce', 'SaaS'],
+                title: 'Selling and serving online',
+                desc: 'Storefronts, customer portals, dashboards and internal tools that hold up when order volume doubles instead of becoming the bottleneck.',
+                tags: ['More completed orders', 'One source of truth', 'Room to grow'],
                 link: '/web-development',
               },
               {
                 icon: Cpu,
-                title: 'AI Customer & Knowledge Systems',
-                desc: 'Integrate practical AI capabilities — assistants, RAG, document intelligence — into customer operations.',
-                tags: ['AI Assistants', 'RAG', 'Document Intelligence'],
+                title: 'Customer questions, answered',
+                desc: 'Assistants that answer from your own documents, prices and policies — instantly, at any hour, and honestly when they do not know.',
+                tags: ['Faster replies', 'Lower support cost', 'Answers you can trust'],
                 link: '/ai-automation',
               },
               {
                 icon: Smartphone,
-                title: 'Mobile & Field Operations',
-                desc: 'Flutter apps, offline-first workflows, real-time operational tools for field and supply-chain teams.',
-                tags: ['Flutter', 'Offline-First', 'Real-time Ops'],
+                title: 'Teams away from a desk',
+                desc: 'Field, floor and delivery work captured on a phone, on a weak connection, in seconds — so head office stops calling to ask.',
+                tags: ['Updates in seconds', 'Works offline', 'Status without calls'],
                 link: '/mobile-development',
               },
             ].map((solution) => (
@@ -160,38 +165,14 @@ export default function HomePage() {
               Products Built by Hexabyte
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We build and operate focused software products for commerce, service businesses, and supply-chain teams.
-              One product is publicly available, while three are being validated through beta programmes.
+              Four products for commerce, service and supply-chain operations — each one removing
+              a job a business currently pays someone to do by hand.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {products.map((product) => (
-              <div key={product.id} className="bento-card">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-primary/15 rounded-lg flex items-center justify-center">
-                    <product.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-base">{product.name}</div>
-                    <ProductStatusBadge status={product.status} />
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                  {product.shortDescription}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs px-2 py-1 bg-secondary rounded text-muted-foreground">
-                    {product.category}
-                  </span>
-                  <Link
-                    to={`/products#${product.anchor}`}
-                    className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 font-medium transition-colors"
-                  >
-                    Learn More <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
+              <ProductCard key={product.id} product={product} variant="compact" />
             ))}
           </div>
 
@@ -202,23 +183,6 @@ export default function HomePage() {
             >
               View All Products <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Ecosystem Section */}
-      <section className="py-14 sm:py-20 bg-[#0a0a0a] border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
-              Focused Products. One Operational Direction.
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              Each Hexabyte product solves a specific operational problem. Easy E-commerce is designed to help merchants launch and run branded stores.
-              Easy Moderator handles social-commerce conversations and order operations. Easy Assistance coordinates bookings and service customers.
-              TradeFlow brings structure to supply-chain updates and risk visibility. Each product can stand alone, with deeper interoperability
-              introduced only where it creates real operational value.
-            </p>
           </div>
         </div>
       </section>
@@ -279,18 +243,9 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="bg-card border border-primary/20 rounded-xl p-8 text-center max-w-3xl mx-auto">
-            <p className="text-lg text-foreground font-medium leading-relaxed mb-4">
-              "You work directly with builders and decision-makers — not layers of account
-              managers or outsourced coordination."
-            </p>
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                <span className="text-xs font-bold text-primary">H</span>
-              </div>
-              <span className="text-sm text-muted-foreground">Hexabyte — Founder-Led Execution</span>
-            </div>
-          </div>
+          {/* The self-quotation card that sat here presented company-written
+              positioning as a testimonial. The page already covers this ground in
+              the How We Work section below, so it is not replaced. */}
         </div>
       </section>
 
@@ -298,10 +253,11 @@ export default function HomePage() {
       <section className="py-16 sm:py-20 bg-[#0a0a0a] border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-10">
-            <p className="text-xs text-primary uppercase tracking-wider mb-3">Technology</p>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">The Hexabyte Stack</h2>
+            <p className="text-xs text-primary uppercase tracking-wider mb-3">For Reference</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">What It's Built On</h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-              Production-grade tooling across AI, automation, and full-stack engineering.
+              You are buying an outcome, not a toolchain. But if your team needs to know what they
+              would be inheriting, this is it.
             </p>
           </div>
 
@@ -351,17 +307,17 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="text-xs text-primary uppercase tracking-wider mb-3">What We Measure</p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">Operational Signals Over Vanity Metrics</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">The Numbers That Decide Whether It Worked</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              { title: 'Reliability', desc: 'Uptime, error rates, and system stability under load' },
-              { title: 'Processing Time', desc: 'End-to-end latency for critical workflows' },
-              { title: 'Adoption', desc: 'Active usage, feature penetration, and retention' },
-              { title: 'Operational Throughput', desc: 'Orders, bookings, tickets processed per period' },
-              { title: 'Error Rates', desc: 'Failed operations, retries, and exception handling' },
-              { title: 'Customer Response Time', desc: 'Time from enquiry to meaningful response' },
+              { title: 'Hours given back', desc: 'Staff time no longer spent on the work the system now handles' },
+              { title: 'Cost per order', desc: 'What it costs your business to get one order out the door' },
+              { title: 'Reply time', desc: 'How long a customer waits for a useful answer' },
+              { title: 'Orders completed', desc: 'How many enquiries turn into delivered, paid work' },
+              { title: 'Work that fails', desc: 'Errors, refused deliveries and jobs that need doing twice' },
+              { title: 'Adoption', desc: 'Whether your team actually uses it a month later' },
             ].map((metric, idx) => (
               <div key={idx} className="bento-card text-center">
                 <h3 className="text-lg font-semibold mb-2">{metric.title}</h3>
@@ -433,24 +389,25 @@ export default function HomePage() {
             <span className="text-primary">Your Operations?</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Book a 30-minute strategy call. We will map your workflow, identify the
-            highest-impact automation opportunities, and outline a clear path forward.
+            Book a 30-minute call. We will map your workflow, identify the highest-impact
+            automation opportunities, and outline a clear path forward.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://calendly.com/hexabyte/discovery"
+              href={company.discoveryCallUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="cta-engineering justify-center"
             >
-              Book Strategy Call
-              <ArrowRight className="w-4 h-4" />
+              Book a Discovery Call
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </a>
             <Link
-              to="/case-studies"
-              className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center"
+              to="/products"
+              className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"
             >
-              Explore Our Work
+              Explore Products
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

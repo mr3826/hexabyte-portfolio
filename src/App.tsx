@@ -13,8 +13,11 @@ import ProcessPage from '@/pages/ProcessPage';
 import ResourcesPage from '@/pages/ResourcesPage';
 import ProductsPage from '@/pages/ProductsPage';
 import CompanyInformationPage from '@/pages/CompanyInformationPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 import { ModalProvider } from '@/context/ModalContext';
 import ScrollToTop from '@/components/ScrollToTop';
+import { company } from '@/data/company';
+import seo from '@/data/seo.json';
 import { trackEvent } from '@/utils/analytics';
 
 type RouteSeo = {
@@ -22,58 +25,10 @@ type RouteSeo = {
   description: string;
 };
 
-const ROUTE_SEO: Record<string, RouteSeo> = {
-  '/': {
-    title: 'Hexabyte Technologies | AI Systems, Automation and Digital Products',
-    description:
-      'Hexabyte Technologies builds practical AI automation, web and mobile systems, and focused software products including Easy Moderator, Easy Assistance, Easy E-commerce, and TradeFlow.',
-  },
-  '/ai-automation': {
-    title: 'AI Automation Engineering | Hexabyte',
-    description:
-      'Production-grade AI workflow systems, RAG pipelines, and autonomous agents. Built for scale, not demos.',
-  },
-  '/web-development': {
-    title: 'Web Application Engineering | Hexabyte',
-    description:
-      'Next.js + Supabase stacks with real-time sync. Production-ready web applications deployed in weeks.',
-  },
-  '/mobile-development': {
-    title: 'Mobile Systems Engineering | Hexabyte',
-    description:
-      'Flutter + native SDK integrations for iOS/Android. Ship mobile infrastructure that performs at scale.',
-  },
-  '/products': {
-    title: 'Software Products | Easy Moderator, Easy E-commerce, Easy Assistance and TradeFlow',
-    description:
-      'Explore software products built by Hexabyte Technologies for social commerce, online stores, bookings, customer operations, and supply-chain teams.',
-  },
-  '/about': {
-    title: 'The Engineering Partner | Hexabyte',
-    description:
-      'High-velocity engineering partner for fast-moving teams. Production-first systems, direct technical leadership.',
-  },
-  '/process': {
-    title: 'How We Deliver | Hexabyte Engineering Process',
-    description:
-      '4-phase delivery: Discovery → Architecture → Build → Scale. Direct engineering leadership, weekly demos, production in weeks not quarters.',
-  },
-  '/resources': {
-    title: 'Engineering Resources | Hexabyte',
-    description:
-      'Technical guides, automation patterns, and architecture blueprints for engineering teams building scalable systems.',
-  },
-  '/case-studies': {
-    title: 'System Deployments | Hexabyte Case Studies',
-    description:
-      'Production deployments with architecture details: RAG pipelines, event-driven automation, multi-tenant SaaS systems, and product builds. Technical breakdowns.',
-  },
-  '/company-information': {
-    title: 'Company Information | Hexabyte Technologies',
-    description:
-      'Registered business details for Hexabyte Technologies: legal name, address, contact information, products operated, and verification for customers, partners, and platform reviewers.',
-  },
-};
+// Shared with scripts/prerender-head.mjs, which bakes the same values into static
+// HTML per route. Editing the copy in one place keeps the two in agreement.
+const ROUTE_SEO: Record<string, RouteSeo> = seo.routes;
+const CASE_SEO: Record<string, RouteSeo> = seo.caseStudies;
 
 function upsertMetaTag(name: string, content: string) {
   const existing = document.head.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
@@ -121,38 +76,8 @@ function RouteObserver() {
     const isCaseDetail = location.pathname.startsWith('/case-studies/');
     const caseId = isCaseDetail ? location.pathname.replace('/case-studies/', '') : null;
 
-    const CASE_SEO: Record<string, RouteSeo> = {
-      'easy-moderator': {
-        title: 'Easy Moderator — Commerce Moderation Platform Case Study | Hexabyte',
-        description: 'Full-stack multi-tenant moderation system with role-aware workflows, social integration hooks, and automated testing pipelines.',
-      },
-      'tradeflow': {
-        title: 'TradeFlow — Garment Supply Chain SaaS Case Study | Hexabyte',
-        description: 'Mobile-first operational SaaS for Bangladesh buying houses with WhatsApp-native updates, risk scoring, and auditable order management.',
-      },
-      'reel-studio': {
-        title: 'Reel Studio — AI Video Generation Pipeline Case Study | Hexabyte',
-        description: 'FastAPI-based AI video automation workflow with queue orchestration, checkpoint recovery, and cloud storage integration.',
-      },
-      'rag-chatbot': {
-        title: 'RAG Chatbot — Retrieval-Augmented Generation Case Study | Hexabyte',
-        description: 'Vector embedding pipeline combined with LLM inference for accurate, data-grounded conversational responses on internal documents.',
-      },
-      'easy-assistance': {
-        title: 'Easy Assistance — AI Booking and Customer Operations Case Study | Hexabyte',
-        description: 'Conversational booking platform for service businesses — AI qualification, availability checking, confirmation, reminders, and follow-up automation.',
-      },
-      'easy-ecommerce': {
-        title: 'Easy E-commerce — AI Store and Commerce Builder Case Study | Hexabyte',
-        description: 'AI-guided website and commerce operations platform for Bangladesh-first merchants — store creation, catalogue, checkout, courier, and merchant operations.',
-      },
-    };
-
     const routeSeo = isCaseDetail
-      ? (caseId && CASE_SEO[caseId]) || {
-          title: 'Case Study | Hexabyte',
-          description: 'Detailed breakdown of founder-led delivery from problem framing to implementation and measurable outcomes.',
-        }
+      ? (caseId && CASE_SEO[caseId]) || seo.fallbacks.caseStudy
       : ROUTE_SEO[location.pathname] || ROUTE_SEO['/'];
 
     const fullUrl = `${window.location.origin}${location.pathname}`;
@@ -180,34 +105,45 @@ function RouteObserver() {
     const existingSchema = document.head.querySelector('#jsonld-schema');
     if (existingSchema) existingSchema.remove();
 
+    // The single source of Organization schema for the whole site. Facts come from
+    // src/data/company.ts so they cannot drift from what the pages display.
     const schema: Record<string, unknown>[] = [
       {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Hexabyte Technologies',
-        alternateName: 'Hexabyte',
-        legalName: 'Hexabyte Technologies',
+        name: company.legalName,
+        alternateName: company.brandName,
+        legalName: company.legalName,
         url: window.location.origin,
         logo: `${window.location.origin}/hexabyte-logo.png`,
-        email: 'contact@hexabyte.tech',
-        telephone: '+8801886895874',
+        image: `${window.location.origin}/og-image.png`,
+        email: company.email,
+        telephone: company.phoneHref,
         address: {
           '@type': 'PostalAddress',
-          streetAddress: 'Plot-107, North Tower, 8th Floor, Sector-7',
-          addressLocality: 'Uttara',
-          addressRegion: 'Dhaka',
-          postalCode: '1230',
-          addressCountry: 'BD',
+          streetAddress: company.address.street,
+          addressLocality: company.address.locality,
+          addressRegion: company.address.region,
+          postalCode: company.address.postalCode,
+          addressCountry: company.address.countryCode,
+        },
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'customer support',
+          email: company.email,
+          telephone: company.phoneHref,
+          availableLanguage: ['English', 'Bengali'],
         },
         founder: {
           '@type': 'Person',
-          name: 'Evan Ahmed',
+          name: company.founder,
+          // Personal profiles belong to the Person, not the Organization.
+          sameAs: [company.founderSocial.linkedin, company.founderSocial.github],
         },
-        sameAs: [
-          'https://www.linkedin.com/in/mr3826',
-          'https://github.com/mr3826',
-        ],
-        description: 'Founder-led technology company. Practical AI systems, operational automation, web and mobile applications, and focused software products for commerce, service, and supply-chain operations.',
+        // Company-owned profiles only.
+        sameAs: [company.social.facebook],
+        description:
+          'Founder-led technology company. Practical AI systems, operational automation, web and mobile applications, and focused software products for commerce, service, and supply-chain operations.',
       },
     ];
 
@@ -294,6 +230,7 @@ export default function App() {
             <Route path="/case-studies/shopify-automation" element={<Navigate to="/case-studies/easy-ecommerce" replace />} />
             <Route path="/case-studies/:id" element={<CaseStudyDetail />} />
             <Route path="/company-information" element={<CompanyInformationPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <Footer />
         </div>

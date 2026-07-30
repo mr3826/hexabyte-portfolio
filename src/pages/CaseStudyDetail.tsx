@@ -1,6 +1,8 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { ArrowLeft, Clock, Users, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, Users, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { getCaseStudyById, getCaseStudyImage } from '@/data/caseStudies';
+import { company } from '@/data/company';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 export default function CaseStudyDetail() {
   const { id } = useParams();
@@ -13,17 +15,9 @@ export default function CaseStudyDetail() {
   const study = id ? getCaseStudyById(id) : null;
   const studyVisual = id ? getCaseStudyImage(id) : null;
 
+  // One 404 implementation, so an unknown case-study id is noindexed too.
   if (!study) {
-    return (
-      <main className="pt-[108px] md:pt-20 min-h-screen flex items-center justify-center bg-[#0a0a0a]">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Case Study Not Found</h1>
-          <Link to="/case-studies" className="text-primary hover:underline">
-            Back to Case Studies
-          </Link>
-        </div>
-      </main>
-    );
+    return <NotFoundPage />;
   }
 
   return (
@@ -45,7 +39,7 @@ export default function CaseStudyDetail() {
             </div>
           </div>
 
-          <h1 className="text-4xl lg:text-6xl font-bold font-['Space_Grotesk'] mb-6">
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6">
             {study.title}
           </h1>
 
@@ -67,17 +61,11 @@ export default function CaseStudyDetail() {
             <div className="flex items-start gap-3">
               <Clock className="w-5 h-5 text-primary mt-1" />
               <div>
-                <div className="text-sm text-muted-foreground">Impact</div>
+                <div className="text-sm text-muted-foreground">Result</div>
                 <div className="font-semibold">{study.impact}</div>
               </div>
             </div>
           </div>
-
-          {study.evidenceConfidence && (
-            <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-sm text-primary">
-              Evidence confidence: {study.evidenceConfidence}
-            </div>
-          )}
         </div>
       </section>
 
@@ -101,7 +89,7 @@ export default function CaseStudyDetail() {
         <div className="max-w-4xl mx-auto px-6 lg:px-8 space-y-12">
           {/* Overview */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-4">
+            <h2 className="text-3xl font-bold mb-4">
               Project <span className="text-primary">Overview</span>
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -111,7 +99,7 @@ export default function CaseStudyDetail() {
 
           {/* Problem */}
           <div className="bg-card border border-destructive/20 rounded-xl p-8">
-            <h2 className="text-2xl font-bold font-['Space_Grotesk'] mb-6">
+            <h2 className="text-2xl font-bold mb-6">
               {study.problem.title}
             </h2>
             <ul className="space-y-3">
@@ -128,7 +116,7 @@ export default function CaseStudyDetail() {
 
           {/* Solution */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-4">
+            <h2 className="text-3xl font-bold mb-4">
               {study.solution.title}
             </h2>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
@@ -147,101 +135,9 @@ export default function CaseStudyDetail() {
             </div>
           </div>
 
-          {/* Key Features (if exists) */}
-          {study.features && (
-            <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
-                {study.features.title}
-              </h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {study.features.items.map((feature: any, idx: number) => (
-                  <div
-                    key={idx}
-                    className="bg-card border border-primary/20 rounded-xl p-6 hover:border-primary/40 transition-all"
-                  >
-                    <h3 className="text-lg font-semibold mb-2 text-primary">
-                      {feature.name}
-                    </h3>
-                    <p className="text-muted-foreground text-sm">
-                      {feature.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* System Architecture (if exists) */}
-          {study.architecture && (
-            <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
-                {study.architecture.title}
-              </h2>
-              <div className="space-y-4">
-                {study.architecture.layers.map((layer: any, idx: number) => (
-                  <div key={idx} className="bg-card border border-primary/20 rounded-xl p-6">
-                    <h3 className="text-lg font-semibold mb-2 text-primary">{layer.component}</h3>
-                    <p className="text-muted-foreground">{layer.tech}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Scalability (if exists) */}
-          {study.scalability && (
-            <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
-                {study.scalability.title}
-              </h2>
-              <p className="text-muted-foreground mb-6">{study.scalability.description}</p>
-              <ul className="space-y-3">
-                {study.scalability.features.map((feature: string, idx: number) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Design Principles (if exists) */}
-          {study.designPrinciples && (
-            <div>
-              <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
-                {study.designPrinciples.title}
-              </h2>
-              <p className="text-muted-foreground mb-6">{study.designPrinciples.description}</p>
-              <ul className="space-y-3">
-                {study.designPrinciples.elements.map((element: string, idx: number) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{element}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Tech Stack */}
-          <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">Technology Stack</h2>
-            <div className="flex flex-wrap gap-2">
-              {study.techStack.map((tech: string, idx: number) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1.5 bg-card border border-border rounded-md text-sm font-medium text-foreground"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
           {/* Results */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+            <h2 className="text-3xl font-bold mb-6">
               {study.results.title}
             </h2>
             <div className="grid md:grid-cols-2 gap-4 mb-8">
@@ -268,7 +164,7 @@ export default function CaseStudyDetail() {
 
           {/* Workflow */}
           <div>
-            <h2 className="text-3xl font-bold font-['Space_Grotesk'] mb-6">
+            <h2 className="text-3xl font-bold mb-6">
               {study.workflow.title}
             </h2>
             <div className="space-y-4">
@@ -290,8 +186,58 @@ export default function CaseStudyDetail() {
 
           {/* Next Steps */}
           <div className="bg-card border border-primary/20 rounded-xl p-6">
-            <h2 className="text-2xl font-bold font-['Space_Grotesk'] mb-4">Next Steps</h2>
+            <h2 className="text-2xl font-bold mb-4">Where this goes next</h2>
             <p className="text-muted-foreground leading-relaxed">{study.nextSteps}</p>
+          </div>
+
+          {/* Implementation detail, deliberately last: it matters to a technical
+              reviewer and to nobody else reading for the business outcome. */}
+          <div>
+            <h2 className="text-2xl font-bold mb-2">Under the hood</h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              For the technical reader — what your team would be inheriting.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {study.techStack.map((tech: string) => (
+                <span
+                  key={tech}
+                  className="px-3 py-1.5 bg-card border border-border rounded-md text-sm font-medium text-muted-foreground"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Closing CTA — a reader who got this far recognised their own operation. */}
+      <section className="py-14 border-t border-border bg-card/30">
+        <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">
+            Does this sound like your operation?
+          </h2>
+          <p className="text-muted-foreground leading-relaxed mb-8">
+            Bring us the process that is costing you the most time. We will tell you plainly
+            whether it is worth automating.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={company.discoveryCallUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-engineering justify-center"
+            >
+              Book a Discovery Call
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </a>
+            <Link
+              to="/products"
+              className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"
+            >
+              Explore Products
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </section>

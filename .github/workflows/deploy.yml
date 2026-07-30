@@ -1,62 +1,119 @@
-name: Deploy to Amplify
+name: Deploy hexabyte.tech
+
+# The live site is CloudFront E1QPRQT12IQGL9 in front of the S3 bucket
+# hexabyte-tech-website. This workflow previously triggered an AWS Amplify build
+# instead, which stopped affecting the live site when CloudFront was repointed at S3 —
+# and swallowed the resulting API error with `|| exit 0`, so six consecutive runs
+# reported success while changing nothing. Nothing here is allowed to fail quietly.
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ap-south-1
+  BUCKET: hexabyte-tech-website
+  DISTRIBUTION_ID: E1QPRQT12IQGL9
+  SITE_URL: https://hexabyte.tech
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Amplify Build
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ap-south-1
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Gates. A broken build must never reach the bucket.
+      - run: npm run typecheck
+      - run: npm test -- --run
+      - run: npm run build
+
+      # Hashed filenames, so they can be cached for a year.
+      - name: Upload immutable assets
         run: |
-          JOB_ID=$(aws amplify start-job \
-            --app-id d3f7vg26f037wj \
-            --branch-name main \
-            --job-type RELEASE \
-            --query 'jobSummary.jobId' \
-            --output text) \
-          || { echo "Amplify build already in progress — skipping."; exit 0; }
+          aws s3 sync dist/assets "s3://$BUCKET/assets" \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable"
 
-          echo "Amplify job started: $JOB_ID"
-          echo "Waiting for Amplify build to complete..."
+      # Everything else must revalidate, or a deploy takes a day to become visible.
+      # prerendered.json and __prerender/ are build plumbing, not public files.
+      - name: Upload documents
+        run: |
+          aws s3 sync dist "s3://$BUCKET" \
+            --delete \
+            --exclude "assets/*" \
+            --exclude "prerendered.json" \
+            --exclude "__prerender/*" \
+            --cache-control "public, max-age=0, must-revalidate"
 
-          for i in $(seq 1 30); do
-            sleep 20
-            STATUS=$(aws amplify get-job \
-              --app-id d3f7vg26f037wj \
-              --branch-name main \
-              --job-id "$JOB_ID" \
-              --query 'job.summary.status' \
-              --output text)
-            echo "  [$i] Status: $STATUS"
-            if [ "$STATUS" = "SUCCEED" ]; then
-              echo "Build succeeded."
-              break
-            elif [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then
-              echo "Build $STATUS — aborting."
-              exit 1
-            fi
+      # Route files are staged flat on disk and uploaded to their real keys here, with
+      # an explicit content type: the keys have no extension (CloudFront fronts an S3
+      # REST origin, so /products is the key `products`), and S3 would otherwise serve
+      # them as application/octet-stream — a download prompt instead of a page.
+      # Runs after the sync above, whose --delete removes these keys first.
+      - name: Upload prerendered routes
+        run: |
+          jq -r '.[] | "\(.file)\t\(.key)"' dist/prerendered.json |
+          while IFS=$'\t' read -r file key; do
+            aws s3 cp "dist/$file" "s3://$BUCKET/$key" \
+              --content-type "text/html; charset=utf-8" \
+              --cache-control "public, max-age=0, must-revalidate"
           done
 
-      - name: Invalidate CloudFront Cache
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
+      - name: Invalidate CloudFront
         run: |
-          INVALIDATION_ID=$(aws cloudfront create-invalidation \
-            --distribution-id E1QPRQT12IQGL9 \
+          ID=$(aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION_ID" \
             --paths "/*" \
             --query 'Invalidation.Id' \
             --output text)
-          echo "CloudFront invalidation created: $INVALIDATION_ID"
+          echo "Invalidation $ID created"
           aws cloudfront wait invalidation-completed \
-            --distribution-id E1QPRQT12IQGL9 \
-            --id "$INVALIDATION_ID"
-          echo "Cache invalidated. hexabyte.tech is live."
+            --distribution-id "$DISTRIBUTION_ID" \
+            --id "$ID"
+
+      # Proves the deploy actually reached the public URL. Without this a run can only
+      # report that AWS accepted the calls — which is how the previous version managed
+      # to print "hexabyte.tech is live" over months-old content.
+      - name: Verify the live site serves this build
+        run: |
+          fail=0
+          check() {
+            path="$1"; expected="$2"
+            live=$(curl -fsS "$SITE_URL$path" | grep -o '<title>[^<]*' | head -1 | sed 's/<title>//')
+            if [ "$live" = "$expected" ]; then
+              echo "ok   $path — $live"
+            else
+              echo "FAIL $path"
+              echo "  expected: $expected"
+              echo "  live:     $live"
+              fail=1
+            fi
+          }
+
+          check "/" "$(jq -r '.routes["/"].title' src/data/seo.json)"
+          check "/products" "$(jq -r '.routes["/products"].title' src/data/seo.json)"
+          check "/case-studies/easy-moderator" "$(jq -r '.caseStudies["easy-moderator"].title' src/data/seo.json)"
+
+          type=$(curl -fsSI "$SITE_URL/og-image.png" | tr -d '\r' | awk -F': ' '/^content-type:/ {print $2}')
+          if [ "$type" = "image/png" ]; then
+            echo "ok   /og-image.png — $type"
+          else
+            echo "FAIL /og-image.png served as '$type' — that is the SPA fallback, not the image"
+            fail=1
+          fi
+
+          exit $fail

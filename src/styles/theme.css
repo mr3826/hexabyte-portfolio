@@ -120,6 +120,20 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  /*
+   * Literal values, not var(--status-green)/var(--status-yellow).
+   *
+   * Inside `@theme inline` a var() indirection cannot be resolved at build time,
+   * so Tailwind silently drops the opacity modifier: `bg-success/10` would emit
+   * `background-color: var(--status-green)` — a solid block instead of a 10% tint.
+   * With literals it correctly emits `#22c55e1a`.
+   *
+   * Keep these in sync with --status-green / --status-yellow above.
+   * NOTE: every other colour token in this block still uses var() indirection and
+   * therefore still discards opacity modifiers site-wide. See the changelog.
+   */
+  --color-success: #22c55e;
+  --color-warning: #eab308;
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);

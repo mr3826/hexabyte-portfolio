@@ -14,8 +14,12 @@ describe('MobileAppPage', () => {
       </MemoryRouter>
     );
 
-    expect(container.textContent).toContain('Cross-Platform');
-    expect(container.textContent).toContain('Mobile Apps');
+    expect(container.textContent).toContain('The Update Happens');
+    expect(container.textContent).toContain('One App, Both Platforms');
+    // "25+ Apps on App Store" was an unverifiable claim, and the phone mockup was a
+    // grey placeholder graphic labelled as a real interface.
+    expect(container.textContent).not.toMatch(/\d+\+\s*Apps on/i);
+    expect(container.querySelector('img')).toBeNull();
   });
 
   it('has CTA buttons', () => {

@@ -4,9 +4,11 @@ import { getAttributionFromUrl, trackEvent } from '@/utils/analytics';
 import { useIsMobile } from '@/components/ui/use-mobile';
 import {
   submitInquiryForm,
+  buildInquiryMailto,
   InquiryFormData,
   validateInquiryForm,
 } from '@/services/formSubmission';
+import { company } from '@/data/company';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -276,7 +278,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
             <div className="text-center mb-8">
               <h2
                 id="project-modal-title"
-                className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2"
+                className="text-2xl sm:text-3xl font-bold mb-2"
               >
                 Book Your{' '}
                 <span className="text-primary">Discovery Inquiry</span>
@@ -551,10 +553,40 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
 
             {/* Submit Button */}
             <div className="mt-8 space-y-3">
+              {/* Recovery path: the visitor filled in five minutes of detail, so a
+                  failed submission must offer a way through, not just an apology. */}
               {submissionError && (
-                <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-lg text-sm text-destructive">
-                  <p className="font-medium">Error submitting inquiry:</p>
-                  <p className="mt-1">{submissionError}</p>
+                <div
+                  role="alert"
+                  className="p-4 bg-destructive/10 border border-destructive/30 rounded-lg text-sm"
+                >
+                  <p className="font-medium text-destructive">
+                    We could not send this from the site.
+                  </p>
+                  <p className="mt-1 text-muted-foreground">
+                    Nothing you typed is lost. Send it straight to us instead — the message opens
+                    ready to go, with your answers already in it.
+                  </p>
+                  <div className="mt-3 flex flex-col sm:flex-row gap-2">
+                    <a
+                      href={buildInquiryMailto(
+                        {
+                          ...formData,
+                          ...getAttributionFromUrl(),
+                        } as InquiryFormData,
+                        company.email,
+                      )}
+                      className="min-h-[44px] px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium inline-flex items-center justify-center gap-2"
+                    >
+                      Email it to {company.email}
+                    </a>
+                    <a
+                      href={`tel:${company.phoneHref}`}
+                      className="min-h-[44px] px-4 py-2 border border-border rounded-lg font-medium inline-flex items-center justify-center gap-2 hover:bg-secondary transition-colors"
+                    >
+                      Call {company.phoneDisplay}
+                    </a>
+                  </div>
                 </div>
               )}
               <button
@@ -588,7 +620,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           <div className="px-8 pb-8">
             {/* Calendar Step */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">
                 Book Your Free{' '}
                 <span className="text-primary">Strategy Call</span>
               </h2>
