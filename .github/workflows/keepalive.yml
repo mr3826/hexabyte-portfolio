@@ -1,0 +1,54 @@
+name: Keep the inquiry backend awake
+
+# Supabase pauses a free-tier project after about a week without database
+# activity, and a paused project's hostname stops resolving. That is what took
+# the inquiry form down before: the endpoint appeared to have been deleted, when
+# in fact the project had simply gone to sleep and nothing was watching.
+#
+# A lead form on a site that gets a handful of visitors a week will cross that
+# idle threshold routinely, so this pings the database often enough that it never
+# does — and fails loudly if the backend is already unreachable, which turns the
+# same job into the monitor that was missing.
+#
+# Deleting this workflow is fine the moment the project moves off the free tier;
+# paid projects do not pause.
+
+on:
+  schedule:
+    # Every third day, 06:00 UTC. Well inside the ~7-day idle window even if a
+    # run is skipped — GitHub drops scheduled runs on repos with no activity for
+    # 60 days, and can delay them under load.
+    - cron: '0 6 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      # A real PostgREST query, not a health check: reaching the database is what
+      # counts as activity. RLS denies anon on this table, so the response is an
+      # empty array — the query still ran, and no data is exposed.
+      - name: Query the database
+        env:
+          URL: ${{ vars.SUPABASE_URL }}
+          ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$ANON_KEY" ]; then
+            echo "SUPABASE_URL or SUPABASE_ANON_KEY is unset — nothing to keep awake."
+            echo "Set them as repository variables, or delete this workflow."
+            exit 1
+          fi
+
+          code=$(curl -s -o /tmp/body -w '%{http_code}' \
+            -H "apikey: $ANON_KEY" \
+            -H "Authorization: Bearer $ANON_KEY" \
+            "$URL/rest/v1/newsletter_subscribers?select=id&limit=1")
+
+          echo "HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "The inquiry backend is not answering. Leads submitted now fall"
+            echo "back to a prefilled email instead of being captured."
+            cat /tmp/body
+            exit 1
+          fi
+          echo "ok — backend awake"
