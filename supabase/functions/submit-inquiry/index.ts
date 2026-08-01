@@ -216,7 +216,8 @@ serve(async (req) => {
         .from("newsletter_subscribers")
         .upsert(
           {
-            email: inquiryData.email,
+            // Lowercased so the plain unique index dedupes case-insensitively.
+            email: String(inquiryData.email).trim().toLowerCase(),
             cta_source: inquiryData.cta_source || null,
             referrer: inquiryData.referrer || null,
             submitted_at: inquiryData.submittedAt || new Date().toISOString(),
@@ -302,12 +303,29 @@ serve(async (req) => {
       <a href="https://hexabyte.tech">hexabyte.tech</a></p>
     `;
 
-    await sendEmail({
-      to: inquiryData.email,
-      name: inquiryData.name,
-      subject: "We received your inquiry - Next steps",
-      html: confirmationHtml,
-    });
+    // Only write to the visitor from a Hexabyte address. The email signs off as
+    // Hexabyte Technologies and links to hexabyte.tech; arriving from some other
+    // brand's domain it reads as phishing, which is a poor first contact with a
+    // prospect who just handed over their phone number. The internal
+    // notification below is unaffected — it goes to us, where deliverability
+    // matters and branding does not.
+    //
+    // This unblocks itself: verify hexabyte.tech with the email provider, point
+    // FROM_EMAIL at it, and the confirmation starts sending with no code change.
+    const fromEmail = Deno.env.get("FROM_EMAIL") || "noreply@hexabyte.tech";
+
+    if (fromEmail.endsWith("@hexabyte.tech")) {
+      await sendEmail({
+        to: inquiryData.email,
+        name: inquiryData.name,
+        subject: "We received your inquiry - Next steps",
+        html: confirmationHtml,
+      });
+    } else {
+      console.warn(
+        `[submit-inquiry] Skipping visitor confirmation: FROM_EMAIL is ${fromEmail}, not a hexabyte.tech address`
+      );
+    }
 
     // Send internal notification to team
     const internalHtml = `

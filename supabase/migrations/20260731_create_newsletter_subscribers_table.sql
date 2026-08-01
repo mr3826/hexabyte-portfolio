@@ -16,8 +16,14 @@ CREATE TABLE public.newsletter_subscribers (
 
 -- One row per address. The Edge Function upserts on this, so a repeat signup
 -- refreshes the row rather than failing the request in the visitor's face.
+--
+-- Indexed on the bare column, not lower(email): ON CONFLICT can only target a
+-- unique index over the exact columns named, so an expression index makes every
+-- upsert fail with "no unique or exclusion constraint matching". The function
+-- lowercases the address before writing, which gets the same case-insensitive
+-- dedupe out of a plain index.
 CREATE UNIQUE INDEX idx_newsletter_subscribers_email
-  ON public.newsletter_subscribers (lower(email));
+  ON public.newsletter_subscribers (email);
 
 CREATE INDEX idx_newsletter_subscribers_created_at
   ON public.newsletter_subscribers (created_at DESC);
