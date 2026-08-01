@@ -3,7 +3,6 @@ import { describe, it, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 
 import HomePage from '../HomePage';
-import { company } from '@/data/company';
 import { products } from '@/data/products';
 import { ModalProvider } from '@/context/ModalContext';
 
@@ -25,9 +24,8 @@ describe('HomePage', () => {
       /The Work That Eats Your Day,\s*Running On Its Own/i,
     );
 
-    const ctas = screen.getAllByRole('link', { name: /Book a Discovery Call/i });
+    const ctas = screen.getAllByRole('button', { name: /Book a Discovery Call/i });
     expect(ctas.length).toBeGreaterThan(0);
-    expect(ctas[0]).toHaveAttribute('href', company.discoveryCallUrl);
   });
 
   it('derives the product count from the data instead of hardcoding it', () => {

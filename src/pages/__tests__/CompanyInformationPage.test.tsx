@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
+import { ModalProvider } from '@/context/ModalContext';
 
 import CompanyInformationPage from '../CompanyInformationPage';
 import { company } from '@/data/company';
@@ -9,7 +10,9 @@ import { products } from '@/data/products';
 function renderPage() {
   return render(
     <MemoryRouter>
-      <CompanyInformationPage />
+        <ModalProvider>
+          <CompanyInformationPage />
+      </ModalProvider>
     </MemoryRouter>,
   );
 }
@@ -84,12 +87,13 @@ describe('CompanyInformationPage', () => {
   it('keeps the discovery CTA out of the registered business facts', () => {
     const { container } = renderPage();
 
-    const calendlyLinks = Array.from(
-      container.querySelectorAll(`a[href="${company.discoveryCallUrl}"]`),
-    );
-    expect(calendlyLinks).toHaveLength(1);
+    const ctas = Array.from(
+      container.querySelectorAll('button'),
+    ).filter((b) => /Book a Discovery Call/i.test(b.textContent || ''));
+
+    expect(ctas).toHaveLength(1);
     // Not inside any definition list of registered details.
-    expect(calendlyLinks[0].closest('dl')).toBeNull();
+    expect(ctas[0].closest('dl')).toBeNull();
   });
 
   it('does not publish the internal Meta-submission guidance', () => {

@@ -19,7 +19,14 @@ export interface ProductOutcome {
 
 export interface ProductCTA {
   label: string;
-  href: string;
+  /**
+   * Where the CTA goes. Omit to open the inquiry modal instead, which is what
+   * every "Talk to us about X" does — those pointed at a Calendly URL that
+   * returns 404, so the primary CTA on each product was a dead link. The modal
+   * captures the enquiry and records which product prompted it; an external link
+   * records nothing and rots silently when the account lapses.
+   */
+  href?: string;
   variant: 'primary' | 'secondary';
   source: string;
 }
@@ -131,7 +138,7 @@ export const products: Product[] = [
       { step: 'Customer updated', description: 'Tracking goes back on the channel the customer used' },
     ],
     cta: [
-      { label: 'Talk to us about Easy Moderator', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_moderator_enquiry' },
+      { label: 'Talk to us about Easy Moderator', variant: 'primary', source: 'easy_moderator_enquiry' },
       { label: 'Visit Easy Moderator', href: 'https://easymod.tech', variant: 'secondary', source: 'easy_moderator_external' },
     ],
     operatorStatement: 'Easy Moderator is a product operated by Hexabyte Technologies.',
@@ -222,7 +229,7 @@ export const products: Product[] = [
       { step: 'Ship and follow up', description: 'Courier booked, customer updated, performance visible' },
     ],
     cta: [
-      { label: 'Talk to us about Easy E-commerce', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_ecommerce_enquiry' },
+      { label: 'Talk to us about Easy E-commerce', variant: 'primary', source: 'easy_ecommerce_enquiry' },
       { label: 'See the build', href: '/case-studies/easy-ecommerce', variant: 'secondary', source: 'easy_ecommerce_case_study' },
     ],
     operatorStatement: 'Easy E-commerce is a product operated by Hexabyte Technologies.',
@@ -308,7 +315,7 @@ export const products: Product[] = [
       { step: 'Followed up', description: 'Notes recorded, feedback and rebooking prompted' },
     ],
     cta: [
-      { label: 'Talk to us about Easy Assistance', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'easy_assistance_enquiry' },
+      { label: 'Talk to us about Easy Assistance', variant: 'primary', source: 'easy_assistance_enquiry' },
       { label: 'See the build', href: '/case-studies/easy-assistance', variant: 'secondary', source: 'easy_assistance_case_study' },
     ],
     operatorStatement: 'Easy Assistance is a product operated by Hexabyte Technologies.',
@@ -382,7 +389,7 @@ export const products: Product[] = [
       { step: 'Trace', description: 'Every change stays on the record' },
     ],
     cta: [
-      { label: 'Talk to us about TradeFlow', href: 'https://calendly.com/hexabyte/discovery', variant: 'primary', source: 'tradeflow_enquiry' },
+      { label: 'Talk to us about TradeFlow', variant: 'primary', source: 'tradeflow_enquiry' },
       { label: 'See the build', href: '/case-studies/tradeflow', variant: 'secondary', source: 'tradeflow_case_study' },
     ],
     operatorStatement: 'TradeFlow is a product operated by Hexabyte Technologies.',

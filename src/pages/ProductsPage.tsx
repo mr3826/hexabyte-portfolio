@@ -2,10 +2,10 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, Zap, TrendingUp, AlertTriangle, MessageCircle } from 'lucide-react';
 
-import { company } from '@/data/company';
 import { products, productAccessNote, Product } from '@/data/products';
 import { trackEvent } from '@/utils/analytics';
 
+import { useModal } from '@/context/ModalContext';
 function ProductIdentity({ product }: { product: Product }) {
   return (
     <div>
@@ -83,6 +83,8 @@ function ProductWorkflow({ product }: { product: Product }) {
 }
 
 export default function ProductsPage() {
+  const { openModal } = useModal();
+
   return (
     <main className="pt-[108px] md:pt-20 bg-[#0a0a0a]">
       {/* Hero */}
@@ -197,7 +199,7 @@ export default function ProductsPage() {
               {/* CTAs — Link for internal routes, anchor for external URLs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 {product.cta.map((cta) => {
-                  const isExternal = cta.href.startsWith('http');
+                  const isExternal = Boolean(cta.href?.startsWith('http'));
                   const className =
                     cta.variant === 'primary'
                       ? 'cta-engineering justify-center'
@@ -208,6 +210,26 @@ export default function ProductsPage() {
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   );
                   const onClick = () => trackEvent('cta_clicked', { source: cta.source });
+
+                  // No href means "ask us about this" — open the inquiry modal and
+                  // carry the product's source through, so the enquiry records which
+                  // product prompted it.
+                  if (!cta.href) {
+                    return (
+                      <button
+                        key={cta.source}
+                        type="button"
+                        onClick={() => {
+                          onClick();
+                          openModal(cta.source);
+                        }}
+                        className={className}
+                      >
+                        {cta.label}
+                        {icon}
+                      </button>
+                    );
+                  }
 
                   return isExternal ? (
                     <a
@@ -280,15 +302,14 @@ export default function ProductsPage() {
             actually costing you time.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={company.discoveryCallUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-engineering justify-center"
-            >
+            <button
+                type="button"
+                onClick={() => openModal('products_final_cta')}
+                className="cta-engineering justify-center"
+              >
               Book a Discovery Call
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </a>
+            </button>
             <Link
               to="/case-studies"
               className="min-h-[44px] px-6 py-3 bg-secondary border border-border text-foreground rounded-lg font-medium hover:bg-secondary/80 transition-all inline-flex items-center justify-center gap-2"

@@ -50,7 +50,12 @@ describe('CaseStudiesPage', () => {
     renderPage();
 
     for (const label of ['All', ...CASE_STUDY_DOMAINS]) {
-      expect(screen.getByRole('button', { name: new RegExp(label, 'i') })).toBeInTheDocument();
+      // Match the aria-label, which is the accessible name here. The looser
+      // /All/i this replaced also matched "Book a Discovery Call" once that
+      // stopped being a link and became a button.
+      expect(
+        screen.getByRole('button', { name: `Filter work by ${label}` }),
+      ).toBeInTheDocument();
     }
     // No filter may reintroduce a release state.
     expect(

@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import { company } from '@/data/company';
 
+import { useModal } from '@/context/ModalContext';
 /**
  * `Company` was removed as a top-level item: it sat next to `About` with no clear
  * distinction between the two. Company Information stays reachable from the footer's
@@ -15,6 +15,8 @@ const NAV_LINKS = [
 ];
 
 export default function Navigation() {
+  const { openModal } = useModal();
+
   const location = useLocation();
 
   // Prefix match so a case-study detail page still highlights "Work".
@@ -49,15 +51,14 @@ export default function Navigation() {
                   {label}
                 </Link>
               ))}
-              <a
-                href={company.discoveryCallUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => openModal('nav_desktop')}
                 data-testid="header-cta"
                 className="cta-engineering"
               >
                 Book a Discovery Call
-              </a>
+              </button>
             </nav>
           </div>
         </div>
@@ -89,15 +90,14 @@ export default function Navigation() {
               </Link>
             ))}
           </nav>
-          <a
-            href={company.discoveryCallUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-testid="header-cta"
-            className="shrink-0 inline-flex items-center min-h-[44px] px-4 rounded-full text-sm font-semibold bg-primary text-background whitespace-nowrap hover:bg-primary/90 transition-colors"
-          >
+          <button
+                type="button"
+                onClick={() => openModal('nav_mobile')}
+                data-testid="header-cta"
+                className="shrink-0 inline-flex items-center min-h-[44px] px-4 rounded-full text-sm font-semibold bg-primary text-background whitespace-nowrap hover:bg-primary/90 transition-colors"
+              >
             Book a Call
-          </a>
+          </button>
         </div>
       </div>
     </header>
