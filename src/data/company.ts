@@ -19,7 +19,17 @@ export const company = {
   phoneHref: '+8801886895874',
   website: 'https://hexabyte.tech',
   websiteDisplay: 'hexabyte.tech',
-  discoveryCallUrl: 'https://calendly.com/hexabyte/discovery',
+  // No discoveryCallUrl. It held a Calendly booking link that returns 404 — the
+  // account does not exist — and it was the href of the primary CTA on nine
+  // pages. Every "Book a Discovery Call" on the site sent the visitor to a dead
+  // page. (The URL itself is not repeated here: outbound-links.test.tsx fails on
+  // any occurrence in src/, which is the point.)
+  //
+  // Those CTAs now open the inquiry modal, which captures the enquiry and emails
+  // it through. When a real booking link exists, wire it through the modal's own
+  // scheduling step (VITE_ENABLE_CALENDAR_BOOKING / VITE_CALENDAR_EMBED_URL)
+  // rather than reintroducing a bare link here: the modal path records who asked
+  // and where they came from, a raw link records nothing.
   address: {
     street: 'Plot-107, North Tower, 8th Floor, Sector-7',
     locality: 'Uttara',

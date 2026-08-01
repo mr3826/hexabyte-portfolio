@@ -1,10 +1,12 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Clock, Users, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { getCaseStudyById, getCaseStudyImage } from '@/data/caseStudies';
-import { company } from '@/data/company';
 import NotFoundPage from '@/pages/NotFoundPage';
 
+import { useModal } from '@/context/ModalContext';
 export default function CaseStudyDetail() {
+  const { openModal } = useModal();
+
   const { id } = useParams();
   
   // Redirect old Shopify case study to Easy E-commerce
@@ -222,15 +224,14 @@ export default function CaseStudyDetail() {
             whether it is worth automating.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={company.discoveryCallUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-engineering justify-center"
-            >
+            <button
+                type="button"
+                onClick={() => openModal('case_study_final_cta')}
+                className="cta-engineering justify-center"
+              >
               Book a Discovery Call
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </a>
+            </button>
             <Link
               to="/products"
               className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"

@@ -5,6 +5,7 @@ import { company, addressLine } from '@/data/company';
 import { products } from '@/data/products';
 import { ProductCard } from '@/components/ProductCard';
 
+import { useModal } from '@/context/ModalContext';
 const TRUST_CHIPS = [
   `${company.address.region}, ${company.address.country}`,
   company.structure,
@@ -57,6 +58,8 @@ function DetailRow({ term, children }: { term: string; children: React.ReactNode
 }
 
 export default function CompanyInformationPage() {
+  const { openModal } = useModal();
+
   return (
     <main className="pt-[108px] md:pt-20 bg-[#0a0a0a] min-h-screen">
       {/* Hero */}
@@ -282,15 +285,14 @@ export default function CompanyInformationPage() {
             the founder.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={company.discoveryCallUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-engineering justify-center"
-            >
+            <button
+                type="button"
+                onClick={() => openModal('company_final_cta')}
+                className="cta-engineering justify-center"
+              >
               Book a Discovery Call
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </a>
+            </button>
             <Link
               to="/products"
               className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"

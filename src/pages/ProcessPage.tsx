@@ -1,8 +1,8 @@
 import { Search, Lightbulb, Code, Rocket, Clock, MessageSquare, CheckCircle, ArrowRight, Zap, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { company } from '@/data/company';
 
+import { useModal } from '@/context/ModalContext';
 const phases = [
   {
     number: '01',
@@ -43,6 +43,8 @@ const phases = [
 ];
 
 export default function ProcessPage() {
+  const { openModal } = useModal();
+
   return (
     <main className="pt-[108px] md:pt-20 bg-[#0a0a0a]">
       {/* Hero Section */}
@@ -69,15 +71,14 @@ export default function ProcessPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a
-                href={company.discoveryCallUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => openModal('process_hero')}
                 className="cta-engineering"
               >
                 Book a Discovery Call
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </button>
               <Link
                 to="/case-studies"
                 className="min-h-[44px] px-8 py-4 bg-secondary border border-border text-foreground rounded-lg font-semibold hover:bg-secondary/80 transition-all flex items-center justify-center gap-2"
@@ -257,15 +258,14 @@ export default function ProcessPage() {
             Book a 30-minute call. We will go through how your operation runs today and come back with a scope, a price and an honest view of whether it is worth doing.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={company.discoveryCallUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-engineering justify-center"
-            >
+            <button
+                type="button"
+                onClick={() => openModal('process_final_cta')}
+                className="cta-engineering justify-center"
+              >
               Book a Discovery Call
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </button>
           </div>
         </div>
       </section>

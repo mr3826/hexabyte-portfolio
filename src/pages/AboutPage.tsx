@@ -1,14 +1,16 @@
 import { Zap, Shield, ArrowRight, Cpu, Bot, Layers, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { company } from '@/data/company';
 import { products } from '@/data/products';
 import { ProductCard } from '@/components/ProductCard';
 // The file is JPEG bytes; it shipped as .png, so S3 served image/png over them.
 // Browsers sniff and render it anyway, which is why nobody noticed.
 import founderImage from '@/assets/founder.jpg';
 
+import { useModal } from '@/context/ModalContext';
 export default function AboutPage() {
+  const { openModal } = useModal();
+
 
   return (
     <div className="min-h-screen bg-background pt-[108px] md:pt-20">
@@ -45,15 +47,14 @@ export default function AboutPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href={company.discoveryCallUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cta-engineering"
-                >
+                <button
+                type="button"
+                onClick={() => openModal('about_hero')}
+                className="cta-engineering"
+              >
                   Book a Discovery Call
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </a>
+                </button>
                 <Link
                   to="/products"
                   className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg hover:bg-secondary transition-all font-medium inline-flex items-center justify-center gap-2"
@@ -208,15 +209,14 @@ export default function AboutPage() {
             and what it would cost to fix the worst of it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={company.discoveryCallUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-engineering inline-flex"
-            >
+            <button
+                type="button"
+                onClick={() => openModal('about_final_cta')}
+                className="cta-engineering inline-flex"
+              >
               Book a Discovery Call
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </a>
+            </button>
             <Link
               to="/products"
               className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg hover:bg-secondary transition-all font-medium inline-flex items-center justify-center gap-2"

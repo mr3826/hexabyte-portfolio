@@ -2,10 +2,12 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
 
-import { company } from '@/data/company';
 import { caseStudies, CASE_STUDY_DOMAINS } from '@/data/caseStudies';
 
+import { useModal } from '@/context/ModalContext';
 export default function CaseStudiesPage() {
+  const { openModal } = useModal();
+
   const [filter, setFilter] = useState('All');
 
   // Derived from the data, so a new case study cannot end up unreachable behind a
@@ -125,15 +127,14 @@ export default function CaseStudiesPage() {
             and what it would take to remove it.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={company.discoveryCallUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-engineering justify-center"
-            >
+            <button
+                type="button"
+                onClick={() => openModal('work_final_cta')}
+                className="cta-engineering justify-center"
+              >
               Book a Discovery Call
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </a>
+            </button>
             <Link
               to="/products"
               className="min-h-[44px] px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-all inline-flex items-center justify-center gap-2"

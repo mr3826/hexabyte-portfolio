@@ -3,7 +3,6 @@ import { describe, it, expect } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 
 import AboutPage from '../AboutPage';
-import { company } from '@/data/company';
 import { products } from '@/data/products';
 import { ModalProvider } from '@/context/ModalContext';
 
@@ -26,12 +25,12 @@ describe('AboutPage', () => {
     );
   });
 
-  it('uses the standard company CTA', () => {
-    renderPage();
+  it('routes the discovery CTA into the inquiry modal, not off-site', () => {
+    const { container } = renderPage();
 
-    const ctas = screen.getAllByRole('link', { name: /Book a Discovery Call/i });
+    const ctas = screen.getAllByRole('button', { name: /Book a Discovery Call/i });
     expect(ctas.length).toBeGreaterThan(0);
-    expect(ctas[0]).toHaveAttribute('href', company.discoveryCallUrl);
+    expect(container.querySelectorAll('a[href*="calendly.com"]')).toHaveLength(0);
   });
 
   it('renders product cards from the data rather than hardcoded markup', () => {
