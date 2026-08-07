@@ -32,7 +32,7 @@ export default function Navigation() {
             <Link to="/" className="flex items-center shrink-0">
               <img
                 src="/hexabyte-logo.png"
-                alt="Hexabyte"
+                alt="Hexabyte Technologies"
                 className="h-10 md:h-16 w-auto object-contain"
               />
             </Link>

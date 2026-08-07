@@ -29,7 +29,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-3 lg:col-span-2">
             <div className="mb-4 flex items-center gap-3">
-              <img src="/hexabyte-logo.png" alt="Hexabyte" className="h-10 w-auto object-contain" />
+              <img src="/hexabyte-logo.png" alt="Hexabyte Technologies" className="h-10 w-auto object-contain" />
               <div className="status-indicator">
                 <span className="status-dot status-dot-green" />
                 <span className="text-xs text-muted-foreground">Accepting Projects</span>

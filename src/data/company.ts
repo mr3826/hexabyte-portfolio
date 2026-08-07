@@ -10,8 +10,8 @@
  */
 export const company = {
   legalName: 'Hexabyte Technologies',
-  brandName: 'Hexabyte',
-  structure: 'Sole Proprietorship',
+  brandName: 'Hexabyte Technologies',
+  legalNameBn: 'হেক্সাবাইট টেকনোলজিস',
   activity: 'Information technology, software products, and engineering services',
   founder: 'Evan Ahmed',
   email: 'contact@hexabyte.tech',
@@ -53,6 +53,6 @@ export const company = {
 export const addressLine = [
   company.address.street,
   company.address.locality,
-  `${company.address.region}-${company.address.postalCode}`,
+  `${company.address.region}, ${company.address.postalCode}`,
   company.address.country,
 ].join(', ');
