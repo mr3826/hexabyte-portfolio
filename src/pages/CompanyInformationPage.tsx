@@ -8,27 +8,24 @@ import { ProductCard } from '@/components/ProductCard';
 import { useModal } from '@/context/ModalContext';
 const TRUST_CHIPS = [
   `${company.address.region}, ${company.address.country}`,
-  company.structure,
   'Information Technology',
   'Founder-Led',
 ];
 
 /** Fields shown in the hero profile card — identity only, no contact details or CTAs. */
 const BUSINESS_PROFILE = [
-  { term: 'Legal name', value: company.legalName },
+  { term: 'Legal name', value: <>{company.legalNameBn} ({company.legalName})</> },
   { term: 'Public brand', value: company.brandName },
-  { term: 'Business structure', value: company.structure },
   { term: 'Business activity', value: company.activity },
   {
     term: 'Registered location',
-    value: `${company.address.locality}, ${company.address.region}, ${company.address.country}`,
+    value: addressLine,
   },
 ];
 
 const IDENTITY_DETAILS = [
   { term: 'Legal name', value: company.legalName },
   { term: 'Public brand', value: company.brandName },
-  { term: 'Business structure', value: company.structure },
   { term: 'Business activity', value: company.activity },
   { term: 'Founder', value: company.founder },
 ];
