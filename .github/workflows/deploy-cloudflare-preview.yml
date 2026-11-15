@@ -201,12 +201,20 @@ jobs:
           fi
           echo "Verifying $URL"
 
-          # A pages.dev subdomain can take a moment to answer after first deploy.
-          for i in $(seq 1 24); do
+          # The first-ever deployment to a new Pages project must also wait for
+          # TLS provisioning of the *.pages.dev hostname (handshake failures for
+          # minutes after the deploy call succeeds). 60 x 5s covers it; later
+          # runs break out of the loop in one iteration.
+          ready=0
+          for i in $(seq 1 60); do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/" || echo 000)
-            [ "$code" = "200" ] && break
+            if [ "$code" = "200" ]; then ready=1; break; fi
             sleep 5
           done
+          if [ "$ready" != "1" ]; then
+            echo "FAIL preview never answered 200 on $URL/ after 5 minutes (last code: $code)"
+            exit 1
+          fi
 
           fail=0
           check() {
