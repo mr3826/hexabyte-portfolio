@@ -1,8 +1,10 @@
 # Cloudflare hosting migration — plan, status, and runbook
 
 **Branch:** `feat/cloudflare-hosting-migration` · **Prepared:** 2026-11-15
-**Status:** Phase 4 (founder acceptance gate) — preview deployment **pending Cloudflare
-credentials**; production untouched; nothing merged; DNS untouched.
+**Status:** Phase 4 (founder acceptance gate) — **preview deployed and verified** at
+`https://feat-cloudflare-hosting-migr.hexabyte-portfolio.pages.dev` (CI run
+43706492254 fully green, 2026-11-15); production untouched; nothing merged; DNS
+untouched; AWS account untouched (remains closed).
 
 ---
 
@@ -113,8 +115,9 @@ script, SEO data, and every route are **byte-for-byte unchanged**.
    repository *secret*** (not variable): `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
    These are the only two secrets the workflow needs; it refuses to run (loudly,
    red) while either is missing.
-4. The Pages project `hexabyte-portfolio` is created automatically by the first CI
-   run, with `production_branch` set to the branch name `production` — a branch that
+4. The Pages project `hexabyte-portfolio` is created by the CI run if absent (the
+   first deploy created it on 2026-11-15 via the same guarded API call), with
+   `production_branch` set to the branch name `production` — a branch that
    intentionally does not exist, so **no CI branch can ever deploy to a "production"
    alias**. Real production comes only from the manual cutover in §6.
 
@@ -147,10 +150,31 @@ submission fails → prefilled `mailto:` fallback appears, identical to the last
 AWS behavior); submitting it is therefore **not** a useful integration test until a
 live endpoint exists (§8).
 
-Anything the CI cannot check (visual parity across widths, no-JS crawler view):
-open the preview URL on a phone and desktop; run
-`npx playwright test` pointed at the built output locally as today — the app bundle
-is the identical artifact both hosts serve.
+Anything the CI cannot check is verified separately in the browser against the
+preview (see results below).
+
+### Results — verified 2026-11-15 against the live preview
+
+- Run 43706127168: all gates + deploy green; verify step failed only because the
+  brand-new `*.pages.dev` hostname had not finished TLS provisioning within the
+  120 s window — fixed by the readiness loop in the verify step (commit
+  `fix(ci): wait for first-deploy TLS provisioning`), which still fails loudly if
+  the URL never becomes reachable.
+- Run 43706492254: **every step green**, including the live HTTPS verification.
+- Deployment URL `https://f46aa2fb.hexabyte-portfolio.pages.dev` · branch alias
+  `https://feat-cloudflare-hosting-migr.hexabyte-portfolio.pages.dev`.
+- Browser checks (Chromium, 1280/390 viewports): zero console errors on clean
+  loads; nav + client-side routing intact; direct deep load of
+  `/case-studies/easy-moderator` returns the prerendered head (extensionless
+  match confirmed in production traffic); legacy `/case-studies/shopify-automation`
+  boots the SPA and lands on `/case-studies/easy-ecommerce` with correct metadata;
+  `/products#easy-moderator` hash route scrolls to the section.
+- Contact form end-to-end from the Cloudflare bundle: POST to the inlined
+  `VITE_FORM_SUBMISSION_ENDPOINT` (dead Supabase host → `ERR_NAME_NOT_RESOLVED`
+  — identical to last live AWS behavior) → `[FormSubmission]` error path →
+  prefilled `mailto:contact@hexabyte.tech` recovery link rendered. The
+  "not a useful integration test" caveat above now has direct evidence rather
+  than expectation.
 
 ## 6. Production cutover (only after explicit founder approval)
 
