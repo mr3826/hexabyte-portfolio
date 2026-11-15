@@ -1,11 +1,11 @@
 # Cloudflare hosting migration — plan, status, and runbook
 
 **Branch:** `feat/cloudflare-hosting-migration` · **Prepared:** 2026-11-15
-**Status:** Phase 5 cutover **in progress** (founder-approved 2026-11-15 11:07 UTC):
-preview verified green; Cloudflare zone `hexabyte.tech` added (`pending`);
-gated production-deploy path added to the workflow. **Blocked only on the
-founder's Namify nameserver change** (§6 step 4). Production untouched until
-then; nothing merged; AWS untouched (remains closed).
+**Status:** ✅ **Phase 5 cutover COMPLETE 2026-11-15 ~12:12 UTC — hexabyte.tech
+is live on Cloudflare Pages** (zone active, custom domain active, all 16 routes,
+canonicals, MIME, www 308, SPA fallback, browser-verified, zero console errors).
+Phase 6 stabilization pending: PR merge decision, uptime monitor, backend decision.
+AWS remains as-is (closed; the rebuild IaC is the documented offline rollback).
 
 ---
 
@@ -238,6 +238,36 @@ Remaining steps (automated by me once the zone reports `active`):
 10. Only after ≥2 weeks stable (post-cutover stabilization), decide separately about
     AWS decommissioning. Do not revoke the AWS recovery path until that decision.
 
+### Executed — cutover completed 2026-11-15 12:12 UTC
+
+- Founder changed Namify delegation at 11:37:38 UTC; Cloudflare zone flipped
+  `pending → active` ~11:52.
+- Custom domain attached via Pages API (body key **`name`**, NOT `hostname` —
+  see troubleshooting), status `active` with a Google Trust certificate.
+- Apex record: Pages did not create it for a project whose production branch is
+  the placeholder; created manually — proxied `CNAME hexabyte.tech →
+  hexabyte-portfolio.pages.dev` (record id `24f6321e7f2ed0deed20e7383778f8b4`).
+- www → apex: Bulk Redirect list `hexabyte_www_to_apex`
+  (`f1fec54bb96e4020ab2254b429402201`, entry: www.hexabyte.tech →
+  https://hexabyte.tech, 308, preserve query + subpath) enabled by account
+  entry-point ruleset `hexabyte www redirects` (`4ac39bd9d38841048502889ade97817b`,
+  phase `http_request_redirect`); proxied placeholder record
+  `A www → 192.0.2.1` (`dcc5e4145bee8bff148f3bfb687c5c9c`) as per the official
+  Pages www-redirect recipe.
+- Production artifact deployed through the gated workflow
+  (`deploy_production=true`): runs 43710670011 & 43712357680 went red *for the
+  right reasons* (domain still provisioning / edge-convergence race — both
+  failures visible, neither swallowed), final run **43712590905 green**:
+  all gates → emit → deploy → preview verify → production verify
+  (`hexabyte-portfolio.pages.dev` noindex'd, `hexabyte.tech` titles/prerender/
+  MIME/SPA-fallback ok).
+- Post-cutover sweep (all green): 16/16 sitemap routes on the apex with exact
+  prerendered titles and correct apex canonicals; `/og-image.png` image/png;
+  `/robots.txt` text/plain; `/sitemap.xml` application/xml;
+  `https://www.hexabyte.tech/...?a=1` → 308 preserving path and query;
+  unknown path → 200; browser check: home renders (h1, SPA mounted), `/products`
+  at 390px mobile, **0 console errors, 0 failed requests**.
+
 Rollback after cutover: change nameservers back at Namify (or point the zone records
 at rebuilt CloudFront if AWS was restored) — the bucket still holds the last AWS
 build; the Cloudflare side stays intact and simply stops receiving the domain. Full
@@ -291,3 +321,27 @@ npx wrangler pages deploy dist --project-name=hexabyte-portfolio --branch=previe
 | "Invalid API Token" 4001 from CI | token revoked/limits | recreate per §4; check it lists *Pages: Edit* |
 | Project create blocked on brand-new account | 48 h new-account Pages restriction | wait, or create the project once in the dashboard |
 | Pages Git-integration build (if ever used instead of this CI) | Pages' own build image would run plain `npm run build` and ship the AWS staging layout | set the Pages build command to `npm run build && node scripts/pages-emit.mjs`, output `dist` — or keep Direct Upload from Actions as designed here |
+| API: "domain contains an invalid TLD" (8000015) on a perfectly valid domain | **wrong body key** — the Pages custom-domain endpoint expects `{"name": "…"}`; an unknown field surfaces as this misleading error | send `{"name":"hexabyte.tech"}` |
+| Pages custom domain stuck `pending`, `verification_data: "CNAME record not set"` | Pages didn't auto-create the apex record (observed for a project whose production branch is the placeholder) | create a proxied `CNAME` apex record → `<project>.pages.dev` in the zone; domain goes `active` within minutes |
+| noindex assertion flakes right after deploy | edge still answers the previous version for a few seconds | the verify step polls the header up to 90 s (fixed); don't downgrade to one-shot |
+
+## 6.5 Phase 6 — post-cutover stabilization (open items)
+
+- **Merge this PR** when the founder confirms — until merged, production content
+  updates come from this branch via the gated dispatch; merging also puts the
+  workflow + `pages-emit` on `main` (harmless: it never triggers on main pushes).
+- **AWS pipeline**: `deploy.yml` still triggers on `main` pushes and will run
+  **red** (closed account) until Phase-5-style decisions are made. It is kept
+  intentionally (rollback doctrine: disable only after approval); the failures
+  are loud by design, not silent.
+- **Uptime monitoring**: add a repo-independent site check against
+  `https://hexabyte.tech` (incident §5 secondary cause — Actions schedules
+  auto-disable after 60 days idle; keepalive.yml also still watches the dead
+  Supabase host and should be deleted or repointed with the backend decision).
+- **Recurring cost check**: $0 hosting confirmed (Free zone, Pages Direct Upload,
+  Bulk Redirects in free limits, Google Trust cert). Only the domain renewal at
+  Namify (2027-02-03) remains a real-world cost.
+- **DNS hygiene**: zone holds exactly 2 records (`CNAME apex → pages.dev` proxied,
+  `A www → 192.0.2.1` proxied placeholder) + the bulk-redirect ruleset; no
+  custom zone cache rules exist (keep it that way — Pages versioned deploys make
+  them unnecessary and they were the documented staleness footgun).
