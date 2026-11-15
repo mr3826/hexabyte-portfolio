@@ -1,0 +1,263 @@
+name: Deploy Cloudflare preview
+
+# Phase 2 of the Cloudflare hosting migration — see docs/CLOUDFLARE_MIGRATION.md.
+#
+# This workflow deploys PREVIEW ONLY: every run produces a per-deployment URL on
+# *.pages.dev. It cannot touch hexabyte.tech — no custom domain is connected to
+# the Pages project, and the project's production branch is deliberately set to
+# a branch name that does not exist ("production"), so no CI branch can ever
+# become the Pages "production" alias either.
+#
+# The AWS pipeline in deploy.yml is untouched and remains the only path that
+# talks to hexabyte.tech. Nothing here runs on pushes to main.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   scoped token, Account → Cloudflare Pages → Edit
+#   CLOUDFLARE_ACCOUNT_ID  Cloudflare account id (not a secret per se, but the
+#                          supported way to hand wrangler its account)
+# Required repository variables (already present, public by construction):
+#   VITE_FORM_SUBMISSION_ENDPOINT, VITE_GTM_ID
+
+on:
+  push:
+    branches: [feat/cloudflare-hosting-migration]
+  workflow_dispatch:
+
+concurrency:
+  group: cloudflare-preview-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  deployments: write
+
+env:
+  CF_PAGES_PROJECT: hexabyte-portfolio
+  ORIGIN: https://hexabyte.tech
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Require Cloudflare credentials
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$TOKEN" ] || [ -z "$ACCOUNT" ]; then
+            echo "CLOUDFLARE_API_TOKEN and/or CLOUDFLARE_ACCOUNT_ID are not configured on this repository."
+            echo "See docs/CLOUDFLARE_MIGRATION.md, section 'Cloudflare account setup'."
+            echo "Failing rather than skipping: a green run that deployed nothing would be a lie."
+            exit 1
+          fi
+
+      # Same validation gate as the AWS workflow, same build inputs.
+      - run: npm run typecheck
+      - run: npm test -- --run
+
+      # Vite inlines VITE_* at build time; repo *variables* (not .env.production,
+      # which is gitignored and invisible to CI), exactly as deploy.yml does.
+      - run: npm run build
+        env:
+          VITE_FORM_SUBMISSION_ENDPOINT: ${{ vars.VITE_FORM_SUBMISSION_ENDPOINT }}
+          VITE_GTM_ID: ${{ vars.VITE_GTM_ID }}
+
+      - name: Confirm build-time config reached the bundle
+        env:
+          ENDPOINT: ${{ vars.VITE_FORM_SUBMISSION_ENDPOINT }}
+          GTM_ID: ${{ vars.VITE_GTM_ID }}
+        run: |
+          if [ -n "$ENDPOINT" ]; then
+            grep -rqF "$ENDPOINT" dist/assets/*.js || {
+              echo "VITE_FORM_SUBMISSION_ENDPOINT is set but is not in the bundle."
+              echo "The form would fall back to mailto: on the preview."
+              exit 1
+            }
+            echo "ok   inquiry endpoint is in the bundle"
+          else
+            echo "note VITE_FORM_SUBMISSION_ENDPOINT is unset — the form will offer"
+            echo "     a prefilled email instead (by design; see docs/CLOUDFLARE_MIGRATION.md)."
+          fi
+
+          if [ -n "$GTM_ID" ]; then
+            grep -qF "$GTM_ID" dist/index.html || {
+              echo "VITE_GTM_ID is set but no tag was injected into dist/index.html."
+              exit 1
+            }
+            echo "ok   analytics container $GTM_ID is in the page"
+          else
+            echo "note VITE_GTM_ID is unset — no analytics tag is being shipped."
+          fi
+
+      # Convert the AWS S3-key layout (extensionless staging files) into the
+      # Pages layout (route.html files) and drop the AWS-only build plumbing
+      # from the upload. Idempotent gate: fails if the manifest lies.
+      - name: Emit Cloudflare Pages layout
+        run: node scripts/pages-emit.mjs
+
+      - name: Validate prerendered output
+        run: |
+          set -u
+          fail=0
+          check_route() {
+            path="$1"
+            local file title
+            case "$path" in
+              "/")
+                file="dist/index.html"
+                title=$(jq -r '.routes["/"].title' src/data/seo.json)
+                ;;
+              /case-studies/*)
+                id="${path#/case-studies/}"
+                file="dist/case-studies/${id}.html"
+                title=$(jq -r --arg id "$id" '.caseStudies[$id].title' src/data/seo.json)
+                ;;
+              *)
+                file="dist/${path#/}.html"
+                title=$(jq -r --arg p "$path" '.routes[$p].title' src/data/seo.json)
+                ;;
+            esac
+            if [ ! -f "$file" ]; then
+              echo "FAIL $path — $file missing"
+              fail=1
+            elif ! grep -qF "<title>$title</title>" "$file"; then
+              echo "FAIL $path — $file does not contain the baked title"
+              fail=1
+            else
+              echo "ok   $path → $file"
+            fi
+          }
+          while read -r loc; do
+            p="${loc#"$ORIGIN"}"
+            p="${p%/}"
+            check_route "${p:=/}"
+          done < <(grep -oP '(?<=<loc>)[^<]+' public/sitemap.xml)
+          if [ -e dist/__prerender ] || [ -e dist/prerendered.json ]; then
+            echo "FAIL AWS staging files survived into the Pages upload"
+            fail=1
+          fi
+          exit $fail
+
+      - name: Ensure Pages project exists
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          api="https://api.cloudflare.com/client/v4/accounts/$ACCOUNT/pages/projects"
+          if ! curl -fsS -H "Authorization: Bearer $TOKEN" "$api" -o projects.json \
+            || ! jq -e '.success == true' projects.json >/dev/null; then
+            echo "Cloudflare rejected the API token / account id. Response:"
+            jq '.errors' projects.json 2>/dev/null || cat projects.json
+            exit 1
+          fi
+          if jq -e --arg n "$CF_PAGES_PROJECT" \
+            '[.result[] | select(.name == $n)] | length > 0' projects.json >/dev/null; then
+            echo "ok   Pages project $CF_PAGES_PROJECT already exists"
+          else
+            # production_branch is set to a branch that does not exist so that
+            # no GitHub branch can ever deploy to a "production" alias.
+            resp=$(curl -sS -X POST -H "Authorization: Bearer $TOKEN" \
+              -H 'Content-Type: application/json' "$api" \
+              -d "{\"name\":\"$CF_PAGES_PROJECT\",\"production_branch\":\"production\"}")
+            if ! echo "$resp" | jq -e '.success == true' >/dev/null; then
+              echo "Creating the Pages project failed:"
+              echo "$resp" | jq '.errors'
+              exit 1
+            fi
+            echo "ok   created Pages project $CF_PAGES_PROJECT (production branch: 'production' — deliberate placeholder)"
+          fi
+          rm -f projects.json
+
+      - name: Deploy preview to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
+          packageManager: npm
+          # Branch deploys are preview deployments on Pages; combined with the
+          # placeholder production branch above, nothing here can be "production".
+          command: pages deploy dist --project-name=${{ env.CF_PAGES_PROJECT }} --branch=${{ github.ref_name }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify the preview serves this build
+        run: |
+          set -u
+          URL="${{ steps.deploy.outputs.deployment-url }}"
+          if [ -z "$URL" ]; then
+            echo "wrangler did not report a deployment URL — cannot verify."
+            exit 1
+          fi
+          echo "Verifying $URL"
+
+          # A pages.dev subdomain can take a moment to answer after first deploy.
+          for i in $(seq 1 24); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/" || echo 000)
+            [ "$code" = "200" ] && break
+            sleep 5
+          done
+
+          fail=0
+          check() {
+            path="$1"; expected="$2"
+            live=$(curl -fsS "$URL$path" | grep -o '<title>[^<]*' | head -1 | sed 's/<title>//')
+            if [ "$live" = "$expected" ]; then
+              echo "ok   $path — $live"
+            else
+              echo "FAIL $path"
+              echo "  expected: $expected"
+              echo "  live:     $live"
+              fail=1
+            fi
+          }
+          ctype() {
+            path="$1"; expected="$2"
+            got=$(curl -fsSI "$URL$path" | tr -d '\r' | awk -F': ' 'tolower($1)=="content-type" {print $2}')
+            case "$got" in
+              "$expected"*) echo "ok   $path — $got" ;;
+              *) echo "FAIL $path served as '$got', expected '$expected'"; fail=1 ;;
+            esac
+          }
+
+          check "/" "$(jq -r '.routes["/"].title' src/data/seo.json)"
+          check "/products" "$(jq -r '.routes["/products"].title' src/data/seo.json)"
+          check "/company-information" "$(jq -r '.routes["/company-information"].title' src/data/seo.json)"
+          check "/case-studies/easy-moderator" "$(jq -r '.caseStudies["easy-moderator"].title' src/data/seo.json)"
+
+          # Extensionless prerender match must serve real HTML, not a download.
+          ctype "/products" "text/html"
+          ctype "/og-image.png" "image/png"
+          ctype "/robots.txt" "text/plain"
+
+          # Unknown paths must return the SPA shell with HTTP 200 (invariant 2).
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/no-such-route-anywhere")
+          if [ "$code" = "200" ]; then
+            echo "ok   /no-such-route-anywhere — 200 SPA fallback"
+          else
+            echo "FAIL /no-such-route-anywhere returned $code — SPA fallback is not active"
+            fail=1
+          fi
+
+          # Preview URLs must never be indexable — protects hexabyte.tech SEO from
+          # duplicate content while the domain is not yet connected.
+          if curl -fsSI "$URL/" | tr -d '\r' | grep -qi '^x-robots-tag: noindex'; then
+            echo "ok   preview is noindex"
+          else
+            echo "note X-Robots-Tag: noindex not observed on the preview response"
+          fi
+
+          if [ "$fail" = "0" ]; then
+            echo "$URL" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit $fail
