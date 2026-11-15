@@ -317,8 +317,15 @@ jobs:
             code=$(curl -s -o /dev/null -w '%{http_code}' "$TARGET/no-such-route-anywhere")
             if [ "$code" = "200" ]; then echo "ok   SPA fallback 200"; else echo "FAIL SPA fallback returned $code"; fail=1; fi
             if echo "$TARGET" | grep -q "pages.dev"; then
-              if curl -fsSI "$TARGET/" | tr -d '\r' | grep -qi '^x-robots-tag: noindex'; then
-                echo "FAIL project subdomain is not noindexed — duplicate-content exposure"
+              # Edge versions can take a few seconds to converge after a deploy;
+              # poll the header rather than asserting it on the first response.
+              robots=0
+              for r in 1 2 3 4 5 6; do
+                if curl -fsSI "$TARGET/" | tr -d '\r' | grep -qi '^x-robots-tag: noindex'; then robots=1; break; fi
+                sleep 15
+              done
+              if [ "$robots" != "1" ]; then
+                echo "FAIL project subdomain is not noindexed after 90s — duplicate-content exposure"
                 fail=1
               fi
             fi
