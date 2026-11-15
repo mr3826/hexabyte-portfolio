@@ -1,15 +1,20 @@
 name: Deploy Cloudflare preview
 
-# Phase 2 of the Cloudflare hosting migration — see docs/CLOUDFLARE_MIGRATION.md.
+# Phase 2/5 of the Cloudflare hosting migration — see docs/CLOUDFLARE_MIGRATION.md.
 #
-# This workflow deploys PREVIEW ONLY: every run produces a per-deployment URL on
-# *.pages.dev. It cannot touch hexabyte.tech — no custom domain is connected to
-# the Pages project, and the project's production branch is deliberately set to
-# a branch name that does not exist ("production"), so no CI branch can ever
-# become the Pages "production" alias either.
+# Default behavior is PREVIEW ONLY: pushes on the migration branch and dispatches
+# without the checkbox produce per-deployment/branch URLs on *.pages.dev and can
+# never touch hexabyte.tech.
+#
+# The ONLY path to a production Pages deploy is a manual dispatch with
+# `deploy_production=true` — the founder's explicit approval gate, by design never
+# reachable from a push (this workflow does not trigger on main at all). Even
+# then, hexabyte.tech only changes if the founder has already pointed the domain's
+# nameservers at Cloudflare and the custom domain is connected — a deliberate
+# two-human-actions-required design.
 #
 # The AWS pipeline in deploy.yml is untouched and remains the only path that
-# talks to hexabyte.tech. Nothing here runs on pushes to main.
+# talks to AWS.
 #
 # Required repository secrets (Settings → Secrets and variables → Actions):
 #   CLOUDFLARE_API_TOKEN   scoped token, Account → Cloudflare Pages → Edit
@@ -22,6 +27,11 @@ on:
   push:
     branches: [feat/cloudflare-hosting-migration]
   workflow_dispatch:
+    inputs:
+      deploy_production:
+        description: 'Deploy to the Pages production branch (founder-approved cutover only)'
+        type: boolean
+        default: false
 
 concurrency:
   group: cloudflare-preview-${{ github.ref_name }}
@@ -178,7 +188,7 @@ jobs:
           fi
           rm -f projects.json
 
-      - name: Deploy preview to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v4
         with:
@@ -186,9 +196,9 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4"
           packageManager: npm
-          # Branch deploys are preview deployments on Pages; combined with the
-          # placeholder production branch above, nothing here can be "production".
-          command: pages deploy dist --project-name=${{ env.CF_PAGES_PROJECT }} --branch=${{ github.ref_name }}
+          # Branch deploys are preview deployments on Pages. --branch=production
+          # happens only via the explicit deploy_production dispatch input.
+          command: pages deploy dist --project-name=${{ env.CF_PAGES_PROJECT }} --branch=${{ inputs.deploy_production && 'production' || github.ref_name }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify the preview serves this build
@@ -268,4 +278,49 @@ jobs:
           if [ "$fail" = "0" ]; then
             echo "$URL" >> "$GITHUB_STEP_SUMMARY"
           fi
+          exit $fail
+
+      # Reached only through the founder-checked deploy_production dispatch,
+      # which is by design run after the custom domain is connected. A Pages
+      # custom hostname needs its own TLS provisioning, so allow up to 10
+      # minutes before the content checks — then verify production targets
+      # with the same rigor as the preview.
+      - name: Verify production targets
+        if: ${{ inputs.deploy_production }}
+        run: |
+          set -u
+          fail=0
+          for TARGET in "https://${CF_PAGES_PROJECT}.pages.dev" "https://hexabyte.tech"; do
+            echo "== $TARGET"
+            ready=0
+            for i in $(seq 1 120); do
+              code=$(curl -s -o /dev/null -w '%{http_code}' "$TARGET/" || echo 000)
+              if [ "$code" = "200" ]; then ready=1; break; fi
+              sleep 5
+            done
+            if [ "$ready" != "1" ]; then
+              echo "FAIL $TARGET never answered 200 after 10 minutes (last code $code)"
+              fail=1
+              continue
+            fi
+            live=$(curl -fsS "$TARGET/" | grep -o '<title>[^<]*' | head -1 | sed 's/<title>//')
+            want=$(jq -r '.routes["/"].title' src/data/seo.json)
+            if [ "$live" = "$want" ]; then echo "ok   / title"; else echo "FAIL / title: got '$live'"; fail=1; fi
+            live=$(curl -fsS "$TARGET/products" | grep -o '<title>[^<]*' | head -1 | sed 's/<title>//')
+            want=$(jq -r '.routes["/products"].title' src/data/seo.json)
+            if [ "$live" = "$want" ]; then echo "ok   /products prerendered title"; else echo "FAIL /products title: got '$live'"; fail=1; fi
+            got=$(curl -fsSI "$TARGET/og-image.png" | tr -d '\r' | awk -F': ' 'tolower($1)=="content-type" {print $2}')
+            case "$got" in
+              image/png*) echo "ok   /og-image.png $got" ;;
+              *) echo "FAIL /og-image.png served as '$got'"; fail=1 ;;
+            esac
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$TARGET/no-such-route-anywhere")
+            if [ "$code" = "200" ]; then echo "ok   SPA fallback 200"; else echo "FAIL SPA fallback returned $code"; fail=1; fi
+            if echo "$TARGET" | grep -q "pages.dev"; then
+              if curl -fsSI "$TARGET/" | tr -d '\r' | grep -qi '^x-robots-tag: noindex'; then
+                echo "FAIL project subdomain is not noindexed — duplicate-content exposure"
+                fail=1
+              fi
+            fi
+          done
           exit $fail

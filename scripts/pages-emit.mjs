@@ -73,6 +73,10 @@ for (const { key, file } of manifest) {
 // revalidation by default, which matches current CloudFront behavior for HTML.
 // The one deliberate deviation from defaults mirrors the AWS cache table:
 // hashed filenames in assets/ are immutable for a year.
+// The noindex rules keep every *.pages.dev hostname out of search indexes so,
+// once hexabyte.tech is connected, the Pages subdomain cannot become a
+// duplicate-content copy of the canonical site (canonical tags point to the apex).
+const project = process.env.CF_PAGES_PROJECT || 'hexabyte-portfolio';
 writeFileSync(
   join(dist, '_headers'),
   [
@@ -80,6 +84,13 @@ writeFileSync(
     '# Hashed (immutable) asset filenames from the Vite build.',
     '/assets/*',
     '  Cache-Control: public, max-age=31536000, immutable',
+    '',
+    '# Keep pages.dev hostnames unindexed (the custom domain is the canonical host).',
+    `https://${project}.pages.dev/*`,
+    '  X-Robots-Tag: noindex',
+    '',
+    `https://*.${project}.pages.dev/*`,
+    '  X-Robots-Tag: noindex',
     '',
   ].join('\n'),
   'utf8',

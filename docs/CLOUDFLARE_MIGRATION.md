@@ -1,10 +1,11 @@
 # Cloudflare hosting migration — plan, status, and runbook
 
 **Branch:** `feat/cloudflare-hosting-migration` · **Prepared:** 2026-11-15
-**Status:** Phase 4 (founder acceptance gate) — **preview deployed and verified** at
-`https://feat-cloudflare-hosting-migr.hexabyte-portfolio.pages.dev` (CI run
-43706492254 fully green, 2026-11-15); production untouched; nothing merged; DNS
-untouched; AWS account untouched (remains closed).
+**Status:** Phase 5 cutover **in progress** (founder-approved 2026-11-15 11:07 UTC):
+preview verified green; Cloudflare zone `hexabyte.tech` added (`pending`);
+gated production-deploy path added to the workflow. **Blocked only on the
+founder's Namify nameserver change** (§6 step 4). Production untouched until
+then; nothing merged; AWS untouched (remains closed).
 
 ---
 
@@ -176,37 +177,64 @@ preview (see results below).
   "not a useful integration test" caveat above now has direct evidence rather
   than expectation.
 
-## 6. Production cutover (only after explicit founder approval)
+## 6. Production cutover (founder-approved 2026-11-15 — executing)
 
 Prerequisite: `hexabyte.tech` must be served again — this migration **is** the fastest
-restoration path given the AWS closure. Steps, in order, none automated:
+restoration path given the AWS closure.
 
-1. Record current DNS: registrar nameservers (4× awsdns, lame-delegation state per
-   the incident doc) — `whois`, and note that Route 53 answers nothing anyway.
-2. Cloudflare dashboard → **Add a site** → `hexabyte.tech` → Free plan → Cloudflare
-   imports nothing (zone is deleted); verify ownership via TXT or default records.
-3. Add `www` record; create zone records only after step 4 in practice — Cloudflare
-   will keep serving old (absent) delegation until the registrar change.
-4. **Registrar (Namify) nameserver change to Cloudflare's assigned pair — founder
-   performs this in the Namify panel.** This is the DNS cutover. TTL/multi-hour
-   propagation applies; nothing here can roll it back except changing NS back.
-5. Pages project → Custom domains → add `hexabyte.tech` and `www.hexabyte.tech`;
-   Cloudflare creates proxied CNAME/ALIAS records automatically (apex works on
-   Cloudflare via CNAME flattening — unlike Route 53, no account needed for that).
-6. TLS: Cloudflare issues the certificate automatically; zone SSL mode *Full
-   (strict)* is the Pages default recommendation; HTTPS is enforced by toggle.
-7. Redirect policy: connect only `hexabyte.tech` apex as the canonical host and add a
-   free **Bulk Redirect** (included in the Free plan) `www.hexabyte.tech/*` →
-   `https://hexabyte.tech/:splat` 308 — matching current canonical URLs (`seo.json`
-   emits canonicals on the apex host). Alternatively connect `www` as a second custom
-   domain; do not do both (duplicate content).
-8. Re-run the CI verification suite against `https://hexabyte.tech` (dispatch the
-   workflow; temporarily point `SITE` checks — or the manual checklist below):
-   all 16 routes, og-image content-type, unknown-path 200, form fallback, analytics
-   if `VITE_GTM_ID` gets set later.
-9. The Pages project's `production_branch` is switched to `main` in the dashboard
-   *only when the founder decides CI may deploy production* — until then production
-   content updates remain a manual `wrangler pages deploy … --branch production`.
+**Recorded DNS baseline (live WHOIS + DoH probes, 2026-11-15):** registrar *Namify
+Domains Inc*, status `clientTransferProhibited` (transfer lock only — NS changes are
+permitted), created 2026-02-03, registry expiry **2027-02-03**, last updated
+2026-11-11. Delegation: `ns-394.awsdns-49.com`, `ns-1685.awsdns-18.co.uk`,
+`ns-1268.awsdns-30.org`, `ns-578.awsdns-08.net` — all four answer `REFUSED`
+(lame delegation, EDE 22/23), i.e. **no zone records and no TTLs exist to snapshot**;
+the only delegation TTL is the registry's fixed one. Rollback record therefore
+consists of these four nameserver values.
+
+Executed so far:
+
+1. ✅ DNS baseline recorded (above).
+2. ✅ Cloudflare zone added via API on the Free plan: `hexabyte.tech`,
+   zone id `f08fdabf7783c6baaaf2779685247b17`, status `pending`, assigned
+   nameservers **`nova.ns.cloudflare.com`** and **`sage.ns.cloudflare.com`**.
+   Adding a zone changes nothing on the internet until step 4.
+3. ✅ Gated production path in CI: the preview workflow gained a
+   `deploy_production` dispatch boolean (default `false`; pushes still deploy
+   previews only; nothing ever triggers on `main`). When checked, it deploys to
+   the Pages production branch and hard-verifies `https://hexabyte-portfolio.pages.dev`
+   and `https://hexabyte.tech` (titles, MIME, SPA fallback, `noindex` on pages.dev
+   hostnames via `_headers`).
+
+**Founder step (the only human action blocking the site back online):**
+
+4. In the Namify panel, replace the four `awsdns` nameservers with:
+
+   ```
+   nova.ns.cloudflare.com
+   sage.ns.cloudflare.com
+   ```
+
+   Propagation typically 15 min–a few hours; rollback is pasting the four awsdns
+   values from the baseline above back in.
+
+Remaining steps (automated by me once the zone reports `active`):
+
+5. Connect the custom domain: Pages API `POST /pages/projects/hexabyte-portfolio/domains`
+   with hostname `hexabyte.tech` — Cloudflare creates the flattened apex record
+   itself and provisions the TLS certificate. `www` is **not** connected as a second
+   origin; step 7 handles it.
+6. TLS/HTTPS check: certificate issued, `http→https` enforced by Pages default.
+7. `www` → apex: free-tier Bulk Redirect `www.hexabyte.tech/*` →
+   `https://hexabyte.tech/:splat` 308, matching the apex canonicals in `seo.json`.
+   (Alternative considered: connect `www` as a second custom domain — rejected,
+   duplicate host without redirect.)
+8. Dispatch the workflow with `deploy_production=true` → production artifact built
+   through the same green gates, then CI + browser verification of all 16 routes,
+   og-image content-type, unknown-path 200, form fallback, analytics (currently
+   unwired by design), and `noindex` hygiene on pages.dev.
+9. The Pages `production_branch` stays the placeholder until a *separate* founder
+   decision would allow automatic main-pushes; production content updates remain
+   deliberate dispatches with the checkbox.
 10. Only after ≥2 weeks stable (post-cutover stabilization), decide separately about
     AWS decommissioning. Do not revoke the AWS recovery path until that decision.
 
